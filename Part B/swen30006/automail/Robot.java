@@ -22,8 +22,6 @@ public class Robot {
     private IMailPool mailPool;
     private boolean strong;
     
-    private MailItem deliveryItem;
-    
     private int deliveryCounter;
     
 
@@ -86,7 +84,7 @@ public class Robot {
     			boolean wantToReturn = behaviour.returnToMailRoom(tube);
     			if(current_floor == destination_floor){ // If already here drop off either way
                     /** Delivery complete, report this to the simulator! */
-                    delivery.deliver(deliveryItem);
+                    delivery.deliver(tube.pop());
                     deliveryCounter++;
                     if(deliveryCounter > 4){
                     	throw new ExcessiveDeliveryException();
@@ -104,12 +102,6 @@ public class Robot {
     			} else
     			{/*
 	    			if(wantToReturn){
-	    				// Put the item we are trying to deliver back
-	    				try {
-							tube.addItem(deliveryItem);
-						} catch (TubeFullException e) {
-							e.printStackTrace();
-						}
 	    				changeState(RobotState.RETURNING);
 	    			}
 	    			else{*/
@@ -128,10 +120,9 @@ public class Robot {
      */
     private void setRoute() throws ItemTooHeavyException{
         /** Pop the item from the StorageUnit */
-        deliveryItem = tube.pop();
-        if (!strong && deliveryItem.weight > 2000) throw new ItemTooHeavyException(); 
+        if (!strong && tube.peek().weight > 2000) throw new ItemTooHeavyException();
         /** Set the destination floor */
-        destination_floor = deliveryItem.getDestFloor();
+        destination_floor = tube.peek().getDestFloor();
     }
 
     /**
@@ -157,7 +148,7 @@ public class Robot {
     	}
     	current_state = nextState;
     	if(nextState == RobotState.DELIVERING){
-            System.out.printf("T: %3d > %11s-> [%s]%n", Clock.Time(), id, deliveryItem.toString());
+            System.out.printf("T: %3d > %11s-> [%s]%n", Clock.Time(), id, tube.peek().toString());
     	}
     }
     
