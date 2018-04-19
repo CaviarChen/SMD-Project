@@ -10,6 +10,10 @@ import strategies.IRobotBehaviour;
  */
 public class Robot {
 
+    public static final boolean WEAK = false;  // Can't handle more than 2000 grams
+    public static final boolean STRONG = true; // Can handle any weight that arrives at the building
+
+
     public final StorageTube tube;
     public final IRobotBehaviour behaviour;
     public final IMailDelivery delivery;
