@@ -123,7 +123,7 @@ public class Robot {
         /** Pop the item from the StorageUnit */
         if (!strong && tube.peek().weight > 2000) throw new ItemTooHeavyException();
         /** Set the destination floor */
-        destination_floor = tube.peek().getDestFloor();
+        destination_floor = tube.getNextDestFloor();
     }
 
     /**

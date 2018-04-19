@@ -3,6 +3,7 @@ package automail;
 // import exceptions.RobotNotInMailRoomException;
 import exceptions.TubeFullException;
 
+import java.util.EmptyStackException;
 import java.util.Stack;
 
 /**
@@ -64,6 +65,14 @@ public class StorageTube {
      */
     public MailItem pop(){
         return tube.pop();
+    }
+
+    /**
+     * @return destination floor of the next mail item in the tube
+     * @throws EmptyStackException if the tube is empty.
+     */
+    public int getNextDestFloor() {
+        return tube.peek().getDestFloor();
     }
 
 }
