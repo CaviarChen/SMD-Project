@@ -5,11 +5,8 @@ import exceptions.ItemTooHeavyException;
 import exceptions.MailAlreadyDeliveredException;
 import strategies.Automail;
 
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Properties;
 
 /**
  * This class simulates the behaviour of AutoMail
@@ -56,14 +53,14 @@ public class Simulation {
         	seedMap.put(false, 0);
         }
         Automail automail = new Automail(new ReportDelivery());
-        MailGenerator generator = new MailGenerator(MAIL_TO_CREATE, automail.mailPool, seedMap);
+        MailGenerator generator = new MailGenerator(MAIL_TO_CREATE, seedMap);
         
         /** Initiate all the mail */
         generator.generateAllMail();
         PriorityMailItem priority;
         while(MAIL_DELIVERED.size() != generator.MAIL_TO_CREATE) {
         	//System.out.println("-- Step: "+Clock.Time());
-            priority = generator.step();
+            priority = generator.step(automail.mailPool);
             if (priority != null) {
             	automail.robot1.behaviour.priorityArrival(priority.getPriorityLevel(), priority.weight);
             	automail.robot2.behaviour.priorityArrival(priority.getPriorityLevel(), priority.weight);

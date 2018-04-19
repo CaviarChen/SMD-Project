@@ -18,17 +18,15 @@ public class MailGenerator {
     /** This seed is used to make the behaviour deterministic */
     
     private boolean complete;
-    private IMailPool mailPool;
 
     private HashMap<Integer,ArrayList<MailItem>> allMail;
 
     /**
      * Constructor for mail generation
      * @param mailToCreate roughly how many mail items to create
-     * @param mailPool where mail items go on arrival
      * @param seed random seed for generating mail
      */
-    public MailGenerator(int mailToCreate, IMailPool mailPool, HashMap<Boolean,Integer> seed){
+    public MailGenerator(int mailToCreate, HashMap<Boolean, Integer> seed){
         if(seed.containsKey(true)){
         	this.random = new Random((long) seed.get(true));
         }
@@ -41,7 +39,6 @@ public class MailGenerator {
         mailCreated = 0;
         complete = false;
         allMail = new HashMap<Integer,ArrayList<MailItem>>();
-        this.mailPool = mailPool;
     }
 
     /**
@@ -139,7 +136,7 @@ public class MailGenerator {
      * While there are steps left, create a new mail item to deliver
      * @return Priority
      */
-    public PriorityMailItem step(){
+    public PriorityMailItem step(IMailPool mailPool){
     	PriorityMailItem priority = null;
     	// Check if there are any mail to create
         if(this.allMail.containsKey(Clock.Time())){
