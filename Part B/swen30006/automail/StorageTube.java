@@ -1,6 +1,7 @@
 package automail;
 
 // import exceptions.RobotNotInMailRoomException;
+
 import exceptions.TubeFullException;
 
 import java.util.EmptyStackException;
@@ -17,53 +18,54 @@ public class StorageTube {
     /**
      * Constructor for the storage tube
      */
-    public StorageTube(){
-        this.tube = new Stack<MailItem>();
+    public StorageTube() {
+        this.tube = new Stack<>();
     }
 
     /**
      * @return if the storage tube is full
      */
-    public boolean isFull(){
+    public boolean isFull() {
         return tube.size() == MAXIMUM_CAPACITY;
     }
 
     /**
      * @return if the storage tube is empty
      */
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         return tube.isEmpty();
     }
-    
+
     /**
      * @return the first item in the storage tube (without removing it)
      */
     public MailItem peek() {
-    	return tube.peek();
+        return tube.peek();
     }
 
     /**
      * Add an item to the tube
+     *
      * @param item The item being added
      * @throws TubeFullException thrown if an item is added which exceeds the capacity
      */
     public void addItem(MailItem item) throws TubeFullException {
-        if(tube.size() < MAXIMUM_CAPACITY){
-        	tube.add(item);
+        if (tube.size() < MAXIMUM_CAPACITY) {
+            tube.add(item);
         } else {
             throw new TubeFullException();
         }
     }
 
-    /** @return the size of the tube **/
-    public int getSize(){
-    	return tube.size();
+    /* @return the size of the tube */
+    public int getSize() {
+        return tube.size();
     }
-    
-    /** 
+
+    /**
      * @return the first item in the storage tube (after removing it)
      */
-    public MailItem pop(){
+    public MailItem pop() {
         return tube.pop();
     }
 

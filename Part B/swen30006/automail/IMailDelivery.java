@@ -5,10 +5,11 @@ package automail;
  */
 public interface IMailDelivery {
 
-	/**
+    /**
      * Delivers an item at its floor
+     *
      * @param mailItem the mail item being delivered.
      */
-	void deliver(MailItem mailItem);
-    
+    void deliver(MailItem mailItem);
+
 }

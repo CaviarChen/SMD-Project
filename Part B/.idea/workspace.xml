@@ -11,13 +11,75 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="PriorityMailItem.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/swen30006/automail/PriorityMailItem.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="44">
+              <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Robot.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/swen30006/automail/Robot.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-317">
+              <caret line="74" column="22" selection-start-line="74" selection-end-line="75" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="StorageTube.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/swen30006/automail/StorageTube.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="770">
+              <caret line="46" column="30" lean-forward="true" selection-start-line="46" selection-start-column="30" selection-end-line="46" selection-end-column="30" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="195" />
-    <option name="y" value="91" />
-    <option name="width" value="1379" />
-    <option name="height" value="924" />
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>property</find>
+      <find>step</find>
+      <find>getDestFloor</find>
+      <find>mailpool</find>
+      <find>\/\*\* If the robot is not at the mailroom floor yet\, then move towards it\! \*\/\n</find>
+      <find>/\*\*(.*?)\*/</find>
+      <find>/\*\*(.*?)\**\*/</find>
+      <find>deliveryItem</find>
+    </findStrings>
+    <replaceStrings>
+      <replace>/*\1*/</replace>
+      <replace>/*$1*/</replace>
+    </replaceStrings>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/swen30006/strategies/Automail.java" />
+        <option value="$PROJECT_DIR$/swen30006/automail/Clock.java" />
+        <option value="$PROJECT_DIR$/swen30006/automail/Robot.java" />
+        <option value="$PROJECT_DIR$/swen30006/automail/Simulation.java" />
+        <option value="$PROJECT_DIR$/swen30006/automail/MailGenerator.java" />
+        <option value="$PROJECT_DIR$/swen30006/automail/StorageTube.java" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="-1080" />
+    <option name="y" value="-1098" />
+    <option name="width" value="1080" />
+    <option name="height" value="1898" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -25,6 +87,7 @@
     </navigator>
     <panes>
       <pane id="AndroidView" />
+      <pane id="PackagesPane" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -33,17 +96,43 @@
               <item name="Part B" type="b2602c69:ProjectViewProjectNode" />
               <item name="Part B" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="Part B" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Part B" type="462c0819:PsiDirectoryNode" />
+              <item name="swen30006" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Part B" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Part B" type="462c0819:PsiDirectoryNode" />
+              <item name="swen30006" type="462c0819:PsiDirectoryNode" />
+              <item name="automail" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Part B" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Part B" type="462c0819:PsiDirectoryNode" />
+              <item name="swen30006" type="462c0819:PsiDirectoryNode" />
+              <item name="exceptions" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Part B" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Part B" type="462c0819:PsiDirectoryNode" />
+              <item name="swen30006" type="462c0819:PsiDirectoryNode" />
+              <item name="strategies" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="SearchEverywhereHistoryKey" value="clock&#9;FILE&#9;file:///Users/blueset/Codebase/SMD-Project/Part B/swen30006/automail/Clock.java&#10;report&#9;PSI&#9;JAVA://automail.Simulation.ReportDelivery" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -115,11 +204,17 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1523772965355</updated>
+      <workItem from="1523774077043" duration="3837000" />
+      <workItem from="1524100651998" duration="2509000" />
     </task>
     <servers />
   </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="6346000" />
+  </component>
   <component name="ToolWindowManager">
-    <frame x="195" y="91" width="1379" height="924" extended-state="0" />
+    <frame x="-1080" y="-1098" width="1080" height="1898" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -128,12 +223,15 @@
       <window_info anchor="right" id="Capture Analysis" order="3" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="right" id="Maven Projects" order="3" />
+      <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32941177" />
       <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20304568" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26782274" />
+      <window_info anchor="right" id="Database" order="4" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.329972" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info id="UI Designer" order="2" />
@@ -143,20 +241,427 @@
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Messages" order="7" />
     </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/swen30006/automail/Building.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="44">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/swen30006/automail/Clock.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="8" column="39" lean-forward="true" selection-start-line="8" selection-start-column="39" selection-end-line="8" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/swen30006/automail/Simulation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1628">
+          <caret line="83" column="17" selection-start-line="83" selection-start-column="17" selection-end-line="83" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/swen30006/automail/Robot.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2816">
+          <caret line="131" column="23" selection-start-line="131" selection-start-column="23" selection-end-line="131" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/swen30006/automail/MailGenerator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1936">
+          <caret line="95" column="58" selection-start-line="95" selection-start-column="40" selection-end-line="95" selection-end-column="58" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/automail.Properties">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
           <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="uml://JAVA/">
+      <provider selected="true" editor-type-id="UmlEditorProvider">
+        <state>
+          <ID>JAVA</ID>
+          <OriginalElement />
+          <nodes>
+            <node x="0.0" y="606.3828125">com</node>
+            <node x="360.0" y="458.3828125">netscape</node>
+            <node x="0.0" y="532.3828125">oracle</node>
+            <node x="75.85795454545455" y="218.0">strategies</node>
+            <node x="448.0" y="606.3828125">org</node>
+            <node x="181.0" y="458.3828125">resources</node>
+            <node x="50.0" y="79.0">automail</node>
+            <node x="289.0" y="341.5">toolbarButtonGraphics</node>
+            <node x="301.0" y="606.3828125">sun</node>
+            <node x="74.62689393939394" y="0.0">exceptions</node>
+            <node x="0.0" y="458.3828125">META-INF</node>
+            <node x="593.0" y="606.3828125">jdk</node>
+            <node x="320.0" y="532.3828125">apple</node>
+            <node x="539.0" y="341.5">groovyjarjarasm</node>
+            <node x="151.0" y="606.3828125">java</node>
+            <node x="536.0" y="458.3828125">groovy</node>
+            <node x="477.0" y="532.3828125">javax</node>
+            <node x="30.0" y="354.3828125">groovyjarjarcommonscli</node>
+            <node x="160.0" y="532.3828125">javafx</node>
+            <node x="299.62689393939394" y="5.6328125">groovyjarjarantlr</node>
+          </nodes>
+          <notes />
+          <edges>
+            <edge source="strategies" target="automail">
+              <point x="-42.187500000000014" y="-14.5" />
+              <point x="101.17045454545453" y="188.0" />
+              <point x="115.5" y="188.0" />
+              <point x="0.0" y="14.5" />
+            </edge>
+            <edge source="strategies" target="exceptions">
+              <point x="59.062499999999986" y="-14.5" />
+              <point x="202.42045454545453" y="198.0" />
+              <point x="191.5" y="198.0" />
+              <point x="46.66666666666666" y="14.5" />
+            </edge>
+            <edge source="automail" target="exceptions">
+              <point x="-32.75" y="-14.5" />
+              <point x="82.75" y="54.0" />
+              <point x="97.96022727272728" y="54.0" />
+              <point x="-46.66666666666666" y="14.5" />
+            </edge>
+            <edge source="groovyjarjarantlr" target="groovyjarjarantlr">
+              <point x="-57.333333333333336" y="14.5" />
+              <point x="328.2935606060606" y="54.6328125" />
+              <point x="279.62689393939394" y="54.6328125" />
+              <point x="279.62689393939394" y="29.799479166666664" />
+              <point x="-86.0" y="9.666666666666666" />
+            </edge>
+            <edge source="groovyjarjarcommonscli" target="groovyjarjarcommonscli">
+              <point x="-53.5" y="14.5" />
+              <point x="83.5" y="403.3828125" />
+              <point x="10.0" y="403.3828125" />
+              <point x="10.0" y="376.1328125" />
+              <point x="-107.0" y="7.25" />
+            </edge>
+            <edge source="strategies" target="strategies">
+              <point x="0.0" y="14.5" />
+              <point x="143.35795454545456" y="277.0" />
+              <point x="45.85795454545455" y="277.0" />
+              <point x="45.85795454545455" y="232.5" />
+              <point x="-67.5" y="-0.0" />
+            </edge>
+            <edge source="automail" target="strategies">
+              <point x="47.636363636363626" y="14.5" />
+              <point x="163.13636363636363" y="198.0" />
+              <point x="168.67045454545453" y="198.0" />
+              <point x="25.312499999999986" y="-14.5" />
+            </edge>
+            <edge source="automail" target="automail">
+              <point x="-47.636363636363626" y="14.5" />
+              <point x="67.86363636363637" y="138.0" />
+              <point x="20.0" y="138.0" />
+              <point x="20.0" y="97.125" />
+              <point x="-65.5" y="3.625" />
+            </edge>
+          </edges>
+          <settings layout="Hierarchic Group" zoom="1.0" x="-134.0" y="154.0" />
+          <SelectedNodes>
+            <node>automail</node>
+          </SelectedNodes>
+          <Categories>
+            <Category>Fields</Category>
+            <Category>Constructors</Category>
+            <Category>Methods</Category>
+            <Category>Properties</Category>
+            <Category>Inner Classes</Category>
+          </Categories>
+          <SCOPE>All</SCOPE>
+          <VISIBILITY>private</VISIBILITY>
+        </state>
+      </provider>
+    </entry>
+    <entry file="uml://JAVA/automail">
+      <provider selected="true" editor-type-id="UmlEditorProvider">
+        <state>
+          <ID>JAVA</ID>
+          <OriginalElement>automail</OriginalElement>
+          <nodes>
+            <node x="651.5" y="759.0">automail.Simulation.ReportDelivery</node>
+            <node x="554.5656354515052" y="339.0">automail.Clock</node>
+            <node x="21.500000000000057" y="349.5">automail.PriorityMailItem</node>
+            <node x="71.46133033633032" y="604.0">automail.MailGenerator</node>
+            <node x="1140.815635451505" y="283.0">automail.StorageTube</node>
+            <node x="189.925616050616" y="0.0">automail.MailItem</node>
+            <node x="863.7407863875255" y="593.0">automail.Robot</node>
+            <node x="326.5656354515051" y="350.5">automail.Building</node>
+            <node x="240.2407863875256" y="1046.0">automail.Simulation</node>
+            <node x="1000.8156354515052" y="350.5">automail.Robot.RobotState</node>
+            <node x="779.5656354515052" y="372.5">automail.IMailDelivery</node>
+          </nodes>
+          <notes />
+          <edges>
+            <edge source="automail.Robot" target="automail.Clock">
+              <point x="-137.81818181818176" y="-191.5" />
+              <point x="915.4226045693438" y="553.0" />
+              <point x="733.0656354515052" y="553.0" />
+              <point x="76.5" y="59.0" />
+            </edge>
+            <edge source="automail.MailGenerator" target="automail.MailItem">
+              <point x="0.0" y="-180.5" />
+              <point x="262.4613303363303" y="573.0" />
+              <point x="280.0" y="573.0" />
+              <point x="280.0" y="253.0" />
+              <point x="265.6563852813852" y="253.0" />
+              <point x="-13.769230769230774" y="81.5" />
+            </edge>
+            <edge source="automail.Simulation.ReportDelivery" target="automail.Simulation">
+              <point x="0.0" y="25.5" />
+              <point x="744.0" y="1016.0" />
+              <point x="477.7407863875256" y="1016.0" />
+              <point x="95.0" y="-81.0" />
+            </edge>
+            <edge source="automail.Robot.RobotState" target="automail.Robot">
+              <point x="36.0" y="47.5" />
+              <point x="1090.8156354515052" y="573.0" />
+              <point x="1087.695331842071" y="573.0" />
+              <point x="34.454545454545496" y="-191.5" />
+            </edge>
+            <edge source="automail.Simulation.ReportDelivery" target="automail.MailItem">
+              <point x="0.0" y="-25.5" />
+              <point x="744.0" y="573.0" />
+              <point x="769.0656354515052" y="573.0" />
+              <point x="769.0656354515052" y="233.0" />
+              <point x="293.19484681984676" y="233.0" />
+              <point x="13.769230769230774" y="81.5" />
+            </edge>
+            <edge source="automail.Robot" target="automail.StorageTube">
+              <point x="172.27272727272725" y="-191.5" />
+              <point x="1225.5135136602528" y="573.0" />
+              <point x="1294.565635451505" y="573.0" />
+              <point x="51.25" y="115.0" />
+            </edge>
+            <edge source="automail.Simulation" target="automail.Simulation.ReportDelivery">
+              <point x="63.333333333333314" y="-81.0" />
+              <point x="446.0741197208589" y="1006.0" />
+              <point x="682.3333333333333" y="1006.0" />
+              <point x="-61.666666666666686" y="25.5" />
+            </edge>
+            <edge source="automail.MailGenerator" target="automail.PriorityMailItem">
+              <point x="-163.71428571428572" y="-180.5" />
+              <point x="98.7470446220446" y="573.0" />
+              <point x="140.00000000000006" y="573.0" />
+              <point x="0.0" y="48.5" />
+            </edge>
+            <edge source="automail.Simulation.ReportDelivery" target="automail.IMailDelivery">
+              <point x="61.666666666666686" y="-25.5" />
+              <point x="805.6666666666667" y="573.0" />
+              <point x="810.3989687848384" y="573.0" />
+              <point x="-61.66666666666674" y="25.5" />
+            </edge>
+            <edge source="automail.Robot" target="automail.Robot.RobotState">
+              <point x="-34.454545454545496" y="-191.5" />
+              <point x="-36.0" y="47.5" />
+            </edge>
+            <edge source="automail.MailGenerator" target="automail.Clock">
+              <point x="163.71428571428572" y="-180.5" />
+              <point x="426.17561605061604" y="573.0" />
+              <point x="580.0656354515052" y="573.0" />
+              <point x="-76.5" y="59.0" />
+            </edge>
+            <edge source="automail.Robot" target="automail.IMailDelivery">
+              <point x="-68.90909090909088" y="-191.5" />
+              <point x="984.3316954784347" y="533.0" />
+              <point x="933.7323021181719" y="533.0" />
+              <point x="61.66666666666674" y="25.5" />
+            </edge>
+            <edge source="automail.Simulation" target="automail.MailItem">
+              <point x="-126.66666666666674" y="-81.0" />
+              <point x="256.07411972085885" y="1026.0" />
+              <point x="0.0" y="1026.0" />
+              <point x="0.0" y="233.0" />
+              <point x="196.81023143523134" y="233.0" />
+              <point x="-82.61538461538464" y="81.5" />
+            </edge>
+            <edge source="automail.MailGenerator" target="automail.Building">
+              <point x="109.14285714285711" y="-180.5" />
+              <point x="371.60418747918743" y="573.0" />
+              <point x="378.5656354515051" y="573.0" />
+              <point x="-52.0" y="47.5" />
+            </edge>
+            <edge source="automail.Simulation.ReportDelivery" target="automail.Clock">
+              <point x="-61.666666666666686" y="-25.5" />
+              <point x="25.5" y="59.0" />
+            </edge>
+            <edge source="automail.StorageTube" target="automail.MailItem">
+              <point x="-51.25" y="-115.0" />
+              <point x="1192.065635451505" y="193.0" />
+              <point x="348.27176989676985" y="193.0" />
+              <point x="68.84615384615387" y="81.5" />
+            </edge>
+            <edge source="automail.Robot" target="automail.MailItem">
+              <point x="103.36363636363626" y="-191.5" />
+              <point x="1156.6044227511618" y="573.0" />
+              <point x="1130.315635451505" y="573.0" />
+              <point x="1130.315635451505" y="203.0" />
+              <point x="334.5025391275391" y="203.0" />
+              <point x="55.076923076923094" y="81.5" />
+            </edge>
+            <edge source="automail.Simulation" target="automail.Clock">
+              <point x="31.666666666666657" y="-81.0" />
+              <point x="414.4074530541923" y="996.0" />
+              <point x="606.0" y="996.0" />
+              <point x="606.0" y="573.0" />
+              <point x="631.0656354515052" y="573.0" />
+              <point x="-25.5" y="59.0" />
+            </edge>
+            <edge source="automail.IMailDelivery" target="automail.MailItem">
+              <point x="0.0" y="-25.5" />
+              <point x="872.0656354515052" y="223.0" />
+              <point x="306.96407758907753" y="223.0" />
+              <point x="27.538461538461547" y="81.5" />
+            </edge>
+            <edge source="automail.Robot" target="automail.Building">
+              <point x="-172.27272727272725" y="-191.5" />
+              <point x="880.9680591147983" y="563.0" />
+              <point x="482.5656354515051" y="563.0" />
+              <point x="52.0" y="47.5" />
+            </edge>
+            <edge source="automail.Simulation" target="automail.PriorityMailItem">
+              <point x="-63.33333333333337" y="-81.0" />
+              <point x="319.4074530541922" y="1006.0" />
+              <point x="51.9285714285715" y="1006.0" />
+              <point x="51.9285714285715" y="573.0" />
+              <point x="61.00000000000006" y="573.0" />
+              <point x="-79.0" y="48.5" />
+            </edge>
+            <edge source="automail.PriorityMailItem" target="automail.MailItem">
+              <point x="-59.25" y="-48.5" />
+              <point x="80.75000000000006" y="253.0" />
+              <point x="224.3486929736929" y="253.0" />
+              <point x="-55.076923076923094" y="81.5" />
+            </edge>
+            <edge source="automail.Simulation" target="automail.MailGenerator">
+              <point x="-31.666666666666686" y="-81.0" />
+              <point x="351.0741197208589" y="996.0" />
+              <point x="166.96133033633032" y="996.0" />
+              <point x="-95.5" y="180.5" />
+            </edge>
+          </edges>
+          <settings layout="Hierarchic Group" zoom="1.0" x="178.0" y="469.0" />
+          <SelectedNodes />
+          <Categories>
+            <Category>Fields</Category>
+            <Category>Constructors</Category>
+            <Category>Methods</Category>
+            <Category>Properties</Category>
+            <Category>Inner Classes</Category>
+          </Categories>
+          <SCOPE>All</SCOPE>
+          <VISIBILITY>private</VISIBILITY>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/swen30006/strategies/IRobotBehaviour.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="88">
+          <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/src.zip!/java/util/Stack.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="665">
+          <caret line="97" column="26" selection-start-line="97" selection-start-column="26" selection-end-line="97" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/swen30006/strategies/IMailPool.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="11" column="17" selection-start-line="11" selection-start-column="17" selection-end-line="11" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/swen30006/strategies/Automail.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="902">
+          <caret line="44" selection-start-line="44" selection-end-line="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/swen30006/automail/IMailDelivery.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="110">
+          <caret line="5" column="17" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/swen30006/automail/Building.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="44">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/swen30006/automail/Clock.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="110">
+          <caret line="5" column="32" selection-start-line="5" selection-start-column="32" selection-end-line="5" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/swen30006/automail/MailGenerator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-713">
+          <caret line="42" column="30" selection-start-line="42" selection-start-column="30" selection-end-line="42" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/swen30006/automail/Simulation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1210">
+          <caret line="61" column="15" selection-start-line="61" selection-start-column="15" selection-end-line="61" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/swen30006/automail/MailItem.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="880">
+          <caret line="40" column="24" selection-start-line="40" selection-start-column="24" selection-end-line="40" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/swen30006/automail/PriorityMailItem.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="44">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/swen30006/automail/Robot.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-317">
+          <caret line="74" column="22" selection-start-line="74" selection-end-line="75" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/swen30006/automail/StorageTube.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="770">
+          <caret line="46" column="30" lean-forward="true" selection-start-line="46" selection-start-column="30" selection-end-line="46" selection-end-column="30" />
         </state>
       </provider>
     </entry>
@@ -200,7 +705,7 @@
       </state>
       <state key="JdkListConfigurable.UI">
         <settings>
-          <last-edited>1.8</last-edited>
+          <last-edited>9.0</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -217,7 +722,6 @@
             <option name="proportions">
               <list>
                 <option value="0.2" />
-                <option value="0.6" />
               </list>
             </option>
           </splitter-proportions>
