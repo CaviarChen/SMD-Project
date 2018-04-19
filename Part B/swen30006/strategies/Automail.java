@@ -25,8 +25,8 @@ public class Automail {
     	IRobotBehaviour robotBehaviourS = new MyRobotBehaviour(strong);
     	    	
     	/** Initialize robot */
-    	robot1 = new Robot(robotBehaviourW, delivery, mailPool, weak); /* shared behaviour because identical and stateless */
-    	robot2 = new Robot(robotBehaviourS, delivery, mailPool, strong);
+    	robot1 = new Robot(robotBehaviourW, delivery, this, weak); /* shared behaviour because identical and stateless */
+    	robot2 = new Robot(robotBehaviourS, delivery, this, strong);
     }
     
 }

@@ -2,6 +2,7 @@ package automail;
 
 import exceptions.ExcessiveDeliveryException;
 import exceptions.ItemTooHeavyException;
+import strategies.Automail;
 import strategies.IMailPool;
 import strategies.IRobotBehaviour;
 
@@ -19,7 +20,7 @@ public class Robot {
     public RobotState current_state;
     private int current_floor;
     private int destination_floor;
-    private IMailPool mailPool;
+    private Automail automail;
     private boolean strong;
     
     private int deliveryCounter;
@@ -30,10 +31,10 @@ public class Robot {
      * also set it to be waiting for mail.
      * @param behaviour governs selection of mail items for delivery and behaviour on priority arrivals
      * @param delivery governs the final delivery
-     * @param mailPool is the source of mail items
+     * @param automail is the automail system the robot belongs to
      * @param strong is whether the robot can carry heavy items
      */
-    public Robot(IRobotBehaviour behaviour, IMailDelivery delivery, IMailPool mailPool, boolean strong){
+    public Robot(IRobotBehaviour behaviour, IMailDelivery delivery, Automail automail, boolean strong){
     	id = "R" + hashCode();
         // current_state = RobotState.WAITING;
     	current_state = RobotState.RETURNING;
@@ -41,7 +42,7 @@ public class Robot {
         tube = new StorageTube();
         this.behaviour = behaviour;
         this.delivery = delivery;
-        this.mailPool = mailPool;
+        this.automail = automail;
         this.strong = strong;
         this.deliveryCounter = 0;
     }
@@ -58,7 +59,7 @@ public class Robot {
                 if(current_floor == Building.MAILROOM_LOCATION){
                 	while(!tube.isEmpty()) {
                 		MailItem mailItem = tube.pop();
-                		mailPool.addToPool(mailItem);
+                		automail.mailPool.addToPool(mailItem);
                         System.out.printf("T: %3d > old addToPool [%s]%n", Clock.Time(), mailItem.toString());
                 	}
                 	changeState(RobotState.WAITING);
@@ -69,7 +70,7 @@ public class Robot {
                 }
     		case WAITING:
     			/** Tell the sorter the robot is ready */
-    			mailPool.fillStorageTube(tube, strong);
+    			automail.mailPool.fillStorageTube(tube, strong);
                 // System.out.println("Tube total size: "+tube.getTotalOfSizes());
                 /** If the StorageTube is ready and the Robot is waiting in the mailroom then start the delivery */
                 if(!tube.isEmpty()){
