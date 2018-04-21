@@ -83,10 +83,10 @@ public class Robot {
                 break;
             case DELIVERING:
                 /* Check whether or not the call to return is triggered manually */
-                boolean wantToReturn = behaviour.returnToMailRoom(tube);
                 if (current_floor == destination_floor) { // If already here drop off either way
                     /* Delivery complete, report this to the simulator! */
                     delivery.deliver(tube.pop());
+                    boolean wantToReturn = behaviour.returnToMailRoom(tube);
                     deliveryCounter++;
                     if (deliveryCounter > 4) {
                         throw new ExcessiveDeliveryException();
