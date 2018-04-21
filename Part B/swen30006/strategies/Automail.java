@@ -20,12 +20,12 @@ public class Automail {
 
         /* Initialize the RobotAction */
         //// Swap the next two lines for the two below those
-        IRobotBehaviour robotBehaviourW = new MyRobotBehaviour(Robot.WEAK);
-        IRobotBehaviour robotBehaviourS = new MyRobotBehaviour(Robot.STRONG);
+        IRobotBehaviour robotBehaviourW = new MyRobotBehaviour(Robot.RobotType.WEAK);
+        IRobotBehaviour robotBehaviourS = new MyRobotBehaviour(Robot.RobotType.STRONG);
 
         /* Initialize robot */
-        robot1 = new Robot(robotBehaviourW, delivery, this, Robot.WEAK); /* shared behaviour because identical and stateless */
-        robot2 = new Robot(robotBehaviourS, delivery, this, Robot.STRONG);
+        robot1 = new Robot(robotBehaviourW, delivery, this, Robot.RobotType.WEAK); /* shared behaviour because identical and stateless */
+        robot2 = new Robot(robotBehaviourS, delivery, this, Robot.RobotType.STRONG);
     }
 
     public void step() throws ExcessiveDeliveryException, ItemTooHeavyException {

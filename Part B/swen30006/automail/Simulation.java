@@ -20,25 +20,7 @@ public class Simulation {
     private static ArrayList<MailItem> MAIL_DELIVERED;
     private static double total_score = 0;
 
-    public static void main(String[] args) { //throws IOException {
- /*   	// Should probably be using properties here
-    	Properties automailProperties = new Properties();
-		// Defaults
-		automailProperties.setProperty("Name_of_Property", "20");  // Property value may need to be converted from a string to the appropriate type
-
-		FileReader inStream = null;
-		
-		try {
-			inStream = new FileReader("automail.properties");
-			automailProperties.load(inStream);
-		} finally {
-			 if (inStream != null) {
-	                inStream.close();
-	            }
-		}
-		
-		int i = Integer.parseInt(automailProperties.getProperty("Name_of_Property"));
-*/
+    public static void main(String[] args) {
 
         MAIL_DELIVERED = new ArrayList<>();
 
