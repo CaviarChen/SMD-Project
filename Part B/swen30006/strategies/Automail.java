@@ -1,6 +1,7 @@
 package strategies;
 
 import automail.IMailDelivery;
+import automail.PropertyManager;
 import automail.Robot;
 import exceptions.ExcessiveDeliveryException;
 import exceptions.ItemTooHeavyException;
@@ -24,8 +25,10 @@ public class Automail {
         IRobotBehaviour robotBehaviourS = new MyRobotBehaviour();
 
         /* Initialize robot */
-        robot1 = new Robot(robotBehaviourW, delivery, this, Robot.RobotType.WEAK); /* shared behaviour because identical and stateless */
-        robot2 = new Robot(robotBehaviourS, delivery, this, Robot.RobotType.STRONG);
+        robot1 = new Robot(robotBehaviourW, delivery, this,
+                           PropertyManager.getInstance().getRobotType(1)); /* shared behaviour because identical and stateless */
+        robot2 = new Robot(robotBehaviourS, delivery, this,
+                           PropertyManager.getInstance().getRobotType(2));
     }
 
     public void step() throws ExcessiveDeliveryException, ItemTooHeavyException {

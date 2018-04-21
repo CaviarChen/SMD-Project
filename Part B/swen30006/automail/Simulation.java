@@ -24,18 +24,9 @@ public class Simulation {
 
         MAIL_DELIVERED = new ArrayList<>();
 
-        /* Used to see whether a seed is initialized or not */
-        HashMap<Boolean, Integer> seedMap = new HashMap<>();
 
-        /* Read the first argument and save it as a seed if it exists */
-        if (args.length != 0) {
-            int seed = Integer.parseInt(args[0]);
-            seedMap.put(true, seed);
-        } else {
-            seedMap.put(false, 0);
-        }
         Automail automail = new Automail(new ReportDelivery());
-        MailGenerator generator = new MailGenerator(MAIL_TO_CREATE, seedMap);
+        MailGenerator generator = new MailGenerator(MAIL_TO_CREATE);
 
         /* Initiate all the mail */
         generator.generateAllMail();

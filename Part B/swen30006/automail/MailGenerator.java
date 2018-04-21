@@ -27,11 +27,10 @@ public class MailGenerator {
      * Constructor for mail generation
      *
      * @param mailToCreate roughly how many mail items to create
-     * @param seed         random seed for generating mail
      */
-    public MailGenerator(int mailToCreate, HashMap<Boolean, Integer> seed) {
-        if (seed.containsKey(true)) {
-            this.random = new Random((long) seed.get(true));
+    public MailGenerator(int mailToCreate) {
+        if (PropertyManager.getInstance().hasSeed()) {
+            this.random = new Random((long) PropertyManager.getInstance().getSeed());
         } else {
             this.random = new Random();
         }

@@ -48,6 +48,7 @@ public class Robot {
         this.automail = automail;
         this.type = type;
         this.deliveryCounter = 0;
+        behaviour.setRobot(this);
     }
 
     /**
@@ -165,6 +166,6 @@ public class Robot {
     }
 
     public RobotType getType() {
-        return type;
+        return this.type;
     }
 }
