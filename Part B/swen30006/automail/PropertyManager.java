@@ -17,12 +17,11 @@ public class PropertyManager {
         return instance;
     }
 
-    public void PropertyManager() throws IOException {
+    public PropertyManager() {
         // Should probably be using properties here
         automailProperties = new Properties();
 
         // Defaults
-        automailProperties.setProperty("Seed", "0");
         automailProperties.setProperty("Number_of_Floors", "14");
         automailProperties.setProperty("Delivery_Penalty", "1.1");
         automailProperties.setProperty("Last_Delivery_Time", "300");
@@ -32,7 +31,13 @@ public class PropertyManager {
 
         try (FileReader inStream = new FileReader("automail.properties")) {
             automailProperties.load(inStream);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+    }
+
+    public boolean hasSeed() {
+        return automailProperties.getProperty("Seed", null) != null;
     }
 
     public int getSeed() {
