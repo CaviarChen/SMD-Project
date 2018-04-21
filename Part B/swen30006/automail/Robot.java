@@ -10,9 +10,12 @@ import strategies.IRobotBehaviour;
  */
 public class Robot {
 
-    public static final boolean WEAK = false;  // Can't handle more than 2000 grams
-    public static final boolean STRONG = true; // Can handle any weight that arrives at the building
-
+    /**
+     * Types of robot.
+     */
+    public enum RobotType {
+        WEAK, STRONG, BIG
+    }
 
     public final StorageTube tube;
     public final IRobotBehaviour behaviour;
@@ -22,7 +25,7 @@ public class Robot {
     private int current_floor;
     private int destination_floor;
     private Automail automail;
-    private boolean strong;
+    private RobotType type;
     private int deliveryCounter;
 
     /**
@@ -32,18 +35,18 @@ public class Robot {
      * @param behaviour governs selection of mail items for delivery and behaviour on priority arrivals
      * @param delivery  governs the final delivery
      * @param automail  is the automail system the robot belongs to
-     * @param strong    is whether the robot can carry heavy items
+     * @param type      is the type of robot
      */
-    public Robot(IRobotBehaviour behaviour, IMailDelivery delivery, Automail automail, boolean strong) {
+    public Robot(IRobotBehaviour behaviour, IMailDelivery delivery, Automail automail, RobotType type) {
         id = "R" + hashCode();
         // current_state = RobotState.WAITING;
         current_state = RobotState.RETURNING;
         current_floor = Building.MAILROOM_LOCATION;
-        tube = new StorageTube();
+        tube = new StorageTube(type);
         this.behaviour = behaviour;
         this.delivery = delivery;
         this.automail = automail;
-        this.strong = strong;
+        this.type = type;
         this.deliveryCounter = 0;
     }
 
@@ -71,7 +74,7 @@ public class Robot {
                 }
             case WAITING:
                 /* Tell the sorter the robot is ready */
-                automail.mailPool.fillStorageTube(tube, strong);
+                automail.mailPool.fillStorageTube(tube, type);
                 // System.out.println("Tube total size: "+tube.getTotalOfSizes());
                 /* If the StorageTube is ready and the Robot is waiting in the mailroom then start the delivery */
                 if (!tube.isEmpty()) {
@@ -120,7 +123,8 @@ public class Robot {
      */
     private void setRoute() throws ItemTooHeavyException {
         /* Pop the item from the StorageUnit */
-        if (!strong && tube.peek().weight > 2000) throw new ItemTooHeavyException();
+        if (type == RobotType.WEAK && tube.peek().weight > 2000)
+            throw new ItemTooHeavyException();
         /* Set the destination floor */
         destination_floor = tube.getNextDestFloor();
     }
@@ -160,5 +164,7 @@ public class Robot {
         DELIVERING, WAITING, RETURNING
     }
 
-
+    public RobotType getType() {
+        return type;
+    }
 }

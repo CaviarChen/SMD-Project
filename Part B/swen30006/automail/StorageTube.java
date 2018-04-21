@@ -12,21 +12,26 @@ import java.util.Stack;
  */
 public class StorageTube {
 
-    public final int MAXIMUM_CAPACITY = 4;
+    private static final int NORMAL_CAPACITY = 4;
+    private static final int BIG_CAPACITY = 6;
+
+    private int maximumCapacity;
     public Stack<MailItem> tube;
 
     /**
      * Constructor for the storage tube
      */
-    public StorageTube() {
+    public StorageTube(Robot.RobotType type) {
         this.tube = new Stack<>();
+        if (type == Robot.RobotType.BIG) maximumCapacity = BIG_CAPACITY;
+        else maximumCapacity = NORMAL_CAPACITY;
     }
 
     /**
      * @return if the storage tube is full
      */
     public boolean isFull() {
-        return tube.size() == MAXIMUM_CAPACITY;
+        return tube.size() == maximumCapacity;
     }
 
     /**
@@ -50,7 +55,7 @@ public class StorageTube {
      * @throws TubeFullException thrown if an item is added which exceeds the capacity
      */
     public void addItem(MailItem item) throws TubeFullException {
-        if (tube.size() < MAXIMUM_CAPACITY) {
+        if (tube.size() < maximumCapacity) {
             tube.add(item);
         } else {
             throw new TubeFullException();
@@ -77,4 +82,8 @@ public class StorageTube {
         return tube.peek().getDestFloor();
     }
 
+    /**
+     * @return Maximum capacity of the tube
+     */
+    public int getMaximumCapacity() { return maximumCapacity; }
 }
