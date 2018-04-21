@@ -1,5 +1,6 @@
 package strategies;
 
+import automail.Robot;
 import automail.StorageTube;
 
 public interface IRobotBehaviour {
@@ -28,4 +29,8 @@ public interface IRobotBehaviour {
      */
     public void priorityArrival(int priority, int weight);
 
+    /**
+     * @param robot Update the current robot that is using this behaviour object
+     */
+    public void setRobot(Robot robot);
 }

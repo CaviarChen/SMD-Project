@@ -164,5 +164,7 @@ public class Robot {
         DELIVERING, WAITING, RETURNING
     }
 
-
+    public RobotType getType() {
+        return type;
+    }
 }

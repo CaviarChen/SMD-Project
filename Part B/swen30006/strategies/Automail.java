@@ -20,8 +20,8 @@ public class Automail {
 
         /* Initialize the RobotAction */
         //// Swap the next two lines for the two below those
-        IRobotBehaviour robotBehaviourW = new MyRobotBehaviour(Robot.RobotType.WEAK);
-        IRobotBehaviour robotBehaviourS = new MyRobotBehaviour(Robot.RobotType.STRONG);
+        IRobotBehaviour robotBehaviourW = new MyRobotBehaviour();
+        IRobotBehaviour robotBehaviourS = new MyRobotBehaviour();
 
         /* Initialize robot */
         robot1 = new Robot(robotBehaviourW, delivery, this, Robot.RobotType.WEAK); /* shared behaviour because identical and stateless */
