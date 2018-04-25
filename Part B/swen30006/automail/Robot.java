@@ -17,6 +17,13 @@ public class Robot {
         WEAK, STRONG, BIG
     }
 
+    /**
+     * Roles of robot
+     */
+    public enum RobotRole {
+        LOWER, UPPER
+    }
+
     public final StorageTube tube;
     public final IRobotBehaviour behaviour;
     public final IMailDelivery delivery;
@@ -26,6 +33,7 @@ public class Robot {
     private int destination_floor;
     private Automail automail;
     private RobotType type;
+    private RobotRole role;
     private int deliveryCounter;
 
     /**
@@ -167,5 +175,13 @@ public class Robot {
 
     public RobotType getType() {
         return this.type;
+    }
+
+    public void setRole(RobotRole role) {
+        this.role = role;
+    }
+
+    public RobotRole getRole() {
+        return this.role;
     }
 }
