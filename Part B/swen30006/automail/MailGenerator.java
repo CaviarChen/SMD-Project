@@ -12,10 +12,16 @@ import java.util.Random;
  */
 public class MailGenerator {
 
-    /* The threshold for the latest time for mail to arrive */
-    public static final int LAST_DELIVERY_TIME = 300;
 
-    public final int MAIL_TO_CREATE;
+
+    /* The threshold for the latest time for mail to arrive */
+    private static final int LAST_DELIVERY_TIME = 300;
+
+    private static final double ARRIVING_MAIL_VARIATION = 0.2;
+    private static final double WEIGHT_MEAN = 200.0;
+    private static final double WEIGHT_STD = 700.0;
+
+    public final int mailToCreate;
     private final Random random;
     private int mailCreated;
     /* This seed is used to make the behaviour deterministic */
@@ -34,9 +40,11 @@ public class MailGenerator {
         } else {
             this.random = new Random();
         }
+
         // Vary arriving mail by +/-20%
-        MAIL_TO_CREATE = mailToCreate * 4 / 5 + random.nextInt(mailToCreate * 2 / 5);
-        // System.out.println("Num Mail Items: "+MAIL_TO_CREATE);
+        double randomVariation = random.nextDouble() * 2.0 - 1.0;  // Generate a random number in [-1.0, 1.0)
+        this.mailToCreate = mailToCreate + (int) Math.round(mailToCreate * randomVariation * ARRIVING_MAIL_VARIATION);
+        // System.out.println("Num Mail Items: "+mailToCreate);
         mailCreated = 0;
         complete = false;
         allMail = new HashMap<>();
@@ -53,7 +61,7 @@ public class MailGenerator {
         // Check if arrival time has a priority mail
         if ((random.nextInt(6) > 0) ||  // Skew towards non priority mail
                 (allMail.containsKey(arrival_time) &&
-                        allMail.get(arrival_time).stream().anyMatch(e -> PriorityMailItem.class.isInstance(e)))) {
+                        allMail.get(arrival_time).stream().anyMatch(PriorityMailItem.class::isInstance))) {
             return new MailItem(dest_floor, arrival_time, weight);
         } else {
             return new PriorityMailItem(dest_floor, arrival_time, weight, priority_level);
@@ -78,11 +86,9 @@ public class MailGenerator {
      * @return a random weight
      */
     private int generateWeight() {
-        final double mean = 200.0; // grams for normal item
-        final double stddev = 700.0; // grams
         double base = random.nextGaussian();
         if (base < 0) base = -base;
-        int weight = (int) (mean + base * stddev);
+        int weight = (int) (WEIGHT_MEAN + base * WEIGHT_STD);
         return weight > 5000 ? 5000 : weight;
     }
 
@@ -114,10 +120,10 @@ public class MailGenerator {
                 /* Add to existing array */
                 allMail.get(timeToDeliver).add(newMail);
             } else {
-                /** If the key doesn't exist then set a new key along with the array of MailItems to add during
+                /* If the key doesn't exist then set a new key along with the array of MailItems to add during
                  * that time step.
                  */
-                ArrayList<MailItem> newMailList = new ArrayList<MailItem>();
+                ArrayList<MailItem> newMailList = new ArrayList<>();
                 newMailList.add(newMail);
                 allMail.put(timeToDeliver, newMailList);
             }
@@ -125,7 +131,7 @@ public class MailGenerator {
             mailCreated++;
 
             /* Once we have satisfied the amount of mail to create, we're done!*/
-            if (mailCreated == MAIL_TO_CREATE) {
+            if (mailCreated == mailToCreate) {
                 complete = true;
             }
         }

@@ -6,7 +6,6 @@ import exceptions.MailAlreadyDeliveredException;
 import strategies.Automail;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * This class simulates the behaviour of AutoMail
@@ -31,7 +30,7 @@ public class Simulation {
         /* Initiate all the mail */
         generator.generateAllMail();
         PriorityMailItem priority;
-        while (MAIL_DELIVERED.size() != generator.MAIL_TO_CREATE) {
+        while (MAIL_DELIVERED.size() != generator.mailToCreate) {
             // System.out.println("-- Step: "+Clock.Time());
             priority = generator.step(automail.mailPool);
             if (priority != null) {
