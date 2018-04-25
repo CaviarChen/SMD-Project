@@ -17,13 +17,22 @@ public class MailGenerator {
     /* The threshold for the latest time for mail to arrive */
     private static final int LAST_DELIVERY_TIME = 300;
 
-    private static final double ARRIVING_MAIL_VARIATION = 0.2;
+    private static final double MAIL_COUNT_VARIATION = 0.2;
     private static final double WEIGHT_MEAN = 200.0;
     private static final double WEIGHT_STD = 700.0;
 
+    private static final int WEIGHT_PRIORITY_ITEM = 6;
+    private static final int WEIGHT_PRIORITY_LEVEL = 4;
+
+    private static final int PRIORITY_LEVEL_LOW = 10;
+    private static final int PRIORITY_LEVEL_HIGH = 100;
+
+    private static final int MAX_ITEM_WEIGTH = 5000;
+
     public final int mailCount;
+
     private final Random random;
-    /* This seed is used to make the behaviour deterministic */
+
 
     private HashMap<Integer, ArrayList<MailItem>> allMail;
 
@@ -41,9 +50,9 @@ public class MailGenerator {
             this.random = new Random();
         }
 
-        // Vary arriving mail by +/-20%
-
-        this.mailCount = mailToCreate * 4 / 5 + random.nextInt(mailToCreate * 2 / 5);
+        // Vary arriving mail by +/-20% (ARRIVING_MAIL_VARIATION = 0.2)
+        this.mailCount = (int) (mailToCreate * (1 - MAIL_COUNT_VARIATION)) +
+                         random.nextInt((int)(mailToCreate * MAIL_COUNT_VARIATION * 2));
 
 
         allMail = new HashMap<>();
@@ -60,7 +69,7 @@ public class MailGenerator {
         int arrival_time = generateArrivalTime();
         int weight = generateWeight();
         // Check if arrival time has a priority mail
-        if ((random.nextInt(6) > 0) ||  // Skew towards non priority mail
+        if ((random.nextInt(WEIGHT_PRIORITY_ITEM) > 0) ||  // Skew towards non priority mail
                 (allMail.containsKey(arrival_time) &&
                         allMail.get(arrival_time).stream().anyMatch(PriorityMailItem.class::isInstance))) {
             return new MailItem(dest_floor, arrival_time, weight);
@@ -80,7 +89,7 @@ public class MailGenerator {
      * @return a random priority level selected from 10 and 100
      */
     private int generatePriorityLevel() {
-        return random.nextInt(4) > 0 ? 10 : 100;
+        return random.nextInt(WEIGHT_PRIORITY_LEVEL) > 0 ? PRIORITY_LEVEL_LOW : PRIORITY_LEVEL_HIGH;
     }
 
     /**
@@ -90,7 +99,7 @@ public class MailGenerator {
         double base = random.nextGaussian();
         if (base < 0) base = -base;
         int weight = (int) (WEIGHT_MEAN + base * WEIGHT_STD);
-        return weight > 5000 ? 5000 : weight;
+        return Math.min(weight, MAX_ITEM_WEIGTH);
     }
 
     /**
@@ -129,27 +138,7 @@ public class MailGenerator {
         if (this.allMail.containsKey(time)) {
             return allMail.get(time);
         }
-
         return null;
     }
-
-
-//    /**
-//     * While there are steps left, create a new mail item to deliver
-//     *
-//     * @return Priority
-//     */
-//    public PriorityMailItem step(IMailPool mailPool) {
-//        PriorityMailItem priority = null;
-//        // Check if there are any mail to create
-//        if (this.allMail.containsKey(Clock.Time())) {
-//            for (MailItem mailItem : allMail.get(Clock.Time())) {
-//                if (mailItem instanceof PriorityMailItem) priority = ((PriorityMailItem) mailItem);
-//                System.out.printf("T: %3d > new addToPool [%s]%n", Clock.Time(), mailItem.toString());
-//                mailPool.addToPool(mailItem);
-//            }
-//        }
-//        return priority;
-//    }
 
 }
