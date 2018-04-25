@@ -15,19 +15,22 @@ public class Simulation {
     /* Constant for the mail generator */
     private static final int MAIL_TO_CREATE = 180;
 
+    // Penalty for longer delivery times
+    private static final double TIME_PENALTY = 1.1;
 
-    private static ArrayList<MailItem> MAIL_DELIVERED;
+
+    private static ArrayList<MailItem> mailDelivered;
     private static double total_score = 0;
 
     public static void main(String[] args) {
 
-        MAIL_DELIVERED = new ArrayList<>();
+        mailDelivered = new ArrayList<>();
 
 
         Automail automail = new Automail(new ReportDelivery());
         MailGenerator generator = new MailGenerator(MAIL_TO_CREATE);
 
-        while (MAIL_DELIVERED.size() != generator.mailCount) {
+        while (mailDelivered.size() != generator.mailCount) {
 
 
             ArrayList<MailItem> mailItems = generator.getMailsAt(Clock.Time());
@@ -57,14 +60,13 @@ public class Simulation {
     }
 
     private static double calculateDeliveryScore(MailItem deliveryItem) {
-        // Penalty for longer delivery times
-        final double penalty = 1.1;
+
         double priority_weight = 0;
         // Take (delivery time - arrivalTime)**penalty * (1+sqrt(priority_weight))
         if (deliveryItem instanceof PriorityMailItem) {
             priority_weight = ((PriorityMailItem) deliveryItem).getPriorityLevel();
         }
-        return Math.pow(Clock.Time() - deliveryItem.getArrivalTime(), penalty) * (1 + Math.sqrt(priority_weight));
+        return Math.pow(Clock.Time() - deliveryItem.getArrivalTime(), TIME_PENALTY) * (1 + Math.sqrt(priority_weight));
     }
 
     public static void printResults() {
@@ -77,9 +79,9 @@ public class Simulation {
 
         /* Confirm the delivery and calculate the total score */
         public void deliver(MailItem deliveryItem) {
-            if (!MAIL_DELIVERED.contains(deliveryItem)) {
+            if (!mailDelivered.contains(deliveryItem)) {
                 System.out.printf("T: %3d > Delivered     [%s]%n", Clock.Time(), deliveryItem.toString());
-                MAIL_DELIVERED.add(deliveryItem);
+                mailDelivered.add(deliveryItem);
                 // Calculate delivery score
                 total_score += calculateDeliveryScore(deliveryItem);
             } else {
