@@ -27,15 +27,23 @@ public class Simulation {
         Automail automail = new Automail(new ReportDelivery());
         MailGenerator generator = new MailGenerator(MAIL_TO_CREATE);
 
-        /* Initiate all the mail */
-        generator.generateAllMail();
-        PriorityMailItem priority;
-        while (MAIL_DELIVERED.size() != generator.mailToCreate) {
-            // System.out.println("-- Step: "+Clock.Time());
-            priority = generator.step(automail.mailPool);
-            if (priority != null) {
-                automail.priorityArrival(priority.getPriorityLevel(), priority.getWeight());
+        while (MAIL_DELIVERED.size() != generator.mailCount) {
+
+
+            ArrayList<MailItem> mailItems = generator.getMailsAt(Clock.Time());
+
+            if (mailItems != null) {
+                for(MailItem mailItem: mailItems) {
+                    if (mailItem instanceof PriorityMailItem) {
+                        automail.priorityArrival(((PriorityMailItem)mailItem).getPriorityLevel(), mailItem.getWeight());
+                    }
+
+                    System.out.printf("T: %3d > new addToPool [%s]%n", Clock.Time(), mailItem.toString());
+                    automail.mailPool.addToPool(mailItem);
+                }
             }
+
+
             try {
                 automail.step();
             } catch (ExcessiveDeliveryException | ItemTooHeavyException e) {

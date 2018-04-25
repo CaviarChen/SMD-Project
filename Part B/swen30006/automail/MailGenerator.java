@@ -21,11 +21,9 @@ public class MailGenerator {
     private static final double WEIGHT_MEAN = 200.0;
     private static final double WEIGHT_STD = 700.0;
 
-    public final int mailToCreate;
+    public final int mailCount;
     private final Random random;
-    private int mailCreated;
     /* This seed is used to make the behaviour deterministic */
-    private boolean complete;
 
     private HashMap<Integer, ArrayList<MailItem>> allMail;
 
@@ -35,6 +33,8 @@ public class MailGenerator {
      * @param mailToCreate roughly how many mail items to create
      */
     public MailGenerator(int mailToCreate) {
+
+        // handle in PropertyManager? is default random?
         if (PropertyManager.getInstance().hasSeed()) {
             this.random = new Random((long) PropertyManager.getInstance().getSeed());
         } else {
@@ -42,12 +42,13 @@ public class MailGenerator {
         }
 
         // Vary arriving mail by +/-20%
-        double randomVariation = random.nextDouble() * 2.0 - 1.0;  // Generate a random number in [-1.0, 1.0)
-        this.mailToCreate = mailToCreate + (int) Math.round(mailToCreate * randomVariation * ARRIVING_MAIL_VARIATION);
-        // System.out.println("Num Mail Items: "+mailToCreate);
-        mailCreated = 0;
-        complete = false;
+
+        this.mailCount = mailToCreate * 4 / 5 + random.nextInt(mailToCreate * 2 / 5);
+
+
         allMail = new HashMap<>();
+
+        this.generateAllMail();
     }
 
     /**
@@ -100,60 +101,55 @@ public class MailGenerator {
     }
 
     /**
-     * Returns a random element from an array
-     *
-     * @param array of objects
-     */
-    private Object getRandom(Object[] array) {
-        return array[random.nextInt(array.length)];
-    }
-
-    /**
      * This class initializes all mail and sets their corresponding values,
      */
-    public void generateAllMail() {
-        while (!complete) {
+    private void generateAllMail() {
+        for (int i=0; i<this.mailCount; i++) {
+
             MailItem newMail = generateMail();
+
             int timeToDeliver = newMail.getArrivalTime();
             /* Check if key exists for this time */
-            if (allMail.containsKey(timeToDeliver)) {
-                /* Add to existing array */
-                allMail.get(timeToDeliver).add(newMail);
-            } else {
+
+
+            if (!allMail.containsKey(timeToDeliver)) {
                 /* If the key doesn't exist then set a new key along with the array of MailItems to add during
                  * that time step.
                  */
-                ArrayList<MailItem> newMailList = new ArrayList<>();
-                newMailList.add(newMail);
-                allMail.put(timeToDeliver, newMailList);
+                allMail.put(timeToDeliver, new ArrayList<>());
             }
-            /* Mark the mail as created */
-            mailCreated++;
 
-            /* Once we have satisfied the amount of mail to create, we're done!*/
-            if (mailCreated == mailToCreate) {
-                complete = true;
-            }
+            /* Add to existing array */
+            allMail.get(timeToDeliver).add(newMail);
         }
 
     }
 
-    /**
-     * While there are steps left, create a new mail item to deliver
-     *
-     * @return Priority
-     */
-    public PriorityMailItem step(IMailPool mailPool) {
-        PriorityMailItem priority = null;
-        // Check if there are any mail to create
-        if (this.allMail.containsKey(Clock.Time())) {
-            for (MailItem mailItem : allMail.get(Clock.Time())) {
-                if (mailItem instanceof PriorityMailItem) priority = ((PriorityMailItem) mailItem);
-                System.out.printf("T: %3d > new addToPool [%s]%n", Clock.Time(), mailItem.toString());
-                mailPool.addToPool(mailItem);
-            }
+    public ArrayList<MailItem> getMailsAt(int time) {
+        if (this.allMail.containsKey(time)) {
+            return allMail.get(time);
         }
-        return priority;
+
+        return null;
     }
+
+
+//    /**
+//     * While there are steps left, create a new mail item to deliver
+//     *
+//     * @return Priority
+//     */
+//    public PriorityMailItem step(IMailPool mailPool) {
+//        PriorityMailItem priority = null;
+//        // Check if there are any mail to create
+//        if (this.allMail.containsKey(Clock.Time())) {
+//            for (MailItem mailItem : allMail.get(Clock.Time())) {
+//                if (mailItem instanceof PriorityMailItem) priority = ((PriorityMailItem) mailItem);
+//                System.out.printf("T: %3d > new addToPool [%s]%n", Clock.Time(), mailItem.toString());
+//                mailPool.addToPool(mailItem);
+//            }
+//        }
+//        return priority;
+//    }
 
 }
