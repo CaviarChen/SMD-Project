@@ -11,6 +11,13 @@ import strategies.IRobotBehaviour;
 public class Robot {
 
     /**
+     * Possible states the robot can be in
+     */
+    public enum RobotState {
+        DELIVERING, WAITING, RETURNING
+    }
+
+    /**
      * Types of robot.
      */
     public enum RobotType {
@@ -28,10 +35,9 @@ public class Robot {
     public final IRobotBehaviour behaviour;
     public final IMailDelivery delivery;
     protected final String id;
-    public RobotState current_state;
+    private RobotState current_state;
     private int current_floor;
     private int destination_floor;
-    private Automail automail;
     private RobotType type;
     private RobotRole role;
     private int deliveryCounter;
@@ -45,7 +51,7 @@ public class Robot {
      * @param automail  is the automail system the robot belongs to
      * @param type      is the type of robot
      */
-    public Robot(IRobotBehaviour behaviour, IMailDelivery delivery, Automail automail, RobotType type) {
+    public Robot(IRobotBehaviour behaviour, IMailDelivery delivery, RobotType type) {
         id = "R" + hashCode();
         // current_state = RobotState.WAITING;
         current_state = RobotState.RETURNING;
@@ -53,7 +59,6 @@ public class Robot {
         tube = new StorageTube(type);
         this.behaviour = behaviour;
         this.delivery = delivery;
-        this.automail = automail;
         this.type = type;
         this.deliveryCounter = 0;
         behaviour.setRobot(this);
@@ -70,11 +75,6 @@ public class Robot {
             case RETURNING:
                 /* If its current position is at the mailroom, then the robot should change state */
                 if (current_floor == Building.MAILROOM_LOCATION) {
-                    while (!tube.isEmpty()) {
-                        MailItem mailItem = tube.pop();
-                        automail.mailPool.addToPool(mailItem);
-                        System.out.printf("T: %3d > old addToPool [%s]%n", Clock.Time(), mailItem.toString());
-                    }
                     changeState(RobotState.WAITING);
                 } else {
                     /* If the robot is not at the mailroom floor yet, then move towards it! */
@@ -82,9 +82,7 @@ public class Robot {
                     break;
                 }
             case WAITING:
-                /* Tell the sorter the robot is ready */
-                automail.mailPool.fillStorageTube(tube, type, role);
-                // System.out.println("Tube total size: "+tube.getTotalOfSizes());
+
                 /* If the StorageTube is ready and the Robot is waiting in the mailroom then start the delivery */
                 if (!tube.isEmpty()) {
                     deliveryCounter = 0; // reset delivery counter
@@ -166,11 +164,12 @@ public class Robot {
         }
     }
 
-    /**
-     * Possible states the robot can be in
-     */
-    public enum RobotState {
-        DELIVERING, WAITING, RETURNING
+    public boolean atMailRoom() {
+        return current_floor == Building.MAILROOM_LOCATION;
+    }
+
+    public RobotState getState() {
+        return this.current_state;
     }
 
     public RobotType getType() {

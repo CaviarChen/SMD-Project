@@ -1,8 +1,6 @@
 package strategies;
 
-import automail.IMailDelivery;
-import automail.PropertyManager;
-import automail.Robot;
+import automail.*;
 import exceptions.ExcessiveDeliveryException;
 import exceptions.ItemTooHeavyException;
 
@@ -23,8 +21,8 @@ public class Automail {
         mailPool = new StandardMailPool();
 
         for(int i=0; i<NUM_OF_ROBOT; i++) {
-            robots[i] = new Robot(new StandardRobotBehaviour(), delivery,this,
-                                    PropertyManager.getInstance().getRobotType(i+1));
+            robots[i] = new Robot(new StandardRobotBehaviour(), delivery,
+                    PropertyManager.getInstance().getRobotType(i+1));
 
             if (robots[i].getType() == Robot.RobotType.WEAK) mailPool.notifyWeakRobot(true);
 
@@ -64,9 +62,36 @@ public class Automail {
     }
 
     public void step() throws ExcessiveDeliveryException, ItemTooHeavyException {
+
         for(Robot robot: robots) {
+
+            // if robot is at mail room, then refill it
+            if(robot.atMailRoom()) {
+                refillRobot(robot);
+            }
+
             robot.step();
         }
+    }
+
+    private void refillRobot(Robot robot) {
+        // do nothing if robot is about to leave
+        if (robot.getState() == Robot.RobotState.DELIVERING) {
+            return;
+        }
+
+        // robot just arrived or waiting
+
+        // clean current tube
+        while (!robot.tube.isEmpty()) {
+            MailItem mailItem = robot.tube.pop();
+            mailPool.addToPool(mailItem);
+            System.out.printf("T: %3d > old addToPool [%s]%n", Clock.Time(), mailItem.toString());
+        }
+
+        // fill tube
+        mailPool.fillStorageTube(robot.tube, robot.getType(), robot.getRole());
+
     }
 
     public void priorityArrival(int priority, int weight) {
