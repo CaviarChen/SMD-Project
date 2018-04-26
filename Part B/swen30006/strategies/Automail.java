@@ -20,11 +20,13 @@ public class Automail {
 
 
         /* Initialize the MailPool */
-        mailPool = new WeakStrongMailPool();
+        mailPool = new StandardMailPool();
 
         for(int i=0; i<NUM_OF_ROBOT; i++) {
-            robots[i] = new Robot(new MyRobotBehaviour(), delivery,this,
+            robots[i] = new Robot(new StandardRobotBehaviour(), delivery,this,
                                     PropertyManager.getInstance().getRobotType(i+1));
+
+            if (robots[i].getType() == Robot.RobotType.WEAK) mailPool.notifyWeakRobot(true);
 
         }
 

@@ -5,7 +5,7 @@ import automail.PriorityMailItem;
 import automail.Robot;
 import automail.StorageTube;
 
-public class MyRobotBehaviour implements IRobotBehaviour {
+public class StandardRobotBehaviour implements IRobotBehaviour {
 
     private boolean strong;
     private int newPriority; // Used if we are notified that a priority item has arrived.
