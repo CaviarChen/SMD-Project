@@ -1,11 +1,15 @@
 package automail;
 
-// import java.util.UUID;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Represents a mail item
  */
 public class MailItem {
+
+    static int count = 0;
+    static Map<Integer, Integer> hashMap = new TreeMap<Integer, Integer>();
 
     /* Represents the destination floor to which the mail is intended to go */
     protected final int destination_floor;
@@ -33,6 +37,14 @@ public class MailItem {
     @Override
     public String toString() {
         return String.format("Mail Item:: ID: %11s | Arrival: %4d | Destination: %2d | Weight: %4d", id, arrival_time, destination_floor, weight);
+    }
+
+    @Override
+    public int hashCode() {
+        Integer hash0 = super.hashCode();
+        Integer hash = hashMap.get(hash0);
+        if (hash == null) { hash = count++; hashMap.put(hash0, hash); }
+        return hash;
     }
 
     /**

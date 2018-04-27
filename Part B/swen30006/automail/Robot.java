@@ -2,8 +2,10 @@ package automail;
 
 import exceptions.ExcessiveDeliveryException;
 import exceptions.ItemTooHeavyException;
-import strategies.Automail;
 import strategies.IRobotBehaviour;
+
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * The robot delivers mail!
@@ -41,6 +43,9 @@ public class Robot {
     private RobotType type;
     private RobotRole role;
     private int deliveryCounter;
+
+    static int count = 0;
+    static Map<Integer, Integer> hashMap = new TreeMap<Integer, Integer>();
 
     /**
      * Initiates the robot's location at the start to be at the mailroom
@@ -147,6 +152,14 @@ public class Robot {
         } else {
             current_floor--;
         }
+    }
+
+    @Override
+    public int hashCode() {
+        Integer hash0 = super.hashCode();
+        Integer hash = hashMap.get(hash0);
+        if (hash == null) { hash = count++; hashMap.put(hash0, hash); }
+        return hash;
     }
 
     /**
