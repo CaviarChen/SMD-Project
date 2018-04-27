@@ -98,7 +98,7 @@ public class Robot {
                     delivery.deliver(tube.pop());
                     boolean wantToReturn = behaviour.returnToMailRoom(tube);
                     deliveryCounter++;
-                    if (deliveryCounter > 4) {
+                    if (deliveryCounter > tube.getMaximumCapacity()) {
                         throw new ExcessiveDeliveryException();
                     }
                     /* Check if want to return or if there are more items in the tube*/
