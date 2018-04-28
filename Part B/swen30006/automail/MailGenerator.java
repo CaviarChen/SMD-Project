@@ -27,7 +27,7 @@ public class MailGenerator {
     private static final int PRIORITY_LEVEL_LOW = 10;
     private static final int PRIORITY_LEVEL_HIGH = 100;
 
-    private static final int MAX_ITEM_WEIGTH = 5000;
+    private static final int MAX_ITEM_WEIGHT = 5000;
 
     public final int mailCount;
 
@@ -99,7 +99,7 @@ public class MailGenerator {
         double base = random.nextGaussian();
         if (base < 0) base = -base;
         int weight = (int) (WEIGHT_MEAN + base * WEIGHT_STD);
-        return Math.min(weight, MAX_ITEM_WEIGTH);
+        return Math.min(weight, MAX_ITEM_WEIGHT);
     }
 
     /**
