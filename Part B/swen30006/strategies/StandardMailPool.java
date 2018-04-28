@@ -5,24 +5,31 @@ import exceptions.TubeFullException;
 
 import java.util.LinkedList;
 import java.util.ListIterator;
-import java.util.Queue;
 
 public class StandardMailPool implements IMailPool {
-    private static final int MAX_WEIGHT = 2000;
-    private LinkedList<MailItem> mailItems; // records all items in the pool
+
+    // records all items in the pool
+    private LinkedList<MailItem> mailItems;
     private int divider;
+
     private boolean hasWeakRobot = false;
 
+    /**
+     * Constructor for StandardMailPool
+     */
     public StandardMailPool() {
         // Start empty
         mailItems = new LinkedList<>();
-        divider = Building.FLOORS / 2;  // divider between lower and upper role
+
+        // divider between lower and upper role
+        divider = Building.FLOORS / 2;
     }
 
-    private int priority(MailItem m) {
-        return (m instanceof PriorityMailItem) ? ((PriorityMailItem) m).getPriorityLevel() : 0;
-    }
-
+    /**
+     * Adds an item to the mail pool
+     * @param mailItem the mail item being added.
+     */
+    @Override
     public void addToPool(MailItem mailItem) {
         // This doesn't attempt to put the re-add items back in time order but there will be relatively few of them,
 
@@ -45,6 +52,11 @@ public class StandardMailPool implements IMailPool {
 
     }
 
+    /**
+     * @param tube   refers to the pack the robot uses to deliver mail.
+     * @param type   is the type of the robot.
+     * @param role   is the role of the robot.
+     */
     @Override
     public void fillStorageTube(StorageTube tube, Robot.RobotType type, Robot.RobotRole role) {
         try {
@@ -64,6 +76,10 @@ public class StandardMailPool implements IMailPool {
         }
     }
 
+    /**
+     * Noityfy the mailpool that there is a week robot
+     * @param hasWeakRobot
+     */
     @Override
     public void notifyWeakRobot(boolean hasWeakRobot) {
         this.hasWeakRobot = hasWeakRobot;
@@ -73,7 +89,7 @@ public class StandardMailPool implements IMailPool {
     private boolean checkMailAssignment(MailItem mailItem, Robot.RobotType type, Robot.RobotRole role) {
 
         // handle overweight items
-        if (hasWeakRobot && mailItem.getWeight()>MAX_WEIGHT) {
+        if (hasWeakRobot && mailItem.getWeight() > Robot.WEAK_MAX_WEIGHT) {
             return (type != Robot.RobotType.WEAK);
         }
 
@@ -86,6 +102,12 @@ public class StandardMailPool implements IMailPool {
 
     }
 
-
+    /**
+     * @param m a mail item
+     * @return the priority level of a given mail item
+     */
+    private int priority(MailItem m) {
+        return (m instanceof PriorityMailItem) ? ((PriorityMailItem) m).getPriorityLevel() : 0;
+    }
 
 }

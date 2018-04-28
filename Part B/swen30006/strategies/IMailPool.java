@@ -21,9 +21,14 @@ public interface IMailPool {
     /**
      * @param tube   refers to the pack the robot uses to deliver mail.
      * @param type   is the type of the robot.
+     * @param role   is the role of the robot.
      */
     void fillStorageTube(StorageTube tube, Robot.RobotType type, Robot.RobotRole role);
 
+    /**
+     * Noityfy the mailpool that there is a week robot
+     * @param hasWeakRobot
+     */
     void notifyWeakRobot(boolean hasWeakRobot);
 
 }

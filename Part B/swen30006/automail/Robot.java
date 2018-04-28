@@ -12,6 +12,9 @@ import java.util.TreeMap;
  */
 public class Robot {
 
+
+    public static final int WEAK_MAX_WEIGHT = 2000;
+
     /**
      * Possible states the robot can be in
      */
@@ -78,6 +81,7 @@ public class Robot {
      * This is called on every time step
      *
      * @throws ExcessiveDeliveryException if robot delivers more than the capacity of the tube without refilling
+     * @throws ItemTooHeavyException if a robot takes a MailItem from its StorageTube which is too heavy for that robot
      */
     public void step() throws ExcessiveDeliveryException, ItemTooHeavyException {
         switch (state) {
@@ -175,7 +179,7 @@ public class Robot {
      */
     private void setRoute() throws ItemTooHeavyException {
         // Pop the item from the StorageUnit
-        if (type == RobotType.WEAK && tube.peek().weight > 2000)
+        if (type == RobotType.WEAK && tube.peek().weight > WEAK_MAX_WEIGHT)
             throw new ItemTooHeavyException();
         // Set the destination floor
         destinationFloor = tube.getNextDestFloor();
