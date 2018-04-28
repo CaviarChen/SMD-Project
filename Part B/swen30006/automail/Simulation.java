@@ -12,13 +12,6 @@ import java.util.ArrayList;
  */
 public class Simulation {
 
-    // Constant for the mail generator
-    private static final int MAIL_TO_CREATE = 180;
-
-    // Penalty for longer delivery times
-    private static final double TIME_PENALTY = 1.1;
-
-
     private static int deliveredCount;
     private static double totalScore = 0;
 
@@ -34,7 +27,7 @@ public class Simulation {
 
         // create automail and mail generator
         Automail automail = new Automail(new ReportDelivery());
-        MailGenerator generator = new MailGenerator(MAIL_TO_CREATE);
+        MailGenerator generator = new MailGenerator(PropertyManager.getInstance().getMailToCreate());
 
         // start simulation
         while (deliveredCount != generator.mailCount) {
@@ -80,7 +73,8 @@ public class Simulation {
         if (deliveryItem instanceof PriorityMailItem) {
             priority_weight = ((PriorityMailItem) deliveryItem).getPriorityLevel();
         }
-        return Math.pow(Clock.Time() - deliveryItem.getArrivalTime(), TIME_PENALTY) * (1 + Math.sqrt(priority_weight));
+        return Math.pow(Clock.Time() - deliveryItem.getArrivalTime(),
+                    PropertyManager.getInstance().getDeliveryPenalty()) * (1 + Math.sqrt(priority_weight));
     }
 
     /**

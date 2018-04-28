@@ -3,7 +3,7 @@ package automail;
 public class Building {
 
     /* The number of floors in the building */
-    public static final int FLOORS = 14;
+    public static final int FLOORS;
 
     /* Represents the ground floor location */
     public static final int LOWEST_FLOOR = 1;
@@ -11,4 +11,7 @@ public class Building {
     /* Represents the mailroom location */
     public static final int MAILROOM_LOCATION = 1;
 
+     static {
+         FLOORS = PropertyManager.getInstance().getNumberOfFloors();
+     }
 }

@@ -50,8 +50,8 @@ public class PropertyManager {
         return Integer.parseInt(automailProperties.getProperty("Number_of_Floors"));
     }
 
-    public float getDeliveryPenalty() {
-        return Float.parseFloat(automailProperties.getProperty("Delivery_Penalty"));
+    public double getDeliveryPenalty() {
+        return Double.parseDouble(automailProperties.getProperty("Delivery_Penalty"));
     }
 
     public int getLastDeliveryTime() {

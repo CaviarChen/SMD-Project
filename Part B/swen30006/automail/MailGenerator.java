@@ -14,9 +14,6 @@ public class MailGenerator {
     public final int mailCount;
 
 
-    // The threshold for the latest time for mail to arrive
-    private static final int LAST_DELIVERY_TIME = 300;
-
     // constants for random mail generation
     private static final double MAIL_COUNT_VARIATION = 0.2;
     private static final double WEIGHT_MEAN = 200.0;
@@ -119,7 +116,7 @@ public class MailGenerator {
      * @return a random arrival time before the last delivery time
      */
     private int generateArrivalTime() {
-        return 1 + random.nextInt(LAST_DELIVERY_TIME);
+        return 1 + random.nextInt(PropertyManager.getInstance().getLastDeliveryTime());
     }
 
     /**
