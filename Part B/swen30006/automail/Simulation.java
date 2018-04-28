@@ -26,6 +26,10 @@ public class Simulation {
 
         deliveredCount = 0;
 
+        // Override seed with command line option
+        if (args.length > 1 && args[1].matches("-?\\d+")) {
+            PropertyManager.getInstance().setSeed(args[1]);
+        }
 
         Automail automail = new Automail(new ReportDelivery());
         MailGenerator generator = new MailGenerator(MAIL_TO_CREATE);
