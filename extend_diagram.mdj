@@ -6105,7 +6105,7 @@
 											"width": 344.3603515625,
 											"height": 13,
 											"autoResize": false,
-											"underline": false,
+											"underline": true,
 											"text": "+main(args: String[]): void",
 											"horizontalAlignment": 0,
 											"verticalAlignment": 5,
@@ -17712,7 +17712,7 @@
 							},
 							"name": "main",
 							"visibility": "public",
-							"isStatic": false,
+							"isStatic": true,
 							"isLeaf": false,
 							"parameters": [
 								{
@@ -19075,6 +19075,7 @@
 							"visibility": "public",
 							"isStatic": false,
 							"isLeaf": false,
+							"type": "",
 							"isReadOnly": false,
 							"isOrdered": false,
 							"isUnique": false,
