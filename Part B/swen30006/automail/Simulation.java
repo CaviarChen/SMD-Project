@@ -6,6 +6,7 @@ import exceptions.MailAlreadyDeliveredException;
 import strategies.Automail;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * This class simulates the behaviour of AutoMail
@@ -25,14 +26,25 @@ public class Simulation {
 
 
         Automail automail = new Automail(new ReportDelivery());
-        MailGenerator generator = new MailGenerator(MAIL_TO_CREATE);
+        HashMap<Integer, ArrayList<MailItem>> mails = MailGenerator.generateMails(MAIL_TO_CREATE);
+
+        int mailCreated = 0;
+        for (ArrayList<MailItem> moment: mails.values())
+            mailCreated += moment.size();p
 
         /* Initiate all the mail */
-        generator.generateAllMail();
         PriorityMailItem priority;
-        while (MAIL_DELIVERED.size() != generator.mailToCreate) {
+        while (MAIL_DELIVERED.size() != mailCreated) {
             // System.out.println("-- Step: "+Clock.Time());
-            priority = generator.step(automail.mailPool);
+            priority = null;
+            // Check if there are any mail to create
+            if (mails.containsKey(Clock.Time())) {
+                for (MailItem mailItem : mails.get(Clock.Time())) {
+                    if (mailItem instanceof PriorityMailItem) priority = ((PriorityMailItem) mailItem);
+                    System.out.printf("T: %3d > new addToPool [%s]%n", Clock.Time(), mailItem.toString());
+                    automail.mailPool.addToPool(mailItem);
+                }
+            }
             if (priority != null) {
                 automail.priorityArrival(priority.getPriorityLevel(), priority.getWeight());
             }
