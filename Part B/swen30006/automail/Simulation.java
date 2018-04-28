@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 public class Simulation {
 
-    /* Constant for the mail generator */
+    // Constant for the mail generator
     private static final int MAIL_TO_CREATE = 180;
 
     // Penalty for longer delivery times
@@ -20,7 +20,8 @@ public class Simulation {
 
 
     private static int deliveredCount;
-    private static double total_score = 0;
+    private static double totalScore = 0;
+
 
     public static void main(String[] args) {
 
@@ -31,14 +32,18 @@ public class Simulation {
             PropertyManager.getInstance().setSeed(args[1]);
         }
 
+        // create automail and mail generator
         Automail automail = new Automail(new ReportDelivery());
         MailGenerator generator = new MailGenerator(MAIL_TO_CREATE);
 
+        // start simulation
         while (deliveredCount != generator.mailCount) {
 
+            // get mails that should be add to mailpool
             ArrayList<MailItem> mailItems = generator.getMailsAt(Clock.Time());
 
             if (mailItems != null) {
+                // add mails to mailpool
                 for(MailItem mailItem: mailItems) {
                     if (mailItem instanceof PriorityMailItem) {
                         automail.priorityArrival(((PriorityMailItem)mailItem).getPriorityLevel(), mailItem.getWeight());
@@ -59,9 +64,15 @@ public class Simulation {
             }
             Clock.Tick();
         }
+
         printResults();
     }
 
+    /**
+     * calculate socore for a mail item
+     * @param deliveryItem mail item
+     * @return score
+     */
     private static double calculateDeliveryScore(MailItem deliveryItem) {
 
         double priority_weight = 0;
@@ -72,25 +83,34 @@ public class Simulation {
         return Math.pow(Clock.Time() - deliveryItem.getArrivalTime(), TIME_PENALTY) * (1 + Math.sqrt(priority_weight));
     }
 
+    /**
+     * print final results
+     */
     public static void printResults() {
         System.out.println("T: " + Clock.Time() + " | Simulation complete!");
         System.out.println("Final Delivery time: " + Clock.Time());
-        System.out.printf("Final Score: %.2f%n", total_score);
+        System.out.printf("Final Score: %.2f%n", totalScore);
     }
+
 
     static class ReportDelivery implements IMailDelivery {
 
-        /* Confirm the delivery and calculate the total score */
+        /**
+         * Confirm the delivery and calculate the total score
+         * @param deliveryItem mail item
+         */
         public void deliver(MailItem deliveryItem) {
 
             if (!deliveryItem.isDelivered()) {
+                // item is delivered successfully
                 System.out.printf("T: %3d > Delivered     [%s]%n", Clock.Time(), deliveryItem.toString());
 
                 deliveryItem.markAsDelivered();
                 deliveredCount += 1;
                 // Calculate delivery score
-                total_score += calculateDeliveryScore(deliveryItem);
+                totalScore += calculateDeliveryScore(deliveryItem);
             } else {
+                // item already be delivered
                 try {
                     throw new MailAlreadyDeliveredException();
                 } catch (MailAlreadyDeliveredException e) {

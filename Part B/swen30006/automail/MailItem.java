@@ -8,46 +8,41 @@ import java.util.TreeMap;
  */
 public class MailItem {
 
+    // for hashcode
     static int count = 0;
     static Map<Integer, Integer> hashMap = new TreeMap<Integer, Integer>();
 
-    /* Represents the destination floor to which the mail is intended to go */
-    protected final int destination_floor;
-    /* The mail identifier */
+
+    // Represents the destination floor to which the mail is intended to go
+    protected final int destinationFloor;
+    // The mail identifier
     protected final String id;
-    /* The time the mail item arrived */
-    protected final int arrival_time;
-    /* The weight in grams of the mail item */
+    // The time the mail item arrived
+    protected final int arrivalTime;
+    // The weight in grams of the mail item
     protected final int weight;
-
+    // true when this item is delivered
     private boolean isDelivered;
-
-    public boolean isDelivered() {
-        return isDelivered;
-    }
-
-    public void markAsDelivered() {
-        isDelivered = true;
-    }
 
     /**
      * Constructor for a MailItem
      *
-     * @param dest_floor   the destination floor intended for this mail item
-     * @param arrival_time the time that the mail arrived
+     * @param destFloor   the destination floor intended for this mail item
+     * @param arrivalTime the time that the mail arrived
      * @param weight       the weight of this mail item
      */
-    public MailItem(int dest_floor, int arrival_time, int weight) {
-        this.destination_floor = dest_floor;
+    public MailItem(int destFloor, int arrivalTime, int weight) {
+        this.destinationFloor = destFloor;
         this.id = String.valueOf(hashCode());
-        this.arrival_time = arrival_time;
+        this.arrivalTime = arrivalTime;
         this.weight = weight;
         this.isDelivered = false;
     }
 
     @Override
     public String toString() {
-        return String.format("Mail Item:: ID: %11s | Arrival: %4d | Destination: %2d | Weight: %4d", id, arrival_time, destination_floor, weight);
+        return String.format("Mail Item:: ID: %11s | Arrival: %4d | Destination: %2d | Weight: %4d", id,
+                                                                        arrivalTime, destinationFloor, weight);
     }
 
     @Override
@@ -62,7 +57,7 @@ public class MailItem {
      * @return the destination floor of the mail item
      */
     public int getDestFloor() {
-        return destination_floor;
+        return destinationFloor;
     }
 
     /**
@@ -76,7 +71,7 @@ public class MailItem {
      * @return the arrival time of the mail item
      */
     public int getArrivalTime() {
-        return arrival_time;
+        return arrivalTime;
     }
 
     /**
@@ -84,5 +79,19 @@ public class MailItem {
      */
     public int getWeight() {
         return weight;
+    }
+
+    /**
+     * @return if the item is delivered
+     */
+    public boolean isDelivered() {
+        return isDelivered;
+    }
+
+    /**
+     * mark this item as delivered
+     */
+    public void markAsDelivered() {
+        isDelivered = true;
     }
 }
