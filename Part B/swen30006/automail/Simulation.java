@@ -19,19 +19,18 @@ public class Simulation {
     private static final double TIME_PENALTY = 1.1;
 
 
-    private static ArrayList<MailItem> mailDelivered;
+    private static int deliveredCount;
     private static double total_score = 0;
 
     public static void main(String[] args) {
 
-        mailDelivered = new ArrayList<>();
+        deliveredCount = 0;
 
 
         Automail automail = new Automail(new ReportDelivery());
         MailGenerator generator = new MailGenerator(MAIL_TO_CREATE);
 
-        while (mailDelivered.size() != generator.mailCount) {
-
+        while (deliveredCount != generator.mailCount) {
 
             ArrayList<MailItem> mailItems = generator.getMailsAt(Clock.Time());
 
@@ -79,9 +78,12 @@ public class Simulation {
 
         /* Confirm the delivery and calculate the total score */
         public void deliver(MailItem deliveryItem) {
-            if (!mailDelivered.contains(deliveryItem)) {
+
+            if (!deliveryItem.isDelivered()) {
                 System.out.printf("T: %3d > Delivered     [%s]%n", Clock.Time(), deliveryItem.toString());
-                mailDelivered.add(deliveryItem);
+
+                deliveryItem.markAsDelivered();
+                deliveredCount += 1;
                 // Calculate delivery score
                 total_score += calculateDeliveryScore(deliveryItem);
             } else {

@@ -20,6 +20,16 @@ public class MailItem {
     /* The weight in grams of the mail item */
     protected final int weight;
 
+    private boolean isDelivered;
+
+    public boolean isDelivered() {
+        return isDelivered;
+    }
+
+    public void markAsDelivered() {
+        isDelivered = true;
+    }
+
     /**
      * Constructor for a MailItem
      *
@@ -32,6 +42,7 @@ public class MailItem {
         this.id = String.valueOf(hashCode());
         this.arrival_time = arrival_time;
         this.weight = weight;
+        this.isDelivered = false;
     }
 
     @Override
