@@ -44,6 +44,8 @@ public class PropertyManager {
         return Integer.parseInt(automailProperties.getProperty("Seed"));
     }
 
+    public void setSeed(String seed) { automailProperties.setProperty("Seed", seed); }
+
     public int getNumberOfFloors() {
         return Integer.parseInt(automailProperties.getProperty("Number_of_Floors"));
     }

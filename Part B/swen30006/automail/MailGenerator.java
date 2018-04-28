@@ -1,7 +1,5 @@
 package automail;
 
-import strategies.IMailPool;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -12,11 +10,14 @@ import java.util.Random;
  */
 public class MailGenerator {
 
+    // total number of mails
+    public final int mailCount;
 
 
-    /* The threshold for the latest time for mail to arrive */
+    // The threshold for the latest time for mail to arrive
     private static final int LAST_DELIVERY_TIME = 300;
 
+    // constants for random mail generation
     private static final double MAIL_COUNT_VARIATION = 0.2;
     private static final double WEIGHT_MEAN = 200.0;
     private static final double WEIGHT_STD = 700.0;
@@ -29,12 +30,11 @@ public class MailGenerator {
 
     private static final int MAX_ITEM_WEIGHT = 5000;
 
-    public final int mailCount;
-
     private final Random random;
 
-
+    // store all MailItems based on time
     private HashMap<Integer, ArrayList<MailItem>> allMail;
+
 
     /**
      * Constructor for mail generation
@@ -43,13 +43,14 @@ public class MailGenerator {
      */
     public MailGenerator(int mailToCreate) {
 
-        // handle in PropertyManager? is default random?
+
         if (PropertyManager.getInstance().hasSeed()) {
             this.random = new Random((long) PropertyManager.getInstance().getSeed());
         } else {
             this.random = new Random();
         }
 
+        // calculate the actual number of mail to create
         // Vary arriving mail by +/-20% (ARRIVING_MAIL_VARIATION = 0.2)
         this.mailCount = (int) (mailToCreate * (1 - MAIL_COUNT_VARIATION)) +
                          random.nextInt((int)(mailToCreate * MAIL_COUNT_VARIATION * 2));
@@ -61,7 +62,19 @@ public class MailGenerator {
     }
 
     /**
-     * @return a new mail item that needs to be delivered
+     * @param time a given time
+     * @return mails that should be add to the mailpool at a given time
+     */
+    public ArrayList<MailItem> getMailsAt(int time) {
+        if (this.allMail.containsKey(time)) {
+            return allMail.get(time);
+        }
+        return null;
+    }
+
+
+    /**
+     * @return  a new mail item that needs to be delivered
      */
     private MailItem generateMail() {
         int dest_floor = generateDestinationFloor();
@@ -132,13 +145,6 @@ public class MailGenerator {
             allMail.get(timeToDeliver).add(newMail);
         }
 
-    }
-
-    public ArrayList<MailItem> getMailsAt(int time) {
-        if (this.allMail.containsKey(time)) {
-            return allMail.get(time);
-        }
-        return null;
     }
 
 }

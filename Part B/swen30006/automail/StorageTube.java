@@ -20,6 +20,7 @@ public class StorageTube {
 
     /**
      * Constructor for the storage tube
+     * @param type the type of robot that having this tube
      */
     public StorageTube(Robot.RobotType type) {
         this.tube = new Stack<>();
@@ -62,7 +63,9 @@ public class StorageTube {
         }
     }
 
-    /* @return the size of the tube */
+    /**
+     *  @return the size of the tube
+     */
     public int getSize() {
         return tube.size();
     }
