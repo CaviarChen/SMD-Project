@@ -1,7 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="32c5063e-9bcb-4335-a2d8-ccc8dd2dfd71" name="Default" comment="" />
+    <list default="true" id="32c5063e-9bcb-4335-a2d8-ccc8dd2dfd71" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swen30006/automail/Building.java" beforeDir="false" afterPath="$PROJECT_DIR$/swen30006/automail/Building.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swen30006/automail/Clock.java" beforeDir="false" afterPath="$PROJECT_DIR$/swen30006/automail/Clock.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swen30006/automail/IMailDelivery.java" beforeDir="false" afterPath="$PROJECT_DIR$/swen30006/automail/IMailDelivery.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swen30006/automail/MailGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/swen30006/automail/MailGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swen30006/automail/MailItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/swen30006/automail/MailItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swen30006/automail/PriorityMailItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/swen30006/automail/PriorityMailItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swen30006/automail/PropertyManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/swen30006/automail/PropertyManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swen30006/automail/Robot.java" beforeDir="false" afterPath="$PROJECT_DIR$/swen30006/automail/Robot.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swen30006/automail/Simulation.java" beforeDir="false" afterPath="$PROJECT_DIR$/swen30006/automail/Simulation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swen30006/automail/StorageTube.java" beforeDir="false" afterPath="$PROJECT_DIR$/swen30006/automail/StorageTube.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swen30006/exceptions/ExcessiveDeliveryException.java" beforeDir="false" afterPath="$PROJECT_DIR$/swen30006/exceptions/ExcessiveDeliveryException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swen30006/exceptions/ItemTooHeavyException.java" beforeDir="false" afterPath="$PROJECT_DIR$/swen30006/exceptions/ItemTooHeavyException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swen30006/exceptions/MailAlreadyDeliveredException.java" beforeDir="false" afterPath="$PROJECT_DIR$/swen30006/exceptions/MailAlreadyDeliveredException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swen30006/exceptions/TubeFullException.java" beforeDir="false" afterPath="$PROJECT_DIR$/swen30006/exceptions/TubeFullException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swen30006/strategies/Automail.java" beforeDir="false" afterPath="$PROJECT_DIR$/swen30006/strategies/Automail.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swen30006/strategies/IMailPool.java" beforeDir="false" afterPath="$PROJECT_DIR$/swen30006/strategies/IMailPool.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swen30006/strategies/IRobotBehaviour.java" beforeDir="false" afterPath="$PROJECT_DIR$/swen30006/strategies/IRobotBehaviour.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swen30006/strategies/StandardMailPool.java" beforeDir="false" afterPath="$PROJECT_DIR$/swen30006/strategies/StandardMailPool.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swen30006/strategies/StandardRobotBehaviour.java" beforeDir="false" afterPath="$PROJECT_DIR$/swen30006/strategies/StandardRobotBehaviour.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../class_diagram.png" beforeDir="false" afterPath="$PROJECT_DIR$/../class_diagram.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../report.docx" beforeDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -11,21 +34,191 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="Automail.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/swen30006/strategies/Automail.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="11" selection-start-column="11" selection-end-column="11" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="IMailPool.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/swen30006/strategies/IMailPool.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="11" selection-start-column="11" selection-end-column="11" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="IRobotBehaviour.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/swen30006/strategies/IRobotBehaviour.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="11" selection-start-column="11" selection-end-column="11" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="StandardMailPool.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/swen30006/strategies/StandardMailPool.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="11" selection-start-column="11" selection-end-column="11" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="StandardRobotBehaviour.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/swen30006/strategies/StandardRobotBehaviour.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="208">
+              <caret line="16" column="7" lean-forward="true" selection-start-line="16" selection-start-column="7" selection-end-line="16" selection-end-column="7" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="automail.Properties" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/automail.Properties">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="256">
+              <caret line="16" column="19" lean-forward="true" selection-start-line="16" selection-start-column="19" selection-end-line="16" selection-end-column="19" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Simulation.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/swen30006/automail/Simulation.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="11" selection-start-column="11" selection-end-column="11" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ItemTooHeavyException.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/swen30006/exceptions/ItemTooHeavyException.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="11" selection-start-column="11" selection-end-column="11" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MailAlreadyDeliveredException.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/swen30006/exceptions/MailAlreadyDeliveredException.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="11" selection-start-column="11" selection-end-column="11" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TubeFullException.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/swen30006/exceptions/TubeFullException.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="11" selection-start-column="11" selection-end-column="11" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="x" value="195" />
-    <option name="y" value="91" />
-    <option name="width" value="1379" />
-    <option name="height" value="924" />
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>property</find>
+      <find>step</find>
+      <find>getDestFloor</find>
+      <find>mailpool</find>
+      <find>\/\*\* If the robot is not at the mailroom floor yet\, then move towards it\! \*\/\n</find>
+      <find>/\*\*(.*?)\*/</find>
+      <find>/\*\*(.*?)\**\*/</find>
+      <find>deliveryItem</find>
+      <find>prop</find>
+      <find>last</find>
+      <find>mailCreated</find>
+      <find>getRandom</find>
+      <find>RobotType</find>
+      <find>mailPool</find>
+      <find>current_state</find>
+      <find>count</find>
+      <find>propertymanager</find>
+      <find>max_item</find>
+    </findStrings>
+    <replaceStrings>
+      <replace>/*\1*/</replace>
+      <replace>/*$1*/</replace>
+    </replaceStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/swen30006/strategies/MyRobotBehaviour.java" />
+        <option value="$PROJECT_DIR$/swen30006/strategies/WeakStrongMailPool.java" />
+        <option value="$PROJECT_DIR$/swen30006/automail/Building.java" />
+        <option value="$PROJECT_DIR$/swen30006/automail/Clock.java" />
+        <option value="$PROJECT_DIR$/swen30006/automail/IMailDelivery.java" />
+        <option value="$PROJECT_DIR$/swen30006/automail/MailGenerator.java" />
+        <option value="$PROJECT_DIR$/swen30006/automail/MailItem.java" />
+        <option value="$PROJECT_DIR$/swen30006/automail/PriorityMailItem.java" />
+        <option value="$PROJECT_DIR$/swen30006/automail/PropertyManager.java" />
+        <option value="$PROJECT_DIR$/swen30006/automail/Robot.java" />
+        <option value="$PROJECT_DIR$/swen30006/automail/Simulation.java" />
+        <option value="$PROJECT_DIR$/swen30006/automail/StorageTube.java" />
+        <option value="$PROJECT_DIR$/swen30006/exceptions/ExcessiveDeliveryException.java" />
+        <option value="$PROJECT_DIR$/swen30006/exceptions/ItemTooHeavyException.java" />
+        <option value="$PROJECT_DIR$/swen30006/exceptions/MailAlreadyDeliveredException.java" />
+        <option value="$PROJECT_DIR$/swen30006/exceptions/TubeFullException.java" />
+        <option value="$PROJECT_DIR$/swen30006/strategies/Automail.java" />
+        <option value="$PROJECT_DIR$/swen30006/strategies/IMailPool.java" />
+        <option value="$PROJECT_DIR$/swen30006/strategies/IRobotBehaviour.java" />
+        <option value="$PROJECT_DIR$/swen30006/strategies/StandardMailPool.java" />
+        <option value="$PROJECT_DIR$/swen30006/strategies/StandardRobotBehaviour.java" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="MavenProjectNavigator">
+    <treeState>
+      <expand />
+      <select />
+    </treeState>
+  </component>
+  <component name="NodePackageJsonFileManager">
+    <packageJsonPaths />
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="y" value="21" />
+    <option name="width" value="1144" />
+    <option name="height" value="779" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="AndroidView" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -33,17 +226,46 @@
               <item name="Part B" type="b2602c69:ProjectViewProjectNode" />
               <item name="Part B" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="Part B" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Part B" type="462c0819:PsiDirectoryNode" />
+              <item name="swen30006" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Part B" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Part B" type="462c0819:PsiDirectoryNode" />
+              <item name="swen30006" type="462c0819:PsiDirectoryNode" />
+              <item name="automail" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Part B" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Part B" type="462c0819:PsiDirectoryNode" />
+              <item name="swen30006" type="462c0819:PsiDirectoryNode" />
+              <item name="exceptions" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Part B" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Part B" type="462c0819:PsiDirectoryNode" />
+              <item name="swen30006" type="462c0819:PsiDirectoryNode" />
+              <item name="strategies" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="SearchEverywhereHistoryKey" value="Property&#9;FILE&#9;file:///Users/blueset/Codebase/SMD-Project/Part B/swen30006/automail/PropertyManager.java&#10;automa&#9;FILE&#9;file:///Users/blueset/Codebase/SMD-Project/Part B/swen30006/strategies/Automail.java&#10;simulation&#9;FILE&#9;file:///Users/blueset/Codebase/SMD-Project/Part B/swen30006/automail/Simulation.java&#10;clock&#9;FILE&#9;file:///Users/blueset/Codebase/SMD-Project/Part B/swen30006/automail/Clock.java&#10;report&#9;PSI&#9;JAVA://automail.Simulation.ReportDelivery" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -115,48 +337,378 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1523772965355</updated>
+      <workItem from="1523774077043" duration="3837000" />
+      <workItem from="1524100651998" duration="2808000" />
+      <workItem from="1524221811228" duration="7208000" />
+      <workItem from="1524627595714" duration="2520000" />
+      <workItem from="1524886947260" duration="3442000" />
     </task>
     <servers />
   </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="19815000" />
+  </component>
   <component name="ToolWindowManager">
-    <frame x="195" y="91" width="1379" height="924" extended-state="0" />
+    <frame x="-7" y="-7" width="1996" height="1166" extended-state="6" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="right" id="Palette&#9;" order="3" />
+      <window_info anchor="bottom" id="Messages" order="11" weight="0.32923076" />
+      <window_info anchor="right" id="Palette&#9;" order="8" />
       <window_info id="Image Layers" order="2" />
-      <window_info anchor="right" id="Capture Analysis" order="3" />
-      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
-      <window_info anchor="right" id="Maven Projects" order="3" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32941177" />
-      <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
+      <window_info anchor="right" id="Capture Analysis" order="4" />
+      <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" weight="0.329972" />
+      <window_info anchor="right" id="Maven Projects" order="6" weight="0.32967034" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.263308" />
+      <window_info anchor="bottom" id="Version Control" order="9" />
       <window_info anchor="bottom" id="Terminal" order="7" />
-      <window_info id="Capture Tool" order="2" />
-      <window_info id="Designer" order="2" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20304568" />
+      <window_info id="Capture Tool" order="6" />
+      <window_info id="Designer" order="3" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2729566" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info id="UI Designer" order="2" />
-      <window_info anchor="right" id="Theme Preview" order="3" />
+      <window_info id="UI Designer" order="4" />
+      <window_info anchor="right" id="Theme Preview" order="5" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info id="Favorites" order="5" side_tool="true" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="right" id="Database" order="7" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Messages" order="7" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="Database Changes" order="10" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32896176" />
     </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <option name="time" value="1" />
+    </breakpoint-manager>
+  </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/swen30006/automail/PropertyManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="352">
+          <caret line="24" column="65" selection-start-line="24" selection-start-column="65" selection-end-line="24" selection-end-column="65" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/swen30006/automail/StorageTube.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-405">
+          <caret line="26" column="46" selection-start-line="26" selection-start-column="46" selection-end-line="26" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/swen30006/strategies/IRobotBehaviour.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="34" column="16" selection-start-line="34" selection-start-column="16" selection-end-line="34" selection-end-column="16" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/automail.Properties">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
+        <state relative-caret-position="374">
           <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/swen30006/automail/PropertyManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-288">
+          <caret line="32" column="40" selection-start-line="32" selection-start-column="40" selection-end-line="32" selection-end-column="40" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/swen30006/automail/Robot.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="256">
+          <caret line="50" column="33" lean-forward="true" selection-start-line="50" selection-start-column="33" selection-end-line="50" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/swen30006/automail/Simulation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-902">
+          <caret line="28" column="46" selection-start-line="28" selection-start-column="46" selection-end-line="28" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/swen30006/strategies/Automail.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="398">
+          <caret line="28" column="27" selection-start-line="28" selection-start-column="27" selection-end-line="28" selection-end-column="27" />
+          <caret line="30" column="27" selection-start-line="30" selection-start-column="27" selection-end-line="30" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/swen30006/automail/MailGenerator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2068">
+          <caret line="32" column="69" lean-forward="true" selection-start-line="32" selection-start-column="69" selection-end-line="32" selection-end-column="69" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/swen30006/strategies/StandardRobotBehaviour.java" />
+    <entry file="file://$PROJECT_DIR$/swen30006/exceptions/ExcessiveDeliveryException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="110">
+          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/swen30006/exceptions/ItemTooHeavyException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="110">
+          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/swen30006/exceptions/MailAlreadyDeliveredException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="110">
+          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/swen30006/exceptions/TubeFullException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="132">
+          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/swen30006/automail/Robot.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/swen30006/strategies/StandardRobotBehaviour.java" />
+    <entry file="file://$PROJECT_DIR$/swen30006/strategies/IRobotBehaviour.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="88">
+          <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/swen30006/strategies/IMailPool.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="550">
+          <caret line="26" lean-forward="true" selection-start-line="26" selection-end-line="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/swen30006/strategies/StandardMailPool.java" />
+    <entry file="file://$PROJECT_DIR$/swen30006/strategies/Automail.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="572">
+          <caret line="23" column="69" lean-forward="true" selection-start-line="23" selection-start-column="69" selection-end-line="23" selection-end-column="69" />
+          <caret line="27" column="72" selection-start-line="27" selection-start-column="72" selection-end-line="27" selection-end-column="72" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/swen30006/automail/Building.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="44">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/swen30006/automail/Clock.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="8" column="39" lean-forward="true" selection-start-line="8" selection-start-column="39" selection-end-line="8" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/swen30006/automail/Simulation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1628">
+          <caret line="83" column="17" selection-start-line="83" selection-start-column="17" selection-end-line="83" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/swen30006/automail/Robot.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2816">
+          <caret line="131" column="23" selection-start-line="131" selection-start-column="23" selection-end-line="131" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/swen30006/automail/MailGenerator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1936">
+          <caret line="95" column="58" selection-start-line="95" selection-start-column="40" selection-end-line="95" selection-end-column="58" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="uml://JAVA/" />
+    <entry file="uml://JAVA/automail" />
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/src.zip!/java/util/Stack.java" />
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/src.zip!/java/lang/Enum.java" />
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/src.zip!/java/util/Random.java" />
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_152.jdk/Contents/Home/src.zip!/java/lang/Object.java" />
+    <entry file="file://$PROJECT_DIR$/swen30006/automail/Building.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/swen30006/automail/Clock.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="11" selection-start-column="11" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/swen30006/automail/IMailDelivery.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="11" selection-start-column="11" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/swen30006/automail/MailGenerator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/swen30006/automail/MailItem.java">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/swen30006/automail/PriorityMailItem.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="11" selection-start-column="11" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/swen30006/automail/PropertyManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="11" selection-start-column="11" selection-end-column="11" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/swen30006/automail/Robot.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="11" selection-start-column="11" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/swen30006/automail/StorageTube.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="11" selection-start-column="11" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/swen30006/exceptions/ExcessiveDeliveryException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="11" selection-start-column="11" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/swen30006/exceptions/ItemTooHeavyException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="11" selection-start-column="11" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/swen30006/exceptions/MailAlreadyDeliveredException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="11" selection-start-column="11" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/swen30006/exceptions/TubeFullException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="11" selection-start-column="11" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/swen30006/automail/Simulation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="11" selection-start-column="11" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/swen30006/strategies/Automail.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="11" selection-start-column="11" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/swen30006/strategies/IMailPool.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="11" selection-start-column="11" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/swen30006/strategies/IRobotBehaviour.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="11" selection-start-column="11" selection-end-column="11" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/swen30006/strategies/StandardMailPool.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="11" selection-start-column="11" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/swen30006/strategies/StandardRobotBehaviour.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="208">
+          <caret line="16" column="7" lean-forward="true" selection-start-line="16" selection-start-column="7" selection-end-line="16" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/automail.Properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="256">
+          <caret line="16" column="19" lean-forward="true" selection-start-line="16" selection-start-column="19" selection-end-line="16" selection-end-column="19" />
         </state>
       </provider>
     </entry>
@@ -200,7 +752,7 @@
       </state>
       <state key="JdkListConfigurable.UI">
         <settings>
-          <last-edited>1.8</last-edited>
+          <last-edited>9.0</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -217,7 +769,6 @@
             <option name="proportions">
               <list>
                 <option value="0.2" />
-                <option value="0.6" />
               </list>
             </option>
           </splitter-proportions>
