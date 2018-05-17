@@ -1,3 +1,5 @@
+# ignore partC log file
+Part C/assets/log/*
 
 # Created by https://www.gitignore.io/api/macos,eclipse,windows,intellij
 
