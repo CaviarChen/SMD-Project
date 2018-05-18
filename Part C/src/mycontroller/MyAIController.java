@@ -30,6 +30,8 @@ public class MyAIController extends CarController{
 	        target_coordinates.add(new Coordinate(s));
         }
 
+        new MapRecorder(getMap());
+
         System.out.println('a');
 	}
 
