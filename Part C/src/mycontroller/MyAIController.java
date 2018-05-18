@@ -15,8 +15,10 @@ public class MyAIController extends CarController{
     private static final float ACCELERATION = 2f;
     private static final float FRICTION_FORCE = 0.5f;
 
-//    String[] test_pos = new String[]{"3,3", "7,3", "7,11"};
-    String[] test_pos = new String[]{"26,2", "21,12", "2,12", "2,2", "26,2", "21,12", "2,12", "2,2"};
+    String[] test_pos = new String[]{"3,3", "7,3", "7,11"};  // easy-map
+//    String[] test_pos = new String[]{"26,2", "21,12", "2,12", "2,2", "26,2", "21,12", "2,12", "2,2"}; // test-key-map
+//    String[] test_pos = new String[]{"23,3", "23,17"}; // narrow-road
+
 
     ArrayList<Coordinate> target_coordinates = new ArrayList<>();
 
@@ -44,7 +46,10 @@ public class MyAIController extends CarController{
             int currentX = Math.round(getX());
             int currentY = Math.round(getY());
 
-            if (target_coordinates.get(0).x==currentX && target_coordinates.get(0).y==currentY) {
+            float targetX = target_coordinates.get(0).x;
+            float targetY = target_coordinates.get(0).y;
+
+            if (Math.abs(targetX - getX())<=0.1 && Math.abs(targetY - getY())<=0.1) {
                 target_coordinates.remove(0);
                 return;
             }
@@ -66,7 +71,7 @@ public class MyAIController extends CarController{
                 }
             }
 
-            float endingSpeed = 0.5f;
+            float endingSpeed = 0.6f;
 
             System.out.print("dist: ");
             System.out.println(dist);
@@ -77,7 +82,7 @@ public class MyAIController extends CarController{
                 allowedSpeed = computeAllowedVelocity(dist, endingSpeed);
             } else {
                 // big turn
-                allowedSpeed = 0.4f;
+                allowedSpeed = 0.6f;
             }
 
 
