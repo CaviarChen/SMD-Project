@@ -46,8 +46,8 @@ public class Simulation extends ApplicationAdapter implements InputProcessor {
 	private BitmapFont font;
 
 	// TODO: Debug code for flags 1/2
-	private static int flagX = 10, flagY = 10;
-	private static String flagText = "X";
+	public static int flagX = 10, flagY = 10;
+	public static String flagText = "X";
 	
 	private static float TIME_STEP = 1/45f;
 	
