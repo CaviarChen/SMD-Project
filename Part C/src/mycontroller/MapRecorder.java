@@ -1,5 +1,6 @@
 package mycontroller;
 
+import tiles.LavaTrap;
 import tiles.MapTile;
 import utilities.Coordinate;
 
@@ -85,7 +86,9 @@ public class MapRecorder {
     }
 
 
-    public void addCarView(int x, int y, HashMap<Coordinate,MapTile> view) {
+    public boolean addCarView(int x, int y, HashMap<Coordinate,MapTile> view) {
+
+        boolean lavaFound = false;
 
         for (Map.Entry<Coordinate, MapTile> entry: view.entrySet()) {
             int tileX = entry.getKey().x;
@@ -95,10 +98,13 @@ public class MapRecorder {
                 if (mapStatus[tileX][tileY] == TileStatus.UNSEARCHED) {
                     mapStatus[tileX][tileY] = TileStatus.SEARCHED;
                     mapTiles[tileX][tileY] = entry.getValue();
+                    if (mapTiles[tileX][tileY] instanceof LavaTrap) lavaFound = true;
                 }
             }
         }
         print();
+
+        return lavaFound;
     }
 
     private void findReachableDFS(int x, int y) {

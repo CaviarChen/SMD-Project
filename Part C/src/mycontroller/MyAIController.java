@@ -22,6 +22,10 @@ public class MyAIController extends CarController{
     /** Angle threshold to detect U-turns */
     private static final float U_TURN_THRESHOLD = 120.0f;
 
+
+    private int lastX = -1;
+    private int lastY = -1;
+
 //    String[] test_pos = new String[]{"3,3", "7,3", "7,11"};  // easy-map
 //    String[] test_pos = new String[]{"26,2", "21,12", "2,12", "2,2", "26,2", "21,12", "2,12", "2,2"}; // test-key-map
 //    String[] test_pos = new String[]{"23,3", "23,17"}; // narrow-road
@@ -63,6 +67,9 @@ public class MyAIController extends CarController{
                 Math.round(getX()), Math.round(getY()),
                 firstPt.x, firstPt.y
         ).start();
+
+        targetPositions.clear();
+
         for (Node n: path) {
             targetPositions.add(avoidWall(n.coord.x, n.coord.y));
         }
@@ -124,7 +131,16 @@ public class MyAIController extends CarController{
 	@Override
 	public void update(float delta) {
 
-        mapRecorder.addCarView(Math.round(getX()), Math.round(getY()), getView());
+        int currentX = Math.round(getX());
+        int currentY = Math.round(getY());
+
+        if (currentX!=lastX || currentY!=lastY) {
+            boolean lavaFound = mapRecorder.addCarView(Math.round(getX()), Math.round(getY()), getView());
+            if (lavaFound) {
+                loadNextExplorePoint();
+            }
+        }
+
 
         System.out.print("X: ");
         System.out.println(getX());
@@ -132,10 +148,6 @@ public class MyAIController extends CarController{
         System.out.println(getY());
 
         if (!targetPositions.isEmpty() || loadNextExplorePoint()) {
-
-
-            int currentX = Math.round(getX());
-            int currentY = Math.round(getY());
 
             int targetX = Math.round(targetPositions.get(0).x);
             int targetY = Math.round(targetPositions.get(0).y);
