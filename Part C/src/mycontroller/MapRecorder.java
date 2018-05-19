@@ -1,6 +1,5 @@
 package mycontroller;
 
-import org.lwjgl.Sys;
 import tiles.MapTile;
 import utilities.Coordinate;
 
@@ -52,25 +51,8 @@ public class MapRecorder {
 
         print();
 
-        ArrayList<Coordinate> coordToExplore = coordinatesToExplore();
-        char[][] explorePts = new char[width][height];
-        for (int i = 0; i < width; i++)
-            for (int j = 0; i < height; j++)
-                explorePts[i][j] = mapStatus[i][j] == TileStatus.UNREACHABLE ? '#' : ' ';
-        for (Coordinate c: coordToExplore)
-            explorePts[c.x][c.y] = '-';
-
-        System.out.println("------");
-
-        for (int j=height-1; j>=0; j--) {
-            for (int i=0; i<width; i++) {
-                System.out.print(explorePts[i][j]);
-            }
-            System.out.println();
-        }
-
-
-        System.out.println("------");
+        ArrayList<Coordinate> coordsToExplore = coordinatesToExplore();
+        // TODO: use coordsToExplore in somewhere
     }
 
     private void print() {
@@ -148,6 +130,10 @@ public class MapRecorder {
         return !(x<0||x>=width||y<0||y>=height);
     }
 
+    /**
+     * Return a list of coordinates that can uncover all cells when visited
+     * Coordinates are returned in no order.
+     */
     private ArrayList<Coordinate> coordinatesToExplore() {
         HashSet<Coordinate> coordinatesPending = new HashSet<>();
         ArrayList<Coordinate> queue = new ArrayList<>();
@@ -160,14 +146,15 @@ public class MapRecorder {
         }
 
         while (!coordinatesPending.isEmpty()) {
-            Coordinate i = coordinatesToExplore().get(0);
-            for (int x = i.x; x < i.x + 9; x++)
-                for (int y = i.y; y < i.y + 9; y++)
-                    coordinatesPending.remove(new Coordinate(x, y));
+            Coordinate i = coordinatesPending.iterator().next();
             for (int j = 4; j >= 0; j--) {
                 if (i.x + j < width && i.y + j < height &&
                         mapStatus[i.x + j][i.y + j] != TileStatus.UNREACHABLE) {
                     queue.add(new Coordinate(i.x + j, i.y + j));
+                    for (int x = i.x + j - 4; x < i.x + j + 5; x++)
+                        for (int y = i.y + j - 4; y < i.y + j + 5; y++) {
+                            coordinatesPending.remove(new Coordinate(x, y));
+                        }
                     break;
                 }
             }
