@@ -1,12 +1,9 @@
 package mycontroller;
 
-import org.lwjgl.Sys;
 import tiles.MapTile;
 import utilities.Coordinate;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class MapRecorder {
     public enum TileStatus {
@@ -53,6 +50,9 @@ public class MapRecorder {
         }
 
         print();
+
+        ArrayList<Coordinate> coordsToExplore = coordinatesToExplore();
+        // TODO: use coordsToExplore in somewhere
     }
 
     private void print() {
@@ -130,7 +130,38 @@ public class MapRecorder {
         return !(x<0||x>=width||y<0||y>=height);
     }
 
+    /**
+     * Return a list of coordinates that can uncover all cells when visited
+     * Coordinates are returned in no order.
+     */
+    private ArrayList<Coordinate> coordinatesToExplore() {
+        HashSet<Coordinate> coordinatesPending = new HashSet<>();
+        ArrayList<Coordinate> queue = new ArrayList<>();
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                if (mapStatus[i][j] == TileStatus.UNSEARCHED) {
+                    coordinatesPending.add(new Coordinate(i, j));
+                }
+            }
+        }
 
+        while (!coordinatesPending.isEmpty()) {
+            Coordinate i = coordinatesPending.iterator().next();
+            for (int j = 4; j >= 0; j--) {
+                if (i.x + j < width && i.y + j < height &&
+                        mapStatus[i.x + j][i.y + j] != TileStatus.UNREACHABLE) {
+                    queue.add(new Coordinate(i.x + j, i.y + j));
+                    for (int x = i.x + j - 4; x < i.x + j + 5; x++)
+                        for (int y = i.y + j - 4; y < i.y + j + 5; y++) {
+                            coordinatesPending.remove(new Coordinate(x, y));
+                        }
+                    break;
+                }
+            }
+        }
+
+        return queue;
+    }
 
 
 }
