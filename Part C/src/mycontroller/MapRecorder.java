@@ -50,9 +50,6 @@ public class MapRecorder {
         }
 
         print();
-
-        ArrayList<Coordinate> coordsToExplore = coordinatesToExplore();
-        // TODO: use coordsToExplore in somewhere
     }
 
     private void print() {
@@ -161,6 +158,23 @@ public class MapRecorder {
         }
 
         return queue;
+    }
+
+    /**
+     * Get the point for map exploration nearest to the provided location
+     */
+    public Coordinate getNearestExplorationPoint(float x, float y) {
+        ArrayList<Coordinate> list = coordinatesToExplore();
+        Coordinate nearest = null;
+        double distance = Double.POSITIVE_INFINITY;
+        for (Coordinate i: list) {
+            double thisDistance = Math.sqrt((i.x - x) * (i.x - x) + (i.y - y) * (i.y - y));
+            if (thisDistance < distance) {
+                distance = thisDistance;
+                nearest = i;
+            }
+        }
+        return nearest;
     }
 
 
