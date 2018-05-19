@@ -49,26 +49,29 @@ public class MyAIController extends CarController{
 
         // Use the simple random path to navigate the car to explore
         // the map
-        ArrayList<Coordinate> simplePath = mapRecorder.coordinatesToExplore();
-        simplePath.add(0, new Coordinate(Math.round(getX()), Math.round(getY())));
-        for (int i = 0; i < simplePath.size() - 1; i ++) {
-            ArrayList<Node> path = new AStar(mapRecorder,
-                    simplePath.get(i).x, simplePath.get(i).y,
-                    simplePath.get(i + 1).x, simplePath.get(i + 1).y
-            ).start();
-            for (Node n: path) {
-                targetPositions.add(avoidWall(n.coord.x, n.coord.y));
-            }
+        loadNextExplorePoint();
+	}
+
+    /**
+     * Load next explore point.
+     * Return True if a point is found. False otherwise.
+     */
+	private boolean loadNextExplorePoint() {
+        Coordinate firstPt = mapRecorder.getNearestExplorationPoint(getX(), getY());
+        if (firstPt == null) return false;
+        ArrayList<Node> path = new AStar(mapRecorder,
+                Math.round(getX()), Math.round(getY()),
+                firstPt.x, firstPt.y
+        ).start();
+        for (Node n: path) {
+            targetPositions.add(avoidWall(n.coord.x, n.coord.y));
         }
 
         System.out.println(targetPositions.size());
-
-
         removeUselessPos(targetPositions);
-
-
         System.out.println(targetPositions.size());
-	}
+        return true;
+    }
 
 	private boolean floatEquals(float a, float b) {
 	    return Math.abs(a-b) < PRECISION_LEVEL;
@@ -128,7 +131,7 @@ public class MyAIController extends CarController{
         System.out.print("Y: ");
         System.out.println(getY());
 
-        if (targetPositions.size()!=0) {
+        if (!targetPositions.isEmpty() || loadNextExplorePoint()) {
 
 
             int currentX = Math.round(getX());
