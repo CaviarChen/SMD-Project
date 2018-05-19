@@ -159,24 +159,33 @@ public class MyAIController extends CarController{
             if (cmp!=0) {
                 if (Math.abs(cmp) > U_TURN_THRESHOLD) {
                     // Trying to u-turn, turn to the side further to the wall.
-                    double xOffsetL = Math.cos(getAngle() + 90),
-                           yOffsetL = Math.sin(getAngle() + 90),
-                           xOffsetR = Math.cos(getAngle() - 90),
-                           yOffsetR = Math.sin(getAngle() - 90);
+                    int orientationAngle = (int) getAngle();
+                    switch (getOrientation()) {
+                        case EAST: orientationAngle = WorldSpatial.EAST_DEGREE_MIN; break;
+                        case WEST: orientationAngle = WorldSpatial.WEST_DEGREE; break;
+                        case SOUTH: orientationAngle = WorldSpatial.SOUTH_DEGREE; break;
+                        case NORTH: orientationAngle = WorldSpatial.NORTH_DEGREE; break;
+                    }
+                    double xOffsetL = Math.cos(orientationAngle + 90),
+                           yOffsetL = Math.sin(orientationAngle + 90),
+                           xOffsetR = Math.cos(orientationAngle - 90),
+                           yOffsetR = Math.sin(orientationAngle - 90);
 
                     MapRecorder.TileStatus leftTile = mapRecorder.mapStatus
                             [(int) Math.round(getX() + xOffsetL)]
                             [(int) Math.round(getY() + yOffsetL)];
-//                    MapRecorder.TileStatus rightTile = mapRecorder.mapStatus
-//                            [(int) Math.round(getX() + xOffsetR)]
-//                            [(int) Math.round(getY() + yOffsetR)];
+                    MapRecorder.TileStatus rightTile = mapRecorder.mapStatus
+                            [(int) Math.round(getX() + xOffsetR)]
+                            [(int) Math.round(getY() + yOffsetR)];
 
-                    if (leftTile == MapRecorder.TileStatus.UNREACHABLE)
-                        turnRight(delta);
-                    else
-                        turnLeft(delta);
+                    if (leftTile == MapRecorder.TileStatus.UNREACHABLE) {
+                        cmp = -1.0f;
+                    } else if (rightTile == MapRecorder.TileStatus.UNREACHABLE) {
+                        cmp = 1.0f;
+                    }
+                }
 
-                } else if (cmp<0) {
+                if (cmp<0) {
                     turnRight(delta);
                 } else {
                     turnLeft(delta);
@@ -194,7 +203,7 @@ public class MyAIController extends CarController{
                 allowedSpeed = computeAllowedVelocity(dist, endingSpeed);
             } else {
                 // big turn
-                allowedSpeed = 0.4f;
+                allowedSpeed = 0.3f;
             }
 
 
