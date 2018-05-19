@@ -70,6 +70,14 @@ public class MapRecorder {
 
     }
 
+    public TileStatus[][] getTileStatus() {
+        return mapStatus;
+    }
+
+    public void addCarView(int x, int y, HashMap<Coordinate,MapTile> view) {
+
+    }
+
     private void findReachableDFS(int x, int y) {
         if (x<0||x>=width||y<0||y>=height) {
             return;
