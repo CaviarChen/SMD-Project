@@ -35,7 +35,7 @@ public class MapRecorder {
 
         for (Map.Entry<Coordinate, MapTile> entry: mapHashMap.entrySet()) {
             int x = entry.getKey().x;
-            int y = entry.getKey().y;
+            int y = height - entry.getKey().y - 1;
             mapTiles[x][y] = entry.getValue();
             if (mapTiles[x][y].getType()==MapTile.Type.START) {
                 startCoord = entry.getKey();
@@ -52,12 +52,18 @@ public class MapRecorder {
             }
         }
 
+        print();
+    }
+
+    private void print() {
         System.out.println("------");
 
-        for (int j=height-1; j>=0; j--) {
+        for (int j=0; j<height; j++) {
             for (int i=0; i<width; i++) {
                 if (mapStatus[i][j]==TileStatus.UNREACHABLE) {
                     System.out.print('X');
+                } else if (mapStatus[i][j]==TileStatus.UNSEARCHED) {
+                    System.out.print('?');
                 } else {
                     System.out.print(' ');
                 }
@@ -67,7 +73,6 @@ public class MapRecorder {
 
 
         System.out.println("------");
-
     }
 
     public TileStatus[][] getTileStatus() {
@@ -85,10 +90,22 @@ public class MapRecorder {
 
     public void addCarView(int x, int y, HashMap<Coordinate,MapTile> view) {
 
+//        for (Map.Entry<Coordinate, MapTile> entry: view.entrySet()) {
+//            int tileX = x + entry.getKey().x;
+//            int tileY = y + entry.getKey().y;
+//
+//            if (inRange(tileX, tileY)) {
+//                if (mapStatus[tileX][tileY] == TileStatus.UNSEARCHED) {
+//                    mapStatus[tileX][tileY] = TileStatus.SEARCHED;
+//                }
+//            }
+//        }
+//
+//        print();
     }
 
     private void findReachableDFS(int x, int y) {
-        if (x<0||x>=width||y<0||y>=height) {
+        if (!inRange(x, y)) {
             return;
         }
 
@@ -107,6 +124,10 @@ public class MapRecorder {
         findReachableDFS(x-1,y);
         findReachableDFS(x,y+1);
         findReachableDFS(x,y-1);
+    }
+
+    private boolean inRange(int x, int y) {
+        return !(x<0||x>=width||y<0||y>=height);
     }
 
 
