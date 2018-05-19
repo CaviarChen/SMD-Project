@@ -84,7 +84,17 @@ public class AStar {
             Coord coord = new Coord(x, y);
 
             int value = 1;
+            // add weight for lava trap
             if (mapTiles[x][y] instanceof LavaTrap) value += 4;
+            // add weight for turning
+            if (current.parent != null && current.parent.parent != null) {
+                int parentXDiff = current.parent.coord.x - current.parent.parent.coord.x;
+                int parentYDiff = current.parent.coord.y - current.parent.parent.coord.y;
+                int xDiff = current.coord.x - current.parent.coord.x;
+                int yDiff = current.coord.y - current.parent.coord.y;
+
+                if (parentXDiff != xDiff || parentYDiff != yDiff) value += 2;
+            }
 
             int G = current.G + value; // calculate G value for neighbor node
             Node child = findNodeInOpen(coord);
