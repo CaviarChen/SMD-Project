@@ -24,6 +24,7 @@ public class AStar {
 
         Node start = new Node(x1, y1);
         Node end = new Node(x2, y2);
+
     }
 
     // Manhattan distance as heuristic distance
@@ -78,7 +79,7 @@ public class AStar {
 
     // add a neighbor node into openList
     private void addNeighborNodeInOpen(MapRecorder.TileStatus[][] mapStatus, Node current, int x, int y) {
-        if (canAddNodeToOpen(mapInfo,x, y)) {
+        if (canAddNodeToOpen(mapStatus, x, y)) {
             Coord coord = new Coord(x, y);
             int G = current.G + 1; // calculate G value for neighbor node
             Node child = findNodeInOpen(coord);
@@ -102,14 +103,14 @@ public class AStar {
         }
     }
 
-    public void start(MapRecorder.TileStatus[][] mapStatus) {
-        if (mapStatus==null) return;
+    public ArrayList<Node> start(MapRecorder.TileStatus[][] mapStatus) {
         // clean
         openList.clear();
         closeList.clear();
-        // 开始搜索
+        // start search
         openList.add(start);
         moveNodes(mapStatus);
+        return closeList;
     }
 
     // move the nodes
@@ -122,7 +123,6 @@ public class AStar {
             addNeighborNodeInOpen(mapStatus, current);
         }
     }
-
 
 }
 
@@ -172,5 +172,5 @@ class Node implements Comparable<Node> {
         else if (G + H < o.G + o.H) return -1;
         return 0;
     }
-    
+
 }
