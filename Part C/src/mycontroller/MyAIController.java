@@ -5,6 +5,7 @@ import org.lwjgl.Sys;
 import utilities.Coordinate;
 import world.Car;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 
@@ -32,6 +33,10 @@ public class MyAIController extends CarController{
         }
 
         mapRecorder = new MapRecorder(getMap());
+
+        AStar aStar = new AStar(mapRecorder, 21, 12, 2, 2);
+	    ArrayList<Node> path = aStar.start(mapRecorder.mapStatus);
+
 
         System.out.println('a');
 	}

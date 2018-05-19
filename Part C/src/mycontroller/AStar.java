@@ -22,8 +22,8 @@ public class AStar {
         mapStatus = mapRecorder.mapStatus;
         mapTiles = mapRecorder.mapTiles;
 
-        Node start = new Node(x1, y1);
-        Node end = new Node(x2, y2);
+        end = new Node(x1, y1);
+        start = new Node(x2, y2);
 
     }
 
@@ -110,7 +110,15 @@ public class AStar {
         // start search
         openList.add(start);
         moveNodes(mapStatus);
-        return closeList;
+
+        ArrayList<Node> path = new ArrayList<>();
+
+        while (end != null) {
+//            Coord c = end.coord;
+            path.add(end);
+            end = end.parent;
+        }
+        return path;
     }
 
     // move the nodes
