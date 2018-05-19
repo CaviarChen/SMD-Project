@@ -1,7 +1,6 @@
 package mycontroller;
 
 import controller.CarController;
-import utilities.Coordinate;
 import world.Car;
 
 
@@ -14,7 +13,8 @@ public class MyAIController extends CarController{
     private static final float BRAKING_FORCE = 2f;
     private static final float ACCELERATION = 2f;
     private static final float FRICTION_FORCE = 0.5f;
-    private static final int[][] DIRECTS = new int[][]{{1,0},{-1,0},{0,1},{0,-1}};
+    private static final int[][] DIRECTS = new int[][]{{1,0},{-1,0},{0,1},{0,-1},{1,1},{-1,1},{1,-1},{-1,-1}};
+    private static final float PRECISION_LEVEL = 0.001f;
 
 //    String[] test_pos = new String[]{"3,3", "7,3", "7,11"};  // easy-map
 //    String[] test_pos = new String[]{"26,2", "21,12", "2,12", "2,2", "26,2", "21,12", "2,12", "2,2"}; // test-key-map
@@ -41,15 +41,24 @@ public class MyAIController extends CarController{
             targetPositions.add(avoidWall(n.coord.x, n.coord.y));
         }
 
+        System.out.println(targetPositions.size());
 
-        System.out.println('a');
+
+        removeUselessPos(targetPositions);
+
+
+        System.out.println(targetPositions.size());
 	}
+
+	private boolean floatEquals(float a, float b) {
+	    return Math.abs(a-b) < PRECISION_LEVEL;
+    }
 
 
 	private Position avoidWall(int x, int y) {
 
-	    float posX = x;
-	    float posY = y;
+	    int offsetX = 0;
+	    int offsetY = 0;
 
 	    MapRecorder.TileStatus[][] mapStatus = mapRecorder.getTileStatus();
 
@@ -59,13 +68,33 @@ public class MyAIController extends CarController{
 
             if(mapRecorder.inRange(newX, newY)) {
                 if (mapStatus[newX][newY] == MapRecorder.TileStatus.UNREACHABLE) {
-                    posX -= 0.4 * dir[0];
-                    posY -= 0.4 * dir[1];
+                    if (offsetX==0) offsetX = dir[0];
+                    if (offsetY==0) offsetY = dir[1];
                 }
             }
         }
 
-        return new Position(posX, posY);
+        return new Position(x - 0.2f*offsetX, y - 0.2f*offsetY);
+    }
+
+    private void removeUselessPos(ArrayList<Position> positions) {
+	    for (int i=0; i<positions.size()-2; i++) {
+	        if (positions.get(i)==null) continue;;
+
+	        for (int j=i+2; j<positions.size(); j++) {
+                Position pos1 = positions.get(i);
+                Position pos2 = positions.get(j);
+
+                if (floatEquals(pos1.x, pos2.x) || floatEquals(pos1.y, pos2.y)) {
+                    positions.set(j-1, null);
+                } else {
+                    break;
+                }
+            }
+        }
+
+        // clean up
+        positions.removeIf(Objects::isNull);
 
     }
 
