@@ -6,12 +6,12 @@ import java.util.PriorityQueue;
 
 public class AStar {
 
-    public MapRecorder.TileStatus[][] mapStatus;
-    public MapTile[][] mapTiles;
-    public int width;
-    public int height;
-    public Node start;
-    public Node end;
+    private MapRecorder.TileStatus[][] mapStatus;
+    private MapTile[][] mapTiles;
+    private int width;
+    private int height;
+    private Node start;
+    private Node end;
 
     private PriorityQueue<Node> openList = new PriorityQueue<>(); // priority queue (ascending)
     private ArrayList<Node> closeList = new ArrayList<>();
@@ -37,7 +37,7 @@ public class AStar {
         return end.equals(coord);
     }
 
-    private boolean canAddNodeToOpen(MapRecorder.TileStatus[][] mapStatus, int x, int y) {
+    private boolean canAddNodeToOpen(int x, int y) {
         // check whether is in map
         if (x < 0 || x >= width || y < 0 || y >= height) return false;
         // check whether is UNREACHABLE
@@ -68,28 +68,28 @@ public class AStar {
     }
 
     // add all neighbor nodes into openList
-    private void addNeighborNodeInOpen(MapRecorder.TileStatus[][] mapStatus, Node current) {
+    private void addNeighborNodeInOpen(Node current) {
         int x = current.coord.x;
         int y = current.coord.y;
-        addNeighborNodeInOpen(mapStatus, current, x - 1, y);    // left
-        addNeighborNodeInOpen(mapStatus, current, x, y - 1);    // up
-        addNeighborNodeInOpen(mapStatus, current, x + 1, y);    // right
-        addNeighborNodeInOpen(mapStatus, current, x, y + 1);    // down
+        addNeighborNodeInOpen(current, x - 1, y);    // left
+        addNeighborNodeInOpen(current, x, y - 1);    // up
+        addNeighborNodeInOpen(current, x + 1, y);    // right
+        addNeighborNodeInOpen(current, x, y + 1);    // down
     }
 
     // add a neighbor node into openList
-    private void addNeighborNodeInOpen(MapRecorder.TileStatus[][] mapStatus, Node current, int x, int y) {
-        if (canAddNodeToOpen(mapStatus, x, y)) {
+    private void addNeighborNodeInOpen(Node current, int x, int y) {
+        if (canAddNodeToOpen(x, y)) {
             Coord coord = new Coord(x, y);
             int G = current.G + 1; // calculate G value for neighbor node
             Node child = findNodeInOpen(coord);
             if (child == null) {
                 int H=calcH(end.coord,coord); // calculate H value
                 if (isEndNode(end.coord,coord)) {
-                    child=end;
-                    child.parent=current;
-                    child.G=G;
-                    child.H=H;
+                    child = end;
+                    child.parent = current;
+                    child.G = G;
+                    child.H = H;
                 } else {
                     child = new Node(coord, current, G, H);
                 }
@@ -103,18 +103,17 @@ public class AStar {
         }
     }
 
-    public ArrayList<Node> start(MapRecorder.TileStatus[][] mapStatus) {
+    public ArrayList<Node> start() {
         // clean
         openList.clear();
         closeList.clear();
         // start search
         openList.add(start);
-        moveNodes(mapStatus);
-
+        moveNodes();
+        // path from start to end
         ArrayList<Node> path = new ArrayList<>();
-
+        // add to path
         while (end != null) {
-//            Coord c = end.coord;
             path.add(end);
             end = end.parent;
         }
@@ -122,19 +121,20 @@ public class AStar {
     }
 
     // move the nodes
-    private void moveNodes(MapRecorder.TileStatus[][] mapStatus) {
+    private void moveNodes() {
         while (!openList.isEmpty()) {
             if (isCoordInClose(end.coord)) break;
 
             Node current = openList.poll();
             closeList.add(current);
-            addNeighborNodeInOpen(mapStatus, current);
+            if (current != null) addNeighborNodeInOpen(current);
         }
     }
 
 }
 
 class Coord {
+
     public int x;
     public int y;
 
