@@ -44,6 +44,10 @@ public class Simulation extends ApplicationAdapter implements InputProcessor {
 	private static boolean gameWon = false;
 	public static boolean DEBUG_MODE = true;
 	private BitmapFont font;
+
+	// TODO: Debug code for flags 1/2
+	private static int flagX = 1, flagY = 1;
+	private static String flagText = "X";
 	
 	private static float TIME_STEP = 1/45f;
 	
@@ -131,9 +135,14 @@ public class Simulation extends ApplicationAdapter implements InputProcessor {
 		font.getData().setScale(1.5f);
 		int offset = 1;
 		//Relative to screen size.
-		font.draw(batch, status, World.MAP_PIXEL_SIZE, Gdx.graphics.getHeight() - offset*World.MAP_PIXEL_SIZE);
 		font.setColor(Color.GREEN);
-		
+		font.draw(batch, status, World.MAP_PIXEL_SIZE, Gdx.graphics.getHeight() - offset*World.MAP_PIXEL_SIZE);
+
+		// TODO: Debug code for flags 2/2
+		font.setColor(Color.CYAN);
+		font.draw(batch, flagText, flagX * World.MAP_PIXEL_SIZE, // - (World.MAP_PIXEL_SIZE / 4),
+                flagY * World.MAP_PIXEL_SIZE + (World.MAP_PIXEL_SIZE / 4));
+
 		//If we win or lose!
 		if(gameEnded){
 			font.getData().setScale(5f);
