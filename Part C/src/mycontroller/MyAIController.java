@@ -1,13 +1,12 @@
 package mycontroller;
 
 import controller.CarController;
-import org.lwjgl.Sys;
 import utilities.Coordinate;
 import world.Car;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 
+import java.util.ArrayList;
+import java.util.Objects;
 
 
 public class MyAIController extends CarController{
@@ -15,31 +14,60 @@ public class MyAIController extends CarController{
     private static final float BRAKING_FORCE = 2f;
     private static final float ACCELERATION = 2f;
     private static final float FRICTION_FORCE = 0.5f;
+    private static final int[][] DIRECTS = new int[][]{{1,0},{-1,0},{0,1},{0,-1}};
 
 //    String[] test_pos = new String[]{"3,3", "7,3", "7,11"};  // easy-map
-    String[] test_pos = new String[]{"26,2", "21,12", "2,12", "2,2", "26,2", "21,12", "2,12", "2,2"}; // test-key-map
+//    String[] test_pos = new String[]{"26,2", "21,12", "2,12", "2,2", "26,2", "21,12", "2,12", "2,2"}; // test-key-map
 //    String[] test_pos = new String[]{"23,3", "23,17"}; // narrow-road
 
 
     MapRecorder mapRecorder;
-    ArrayList<Coordinate> target_coordinates = new ArrayList<>();
+    ArrayList<Position> targetPositions = new ArrayList<>();
+
 
 	public MyAIController(Car car) {
 
         super(car);
 
-	    for(String s: test_pos) {
-	        target_coordinates.add(new Coordinate(s));
-        }
+//	    for(String s: test_pos) {
+//	        targetPositions.add(new Coordinate(s));
+//        }
 
         mapRecorder = new MapRecorder(getMap());
 
-        AStar aStar = new AStar(mapRecorder, 21, 12, 2, 2);
+        AStar aStar = new AStar(mapRecorder, 2, 2, 21, 12);
 	    ArrayList<Node> path = aStar.start(mapRecorder.mapStatus);
+	    for (Node n:path) {
+            targetPositions.add(avoidWall(n.coord.x, n.coord.y));
+        }
 
 
         System.out.println('a');
 	}
+
+
+	private Position avoidWall(int x, int y) {
+
+	    float posX = x;
+	    float posY = y;
+
+	    MapRecorder.TileStatus[][] mapStatus = mapRecorder.getTileStatus();
+
+	    for(int[] dir: DIRECTS) {
+	        int newX = x + dir[0];
+            int newY = y + dir[1];
+
+            if(mapRecorder.inRange(newX, newY)) {
+                if (mapStatus[newX][newY] == MapRecorder.TileStatus.UNREACHABLE) {
+                    posX -= 0.4 * dir[0];
+                    posY -= 0.4 * dir[1];
+                }
+            }
+        }
+
+        return new Position(posX, posY);
+
+    }
 
 	@Override
 	public void update(float delta) {
@@ -51,23 +79,28 @@ public class MyAIController extends CarController{
         System.out.print("Y: ");
         System.out.println(getY());
 
-        if (target_coordinates.size()!=0) {
+        if (targetPositions.size()!=0) {
 
 
             int currentX = Math.round(getX());
             int currentY = Math.round(getY());
 
-            float targetX = target_coordinates.get(0).x;
-            float targetY = target_coordinates.get(0).y;
+            float targetX = targetPositions.get(0).x;
+            float targetY = targetPositions.get(0).y;
 
-            if (Math.abs(targetX - getX())<=0.1 && Math.abs(targetY - getY())<=0.1) {
-                target_coordinates.remove(0);
+//            if (Math.abs(targetX - getX())<=0.1 && Math.abs(targetY - getY())<=0.1) {
+//                targetPositions.remove(0);
+//                return;
+//            }
+
+            if (currentX==targetX && currentY==targetY) {
+                targetPositions.remove(0);
                 return;
             }
 
 
-            float targetAngle = getTargetAngle(target_coordinates.get(0));
-            float dist = getTargetDistance(target_coordinates.get(0));
+            float targetAngle = getTargetAngle(targetPositions.get(0));
+            float dist = getTargetDistance(targetPositions.get(0));
             System.out.println(dist);
             System.out.println(targetAngle);
             System.out.println(getAngle());
@@ -82,7 +115,7 @@ public class MyAIController extends CarController{
                 }
             }
 
-            float endingSpeed = 0.6f;
+            float endingSpeed = 0f;
 
             System.out.print("dist: ");
             System.out.println(dist);
@@ -93,7 +126,7 @@ public class MyAIController extends CarController{
                 allowedSpeed = computeAllowedVelocity(dist, endingSpeed);
             } else {
                 // big turn
-                allowedSpeed = 0.6f;
+                allowedSpeed = 0.4f;
             }
 
 
@@ -125,6 +158,7 @@ public class MyAIController extends CarController{
 	    // this is weird but it is what happened in the Car class
 	    float a = BRAKING_FORCE-FRICTION_FORCE;
 	    return (float) Math.sqrt(2*a*s + u*u);
+//        return 0.6f;
     }
 
     // returns 1 if otherAngle is to the right of sourceAngle,
@@ -147,7 +181,7 @@ public class MyAIController extends CarController{
 
 
 
-    private float getTargetDistance(Coordinate target) {
+    private float getTargetDistance(Position target) {
         float target_x = target.x;// + 0.5f;
         float target_y = target.y;// + 0.5f;
 
@@ -155,7 +189,7 @@ public class MyAIController extends CarController{
     }
 
 
-    private float getTargetAngle(Coordinate target) {
+    private float getTargetAngle(Position target) {
 	    float target_x = target.x;// + 0.5f;
         float target_y = target.y;// + 0.5f;
         float angle = (float) Math.toDegrees(Math.atan2(target_y - getY(), target_x - getX()));
@@ -164,6 +198,42 @@ public class MyAIController extends CarController{
             angle += 360;
         }
         return angle;
+    }
+
+
+
+    public class Position {
+        public float x;
+        public float y;
+
+
+        public Position(float x, float y){
+            this.x = x;
+            this.y = y;
+        }
+
+        public String toString(){
+            return x+","+y;
+        }
+
+
+        /**
+         * Defined in order to use it as keys in a hashmap
+         */
+        public boolean equals(Object c){
+            if(c == this){
+                return true;
+            }
+            if(!(c instanceof Position)){
+                return false;
+            }
+            Position pos = (Position) c;
+            return (pos.x == this.x) && (pos.y == this.y);
+        }
+
+        public int hashCode(){
+            return Objects.hash(x,y);
+        }
     }
 
 

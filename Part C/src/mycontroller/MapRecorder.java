@@ -126,7 +126,7 @@ public class MapRecorder {
         findReachableDFS(x,y-1);
     }
 
-    private boolean inRange(int x, int y) {
+    public boolean inRange(int x, int y) {
         return !(x<0||x>=width||y<0||y>=height);
     }
 
