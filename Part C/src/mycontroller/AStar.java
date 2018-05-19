@@ -1,5 +1,6 @@
 package mycontroller;
 
+import tiles.LavaTrap;
 import tiles.MapTile;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
@@ -81,7 +82,11 @@ public class AStar {
     private void addNeighborNodeInOpen(Node current, int x, int y) {
         if (canAddNodeToOpen(x, y)) {
             Coord coord = new Coord(x, y);
-            int G = current.G + 1; // calculate G value for neighbor node
+
+            int value = 1;
+            if (mapTiles[x][y] instanceof LavaTrap) value += 4;
+
+            int G = current.G + value; // calculate G value for neighbor node
             Node child = findNodeInOpen(coord);
             if (child == null) {
                 int H=calcH(end.coord,coord); // calculate H value
