@@ -1,6 +1,7 @@
 package mycontroller;
 
 import controller.CarController;
+import swen30006.driving.Simulation;
 import tiles.MapTile;
 import utilities.Coordinate;
 import world.Car;
@@ -53,7 +54,7 @@ public class MyAIController extends CarController{
 
         // Use the simple random path to navigate the car to explore
         // the map
-        loadNextExplorePoint();
+//        loadNextExplorePoint();
 	}
 
     /**
@@ -63,6 +64,15 @@ public class MyAIController extends CarController{
 	private boolean loadNextExplorePoint() {
         Coordinate firstPt = mapRecorder.getNearestExplorationPoint(getX(), getY());
         if (firstPt == null) return false;
+//        Simulation.flagX = firstPt.x;
+//        Simulation.flagY = firstPt.y;
+//
+//        if (mapRecorder.mapStatus[firstPt.x][firstPt.y] == MapRecorder.TileStatus.UNREACHABLE) {
+//            Simulation.flagText = "V";
+//        } else {
+//            Simulation.flagText = "X";
+//        }
+
         ArrayList<Node> path = new AStar(mapRecorder,
                 Math.round(getX()), Math.round(getY()),
                 firstPt.x, firstPt.y
@@ -78,6 +88,27 @@ public class MyAIController extends CarController{
         removeUselessPos(targetPositions);
         System.out.println(targetPositions.size());
         return true;
+    }
+
+    private void reRoute() {
+
+	    int lastid = targetPositions.size() - 1;
+
+        ArrayList<Node> path = new AStar(mapRecorder,
+                Math.round(getX()), Math.round(getY()),
+                Math.round(targetPositions.get(lastid).x), Math.round(targetPositions.get(lastid).y)
+        ).start();
+
+        targetPositions.clear();
+
+        for (Node n: path) {
+            targetPositions.add(avoidWall(n.coord.x, n.coord.y));
+        }
+
+        System.out.println(targetPositions.size());
+        removeUselessPos(targetPositions);
+        System.out.println(targetPositions.size());
+
     }
 
 	private boolean floatEquals(float a, float b) {
@@ -104,7 +135,7 @@ public class MyAIController extends CarController{
             }
         }
 
-        return new Position(x - 0.2f*offsetX, y - 0.2f*offsetY);
+        return new Position(x - 0.3f*offsetX, y - 0.3f*offsetY);
     }
 
     private void removeUselessPos(ArrayList<Position> positions) {
@@ -136,8 +167,8 @@ public class MyAIController extends CarController{
 
         if (currentX!=lastX || currentY!=lastY) {
             boolean lavaFound = mapRecorder.addCarView(Math.round(getX()), Math.round(getY()), getView());
-            if (lavaFound) {
-                loadNextExplorePoint();
+            if (lavaFound && targetPositions.size()!=0) {
+                reRoute();
             }
         }
 
@@ -151,6 +182,10 @@ public class MyAIController extends CarController{
 
             int targetX = Math.round(targetPositions.get(0).x);
             int targetY = Math.round(targetPositions.get(0).y);
+
+            Simulation.flagX = targetX;
+            Simulation.flagY = targetY;
+            Simulation.flagText = (targetPositions.size() <= 1) ? "V" : "X";
 
 //            if (Math.abs(targetX - getX())<=0.1 && Math.abs(targetY - getY())<=0.1) {
 //                targetPositions.remove(0);

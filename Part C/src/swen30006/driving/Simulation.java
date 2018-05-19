@@ -46,8 +46,8 @@ public class Simulation extends ApplicationAdapter implements InputProcessor {
 	private BitmapFont font;
 
 	// TODO: Debug code for flags 1/2
-	private static int flagX = 10, flagY = 10;
-	private static String flagText = "X";
+	public static int flagX = 10, flagY = 10;
+	public static String flagText = "X";
 	
 	private static float TIME_STEP = 1/45f;
 	
@@ -141,7 +141,7 @@ public class Simulation extends ApplicationAdapter implements InputProcessor {
 		// TODO: Debug code for flags 2/2
 		font.setColor(Color.CYAN);
 		font.draw(batch, flagText, (flagX + 0.001f) * Gdx.graphics.getWidth() / world.MAP_WIDTH,
-                (flagY + 0.001f) * Gdx.graphics.getHeight() / world.MAP_HEIGHT);
+                (flagY + 1f + 0.001f) * Gdx.graphics.getHeight() / world.MAP_HEIGHT);
 
 		//If we win or lose!
 		if(gameEnded){
