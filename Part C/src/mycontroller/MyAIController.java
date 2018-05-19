@@ -36,7 +36,7 @@ public class MyAIController extends CarController{
         mapRecorder = new MapRecorder(getMap());
 
         AStar aStar = new AStar(mapRecorder, 2, 2, 21, 12);
-	    ArrayList<Node> path = aStar.start(mapRecorder.mapStatus);
+	    ArrayList<Node> path = aStar.start();
 	    for (Node n:path) {
             targetPositions.add(avoidWall(n.coord.x, n.coord.y));
         }
@@ -85,8 +85,8 @@ public class MyAIController extends CarController{
             int currentX = Math.round(getX());
             int currentY = Math.round(getY());
 
-            float targetX = targetPositions.get(0).x;
-            float targetY = targetPositions.get(0).y;
+            int targetX = Math.round(targetPositions.get(0).x);
+            int targetY = Math.round(targetPositions.get(0).y);
 
 //            if (Math.abs(targetX - getX())<=0.1 && Math.abs(targetY - getY())<=0.1) {
 //                targetPositions.remove(0);
