@@ -5,6 +5,7 @@ import org.lwjgl.Sys;
 import utilities.Coordinate;
 import world.Car;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 
@@ -15,11 +16,12 @@ public class MyAIController extends CarController{
     private static final float ACCELERATION = 2f;
     private static final float FRICTION_FORCE = 0.5f;
 
-    String[] test_pos = new String[]{"3,3", "7,3", "7,11"};  // easy-map
-//    String[] test_pos = new String[]{"26,2", "21,12", "2,12", "2,2", "26,2", "21,12", "2,12", "2,2"}; // test-key-map
+//    String[] test_pos = new String[]{"3,3", "7,3", "7,11"};  // easy-map
+    String[] test_pos = new String[]{"26,2", "21,12", "2,12", "2,2", "26,2", "21,12", "2,12", "2,2"}; // test-key-map
 //    String[] test_pos = new String[]{"23,3", "23,17"}; // narrow-road
 
 
+    MapRecorder mapRecorder;
     ArrayList<Coordinate> target_coordinates = new ArrayList<>();
 
 	public MyAIController(Car car) {
@@ -30,13 +32,20 @@ public class MyAIController extends CarController{
 	        target_coordinates.add(new Coordinate(s));
         }
 
-        new MapRecorder(getMap());
+        mapRecorder = new MapRecorder(getMap());
+
+        AStar aStar = new AStar(mapRecorder, 21, 12, 2, 2);
+	    ArrayList<Node> path = aStar.start(mapRecorder.mapStatus);
+
 
         System.out.println('a');
 	}
 
 	@Override
 	public void update(float delta) {
+
+        mapRecorder.addCarView(Math.round(getX()), Math.round(getY()), getView());
+
         System.out.print("X: ");
         System.out.println(getX());
         System.out.print("Y: ");
@@ -96,9 +105,6 @@ public class MyAIController extends CarController{
             } else if (getSpeed()>allowedSpeed) {
                 applyBrake();
             }
-
-
-
 
 
 
