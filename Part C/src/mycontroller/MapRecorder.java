@@ -35,7 +35,7 @@ public class MapRecorder {
 
         for (Map.Entry<Coordinate, MapTile> entry: mapHashMap.entrySet()) {
             int x = entry.getKey().x;
-            int y = height - entry.getKey().y - 1;
+            int y = entry.getKey().y;
             mapTiles[x][y] = entry.getValue();
             if (mapTiles[x][y].getType()==MapTile.Type.START) {
                 startCoord = entry.getKey();
@@ -58,7 +58,7 @@ public class MapRecorder {
     private void print() {
         System.out.println("------");
 
-        for (int j=0; j<height; j++) {
+        for (int j=height-1; j>=0; j--) {
             for (int i=0; i<width; i++) {
                 if (mapStatus[i][j]==TileStatus.UNREACHABLE) {
                     System.out.print('X');
@@ -90,18 +90,17 @@ public class MapRecorder {
 
     public void addCarView(int x, int y, HashMap<Coordinate,MapTile> view) {
 
-//        for (Map.Entry<Coordinate, MapTile> entry: view.entrySet()) {
-//            int tileX = x + entry.getKey().x;
-//            int tileY = y + entry.getKey().y;
-//
-//            if (inRange(tileX, tileY)) {
-//                if (mapStatus[tileX][tileY] == TileStatus.UNSEARCHED) {
-//                    mapStatus[tileX][tileY] = TileStatus.SEARCHED;
-//                }
-//            }
-//        }
-//
-//        print();
+        for (Map.Entry<Coordinate, MapTile> entry: view.entrySet()) {
+            int tileX = entry.getKey().x;
+            int tileY = entry.getKey().y;
+
+            if (inRange(tileX, tileY)) {
+                if (mapStatus[tileX][tileY] == TileStatus.UNSEARCHED) {
+                    mapStatus[tileX][tileY] = TileStatus.SEARCHED;
+                }
+            }
+        }
+        print();
     }
 
     private void findReachableDFS(int x, int y) {
