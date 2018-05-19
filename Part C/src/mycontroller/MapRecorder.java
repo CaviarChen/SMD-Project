@@ -74,6 +74,15 @@ public class MapRecorder {
         return mapStatus;
     }
 
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+
     public void addCarView(int x, int y, HashMap<Coordinate,MapTile> view) {
 
     }
