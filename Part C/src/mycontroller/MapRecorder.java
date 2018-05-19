@@ -97,6 +97,7 @@ public class MapRecorder {
             if (inRange(tileX, tileY)) {
                 if (mapStatus[tileX][tileY] == TileStatus.UNSEARCHED) {
                     mapStatus[tileX][tileY] = TileStatus.SEARCHED;
+                    mapTiles[tileX][tileY] = entry.getValue();
                 }
             }
         }
