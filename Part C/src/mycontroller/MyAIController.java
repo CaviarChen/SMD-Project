@@ -1,8 +1,10 @@
 package mycontroller;
 
 import controller.CarController;
+import tiles.MapTile;
 import utilities.Coordinate;
 import world.Car;
+import world.WorldSpatial;
 
 
 import java.util.ArrayList;
@@ -15,6 +17,9 @@ public class MyAIController extends CarController{
     private static final float ACCELERATION = 2f;
     private static final float FRICTION_FORCE = 0.5f;
     private static final int[][] DIRECTS = new int[][]{{1,0},{-1,0},{0,1},{0,-1}};
+
+    /** Angle threshold to detect U-turns */
+    private static final float U_TURN_THRESHOLD = 120.0f;
 
 //    String[] test_pos = new String[]{"3,3", "7,3", "7,11"};  // easy-map
 //    String[] test_pos = new String[]{"26,2", "21,12", "2,12", "2,2", "26,2", "21,12", "2,12", "2,2"}; // test-key-map
@@ -35,10 +40,24 @@ public class MyAIController extends CarController{
 
         mapRecorder = new MapRecorder(getMap());
 
-        AStar aStar = new AStar(mapRecorder, 2, 2, 21, 12);
-	    ArrayList<Node> path = aStar.start();
-	    for (Node n:path) {
-            targetPositions.add(avoidWall(n.coord.x, n.coord.y));
+//        AStar aStar = new AStar(mapRecorder, 2, 2, 21, 12);
+//	    ArrayList<Node> path = aStar.start();
+//	    for (Node n:path) {
+//            targetPositions.add(avoidWall(n.coord.x, n.coord.y));
+//        }
+
+        // Use the simple random path to navigate the car to explore
+        // the map
+        ArrayList<Coordinate> simplePath = mapRecorder.coordinatesToExplore();
+        simplePath.add(0, new Coordinate(Math.round(getX()), Math.round(getY())));
+        for (int i = 0; i < simplePath.size() - 1; i ++) {
+            ArrayList<Node> path = new AStar(mapRecorder,
+                    simplePath.get(i).x, simplePath.get(i).y,
+                    simplePath.get(i + 1).x, simplePath.get(i + 1).y
+            ).start();
+            for (Node n: path) {
+                targetPositions.add(avoidWall(n.coord.x, n.coord.y));
+            }
         }
 
 
@@ -108,7 +127,26 @@ public class MyAIController extends CarController{
             // ------
             float cmp = compareAngles(getAngle(), targetAngle);
             if (cmp!=0) {
-                if(cmp<0) {
+                if (Math.abs(cmp) > U_TURN_THRESHOLD) {
+                    // Trying to u-turn, turn to the side further to the wall.
+                    double xOffsetL = Math.cos(getAngle() + 90),
+                           yOffsetL = Math.sin(getAngle() + 90),
+                           xOffsetR = Math.cos(getAngle() - 90),
+                           yOffsetR = Math.sin(getAngle() - 90);
+
+                    MapRecorder.TileStatus leftTile = mapRecorder.mapStatus
+                            [(int) Math.round(getX() + xOffsetL)]
+                            [(int) Math.round(getY() + yOffsetL)];
+//                    MapRecorder.TileStatus rightTile = mapRecorder.mapStatus
+//                            [(int) Math.round(getX() + xOffsetR)]
+//                            [(int) Math.round(getY() + yOffsetR)];
+
+                    if (leftTile == MapRecorder.TileStatus.UNREACHABLE)
+                        turnRight(delta);
+                    else
+                        turnLeft(delta);
+
+                } else if (cmp<0) {
                     turnRight(delta);
                 } else {
                     turnLeft(delta);
@@ -122,7 +160,7 @@ public class MyAIController extends CarController{
 
 
             float allowedSpeed = 0f;
-            if (Math.abs(cmp) < 100) {
+            if (Math.abs(cmp) < 60) {
                 allowedSpeed = computeAllowedVelocity(dist, endingSpeed);
             } else {
                 // big turn

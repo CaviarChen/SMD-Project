@@ -134,7 +134,7 @@ public class MapRecorder {
      * Return a list of coordinates that can uncover all cells when visited
      * Coordinates are returned in no order.
      */
-    private ArrayList<Coordinate> coordinatesToExplore() {
+    public ArrayList<Coordinate> coordinatesToExplore() {
         HashSet<Coordinate> coordinatesPending = new HashSet<>();
         ArrayList<Coordinate> queue = new ArrayList<>();
         for (int i = 0; i < width; i++) {
