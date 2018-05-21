@@ -2,8 +2,7 @@ package mycontroller;
 
 import tiles.LavaTrap;
 import tiles.MapTile;
-import java.util.ArrayList;
-import java.util.PriorityQueue;
+import java.util.*;
 
 public class AStar {
 
@@ -13,18 +12,25 @@ public class AStar {
     private int height;
     private Node start;
     private Node end;
+    private ArrayList<Node> starts = new ArrayList<>();
 
     private PriorityQueue<Node> openList = new PriorityQueue<>(); // priority queue (ascending)
     private ArrayList<Node> closeList = new ArrayList<>();
 
-    public AStar(MapRecorder mapRecorder, int x1, int y1, int x2, int y2) {
+    //    public AStar(MapRecorder mapRecorder, int x1, int y1, int x2, int y2) {
+//    public AStar(MapRecorder mapRecorder, Coord source, Coord destination) {
+    public AStar(MapRecorder mapRecorder, Coord source, ArrayList<Coord> destinations) {
         width = mapRecorder.getWidth();
         height = mapRecorder.getHeight();
         mapStatus = mapRecorder.mapStatus;
         mapTiles = mapRecorder.mapTiles;
 
-        end = new Node(x1, y1);
-        start = new Node(x2, y2);
+        end = new Node(source.x, source.y);
+//        start = new Node(destination.x, destination.y);
+
+        for (Coord coord : destinations) {
+            starts.add(new Node(coord.x, coord.y));
+        }
 
     }
 
@@ -119,11 +125,27 @@ public class AStar {
     }
 
     public ArrayList<Node> start() {
+        List<ArrayList<Node>> allLists = new ArrayList<>();
+
+        for (Node node : starts) {
+            allLists.add(startNode(node));
+        }
+//        Collections.sort(allLists, new Comparator<ArrayList<Node>>() {
+//            @Override
+//            public int compare(ArrayList<Node> a1, ArrayList<Node> a2) {
+//                return a1.size() - a2.size();
+//            }
+//        });
+        allLists.sort(Comparator.comparingInt(ArrayList::size));
+        return allLists.get(0);
+    }
+
+    public ArrayList<Node> startNode(Node node) {
         // clean
         openList.clear();
         closeList.clear();
         // start search
-        openList.add(start);
+        openList.add(node);
         moveNodes();
         // path from start to end
         ArrayList<Node> path = new ArrayList<>();

@@ -73,10 +73,14 @@ public class MyAIController extends CarController{
 //            Simulation.flagText = "X";
 //        }
 
-        ArrayList<Node> path = new AStar(mapRecorder,
-                Math.round(getX()), Math.round(getY()),
-                firstPt.x, firstPt.y
-        ).start();
+//        ArrayList<Node> path = new AStar(mapRecorder,
+//                Math.round(getX()), Math.round(getY()),
+//                firstPt.x, firstPt.y
+//        ).start();
+        ArrayList<Coord> destinations = new ArrayList<>();
+        destinations.add(new Coord(firstPt.x, firstPt.y));
+        ArrayList<Node> path = new AStar(mapRecorder, new Coord(Math.round(getX()), Math.round(getY())),
+                destinations).start();
 
         targetPositions.clear();
 
@@ -94,10 +98,14 @@ public class MyAIController extends CarController{
 
 	    int lastid = targetPositions.size() - 1;
 
-        ArrayList<Node> path = new AStar(mapRecorder,
-                Math.round(getX()), Math.round(getY()),
-                Math.round(targetPositions.get(lastid).x), Math.round(targetPositions.get(lastid).y)
-        ).start();
+//        ArrayList<Node> path = new AStar(mapRecorder,
+//                Math.round(getX()), Math.round(getY()),
+//                Math.round(targetPositions.get(lastid).x), Math.round(targetPositions.get(lastid).y)
+//        ).start();
+        ArrayList<Coord> destinations = new ArrayList<>();
+        destinations.add(new Coord(Math.round(targetPositions.get(lastid).x), Math.round(targetPositions.get(lastid).y)));
+        ArrayList<Node> path = new AStar(mapRecorder, new Coord(Math.round(getX()), Math.round(getY())),
+                destinations).start();
 
         targetPositions.clear();
 
