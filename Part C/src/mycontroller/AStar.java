@@ -2,6 +2,8 @@ package mycontroller;
 
 import tiles.LavaTrap;
 import tiles.MapTile;
+import utilities.Coordinate;
+
 import java.util.*;
 
 public class AStar {
@@ -19,7 +21,7 @@ public class AStar {
 
     //    public AStar(MapRecorder mapRecorder, int x1, int y1, int x2, int y2) {
 //    public AStar(MapRecorder mapRecorder, Coord source, Coord destination) {
-    public AStar(MapRecorder mapRecorder, Coord source, ArrayList<Coord> destinations) {
+    public AStar(MapRecorder mapRecorder, Coordinate source, ArrayList<Coordinate> destinations) {
         width = mapRecorder.getWidth();
         height = mapRecorder.getHeight();
         mapStatus = mapRecorder.mapStatus;
@@ -28,19 +30,19 @@ public class AStar {
         end = new Node(source.x, source.y);
 //        start = new Node(destination.x, destination.y);
 
-        for (Coord coord : destinations) {
+        for (Coordinate coord : destinations) {
             starts.add(new Node(coord.x, coord.y));
         }
 
     }
 
     // Manhattan distance as heuristic distance
-    private int calcH(Coord end, Coord coord) {
+    private int calcH(Coordinate end, Coordinate coord) {
         return Math.abs(end.x - coord.x) + Math.abs(end.y - coord.y);
     }
 
     // check whether is the end coordinate
-    private boolean isEndNode(Coord end, Coord coord) {
+    private boolean isEndNode(Coordinate end, Coordinate coord) {
         return end.equals(coord);
     }
 
@@ -54,8 +56,8 @@ public class AStar {
     }
 
     // check whether coordinate
-    private boolean isCoordInClose(Coord coord) {
-        return coord!=null && isCoordInClose(coord.x, coord.y);
+    private boolean isCoordInClose(Coordinate coord) {
+        return coord != null && isCoordInClose(coord.x, coord.y);
     }
 
     private boolean isCoordInClose(int x, int y) {
@@ -66,7 +68,7 @@ public class AStar {
         return false;
     }
 
-    private Node findNodeInOpen(Coord coord) {
+    private Node findNodeInOpen(Coordinate coord) {
         if (coord == null || openList.isEmpty()) return null;
         for (Node node : openList) {
             if (node.coord.equals(coord)) return node;
@@ -87,7 +89,7 @@ public class AStar {
     // add a neighbor node into openList
     private void addNeighborNodeInOpen(Node current, int x, int y) {
         if (canAddNodeToOpen(x, y)) {
-            Coord coord = new Coord(x, y);
+            Coordinate coord = new Coordinate(x, y);
 
             int value = 1;
             // add weight for lava trap
@@ -105,8 +107,8 @@ public class AStar {
             int G = current.G + value; // calculate G value for neighbor node
             Node child = findNodeInOpen(coord);
             if (child == null) {
-                int H=calcH(end.coord,coord); // calculate H value
-                if (isEndNode(end.coord,coord)) {
+                int H = calcH(end.coord, coord); // calculate H value
+                if (isEndNode(end.coord, coord)) {
                     child = end;
                     child.parent = current;
                     child.G = G;
@@ -170,39 +172,18 @@ public class AStar {
 
 }
 
-class Coord {
-
-    public int x;
-    public int y;
-
-    public Coord(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) return false;
-        if (obj instanceof Coord) {
-            Coord c = (Coord) obj;
-            return x == c.x && y == c.y;
-        }
-        return false;
-    }
-}
-
 class Node implements Comparable<Node> {
 
-    public Coord coord; // coordinate
+    public Coordinate coord; // coordinate
     public Node parent; // parent
     public int G; // G: correct value, from start to current node
     public int H; // H: estimated value, from current node to end
 
     public Node(int x, int y) {
-        this.coord = new Coord(x, y);
+        this.coord = new Coordinate(x, y);
     }
 
-    public Node(Coord coord, Node parent, int g, int h) {
+    public Node(Coordinate coord, Node parent, int g, int h) {
         this.coord = coord;
         this.parent = parent;
         G = g;
