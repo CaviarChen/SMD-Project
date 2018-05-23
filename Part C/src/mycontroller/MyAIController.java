@@ -83,6 +83,14 @@ public class MyAIController extends CarController{
         ArrayList<Coordinate> destinations = mapRecorder.coordinatesToExplore();
         if (getKey() > 1 && mapRecorder.keysCoord[getKey() - 2] != null) { // If next key pos is known
             destinations.add(mapRecorder.keysCoord[getKey() - 2]);
+            boolean allKeyFound = true;
+            for (int i = getKey() - 2; i >= 0; i--)
+                allKeyFound &= mapRecorder.keysCoord[i] != null;
+            if (allKeyFound) {
+                destinations.clear();
+                for (int i = getKey() - 2; i >= 0; i--)
+                    destinations.add(mapRecorder.keysCoord[i]);
+            }
         } else if (getKey() == 1) {
             destinations = mapRecorder.finishCoords;
         }
