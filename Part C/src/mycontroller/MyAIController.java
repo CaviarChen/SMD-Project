@@ -9,6 +9,7 @@ import world.WorldSpatial;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -23,6 +24,9 @@ public class MyAIController extends CarController{
 
     /** Angle threshold to detect U-turns */
     private static final float U_TURN_THRESHOLD = 120.0f;
+
+    /** Threshold for maximum addition of length for alternative path that includes the next key needed to collect **/
+    private static final int MAX_EXTRA_LEN_ALT_PATH = 10;
 
 
     private int lastX = -1;
@@ -45,7 +49,7 @@ public class MyAIController extends CarController{
 //	        targetPositions.add(new Coordinate(s));
 //        }
 
-        mapRecorder = new MapRecorder(getMap());
+        mapRecorder = new MapRecorder(getMap(), getKey());
         mapRecorder.addCarView(Math.round(getX()), Math.round(getY()), getView());
 
 //        AStar aStar = new AStar(mapRecorder, 2, 2, 21, 12);
@@ -82,8 +86,8 @@ public class MyAIController extends CarController{
         ArrayList<Coordinate> destinations = mapRecorder.coordinatesToExplore();
         if (destinations.isEmpty()) return false;
 //        destinations.add(firstPt);
-        ArrayList<Node> path = new AStar(mapRecorder, new Coordinate(Math.round(getX()), Math.round(getY())),
-                destinations).start();
+        ArrayList<Node> path = getShortestPath(new Coordinate(Math.round(getX()), Math.round(getY())),
+                destinations);
 
         targetPositions.clear();
 
@@ -97,6 +101,19 @@ public class MyAIController extends CarController{
         return true;
     }
 
+    private ArrayList<Node> getShortestPath(Coordinate source, ArrayList<Coordinate> destinations) {
+        ArrayList<Node> path = new AStar(mapRecorder, source, destinations).start();
+        if (getKey() > 1 && mapRecorder.keysCoord[getKey() - 2] != null) {
+            ArrayList<Coordinate> middlePoints = new ArrayList<>();
+            middlePoints.add(mapRecorder.keysCoord[getKey() - 2]);
+            ArrayList<Node> alternativePath = new AStar(mapRecorder, source, middlePoints).start();
+            alternativePath.addAll(new AStar(mapRecorder, middlePoints.get(0), destinations).start());
+            if (alternativePath.size() - path.size() < MAX_EXTRA_LEN_ALT_PATH)
+                path = alternativePath;
+        }
+        return path;
+    }
+
     private void reRoute() {
 
 	    int lastid = targetPositions.size() - 1;
@@ -107,8 +124,8 @@ public class MyAIController extends CarController{
 //        ).start();
         ArrayList<Coordinate> destinations = new ArrayList<>();
         destinations.add(new Coordinate(Math.round(targetPositions.get(lastid).x), Math.round(targetPositions.get(lastid).y)));
-        ArrayList<Node> path = new AStar(mapRecorder, new Coordinate(Math.round(getX()), Math.round(getY())),
-                destinations).start();
+        ArrayList<Node> path = getShortestPath(new Coordinate(Math.round(getX()), Math.round(getY())),
+                destinations);
 
         targetPositions.clear();
 
