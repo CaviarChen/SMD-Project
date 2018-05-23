@@ -2,15 +2,12 @@ package mycontroller;
 
 import controller.CarController;
 import swen30006.driving.Simulation;
-import tiles.MapTile;
 import utilities.Coordinate;
 import world.Car;
 import world.WorldSpatial;
 
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Objects;
 
 
@@ -60,14 +57,14 @@ public class MyAIController extends CarController{
 
         // Use the simple random path to navigate the car to explore
         // the map
-//        loadNextExplorePoint();
+//        loadNextDestinationPoint();
 	}
 
     /**
-     * Load next explore point.
+     * Load next destination point.
      * Return True if a point is found. False otherwise.
      */
-	private boolean loadNextExplorePoint() {
+	private boolean loadNextDestinationPoint() {
 //        Coordinate firstPt = mapRecorder.getNearestExplorationPoint(getX(), getY());
 //        if (firstPt == null) return false;
 //        Simulation.flagX = firstPt.x;
@@ -84,8 +81,12 @@ public class MyAIController extends CarController{
 //                firstPt.x, firstPt.y
 //        ).start();
         ArrayList<Coordinate> destinations = mapRecorder.coordinatesToExplore();
+        if (getKey() > 1 && mapRecorder.keysCoord[getKey() - 2] != null) { // If next key pos is known
+            destinations.add(mapRecorder.keysCoord[getKey() - 2]);
+        } else if (getKey() == 1) {
+            destinations = mapRecorder.finishCoords;
+        }
         if (destinations.isEmpty()) return false;
-//        destinations.add(firstPt);
         ArrayList<Node> path = getShortestPath(new Coordinate(Math.round(getX()), Math.round(getY())),
                 destinations);
 
@@ -102,16 +103,17 @@ public class MyAIController extends CarController{
     }
 
     private ArrayList<Node> getShortestPath(Coordinate source, ArrayList<Coordinate> destinations) {
-        ArrayList<Node> path = new AStar(mapRecorder, source, destinations).start();
-        if (getKey() > 1 && mapRecorder.keysCoord[getKey() - 2] != null) {
-            ArrayList<Coordinate> middlePoints = new ArrayList<>();
-            middlePoints.add(mapRecorder.keysCoord[getKey() - 2]);
-            ArrayList<Node> alternativePath = new AStar(mapRecorder, source, middlePoints).start();
-            alternativePath.addAll(new AStar(mapRecorder, middlePoints.get(0), destinations).start());
-            if (alternativePath.size() - path.size() < MAX_EXTRA_LEN_ALT_PATH)
-                path = alternativePath;
-        }
-        return path;
+        return new AStar(mapRecorder, source, destinations).start();
+//        ArrayList<Node> path = new AStar(mapRecorder, source, destinations).start();
+//        if (getKey() > 1 && mapRecorder.keysCoord[getKey() - 2] != null) {
+//            ArrayList<Coordinate> middlePoints = new ArrayList<>();
+//            middlePoints.add(mapRecorder.keysCoord[getKey() - 2]);
+//            ArrayList<Node> alternativePath = new AStar(mapRecorder, source, middlePoints).start();
+//            alternativePath.addAll(new AStar(mapRecorder, middlePoints.get(0), destinations).start());
+//            if (alternativePath.size() - path.size() < MAX_EXTRA_LEN_ALT_PATH)
+//                path = alternativePath;
+//        }
+//        return path;
     }
 
     private void reRoute() {
@@ -206,7 +208,7 @@ public class MyAIController extends CarController{
         System.out.print("Y: ");
         System.out.println(getY());
 
-        if (!targetPositions.isEmpty() || loadNextExplorePoint()) {
+        if (!targetPositions.isEmpty() || loadNextDestinationPoint()) {
 
             int targetX = Math.round(targetPositions.get(0).x);
             int targetY = Math.round(targetPositions.get(0).y);

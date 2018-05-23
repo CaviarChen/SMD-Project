@@ -14,10 +14,11 @@ public class MapRecorder {
     TileStatus[][] mapStatus;
     MapTile[][] mapTiles;
     Coordinate[] keysCoord;
+    ArrayList<Coordinate> finishCoords = new ArrayList<>();
     int width = 0, height = 0;
 
 
-    public MapRecorder(HashMap<Coordinate,MapTile> mapHashMap, int keySize) {
+    public MapRecorder(HashMap<Coordinate, MapTile> mapHashMap, int keySize) {
 
         // find out height and width
         for (Coordinate coord: mapHashMap.keySet()) {
@@ -39,6 +40,8 @@ public class MapRecorder {
             mapTiles[x][y] = entry.getValue();
             if (mapTiles[x][y].getType()==MapTile.Type.START) {
                 startCoord = entry.getKey();
+            } else if (mapTiles[x][y].getType() == MapTile.Type.FINISH) {
+                finishCoords.add(entry.getKey());
             }
         }
 
