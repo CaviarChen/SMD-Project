@@ -13,10 +13,11 @@ public class MapRecorder {
 
     TileStatus[][] mapStatus;
     MapTile[][] mapTiles;
+    Coordinate[] keysCoord;
     int width = 0, height = 0;
 
 
-    public MapRecorder(HashMap<Coordinate,MapTile> mapHashMap) {
+    public MapRecorder(HashMap<Coordinate,MapTile> mapHashMap, int keySize) {
 
         // find out height and width
         for (Coordinate coord: mapHashMap.keySet()) {
@@ -28,6 +29,7 @@ public class MapRecorder {
 
         mapStatus = new TileStatus[width][height];
         mapTiles = new MapTile[width][height];
+        keysCoord = new Coordinate[keySize-1];
 
         Coordinate startCoord = null;
 
@@ -62,6 +64,8 @@ public class MapRecorder {
                     System.out.print('X');
                 } else if (mapStatus[i][j]==TileStatus.UNSEARCHED) {
                     System.out.print('?');
+                } else if (Arrays.asList(keysCoord).contains(new Coordinate(i, j))) {
+                        System.out.print(Arrays.asList(keysCoord).indexOf(new Coordinate(i, j)) + 1);
                 } else {
                     System.out.print(' ');
                 }
@@ -98,7 +102,17 @@ public class MapRecorder {
                 if (mapStatus[tileX][tileY] == TileStatus.UNSEARCHED) {
                     mapStatus[tileX][tileY] = TileStatus.SEARCHED;
                     mapTiles[tileX][tileY] = entry.getValue();
-                    if (mapTiles[tileX][tileY] instanceof LavaTrap) lavaFound = true;
+//                    System.out.println("---" + mapTiles[tileX][tileY]);
+                    if (mapTiles[tileX][tileY] instanceof LavaTrap)  {
+                        lavaFound = true;
+                        LavaTrap trap = (LavaTrap) mapTiles[tileX][tileY];
+                        if (trap.getKey() > 0) {
+//                            System.out.println("Size:" + keysCoord.length + "Key:" + trap.getKey());
+                            if (Arrays.asList(keysCoord).get(trap.getKey()-1) == null) {
+                                keysCoord[trap.getKey()-1] = new Coordinate(tileX, tileY);
+                            }
+                        }
+                    }
                 }
             }
         }

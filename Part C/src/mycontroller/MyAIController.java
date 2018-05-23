@@ -44,7 +44,7 @@ public class MyAIController extends CarController{
 //	        targetPositions.add(new Coordinate(s));
 //        }
 
-        mapRecorder = new MapRecorder(getMap());
+        mapRecorder = new MapRecorder(getMap(), getKey());
 
 //        AStar aStar = new AStar(mapRecorder, 2, 2, 21, 12);
 //	    ArrayList<Node> path = aStar.start();
