@@ -62,8 +62,8 @@ public class MyAIController extends CarController{
      * Return True if a point is found. False otherwise.
      */
 	private boolean loadNextExplorePoint() {
-        Coordinate firstPt = mapRecorder.getNearestExplorationPoint(getX(), getY());
-        if (firstPt == null) return false;
+//        Coordinate firstPt = mapRecorder.getNearestExplorationPoint(getX(), getY());
+//        if (firstPt == null) return false;
 //        Simulation.flagX = firstPt.x;
 //        Simulation.flagY = firstPt.y;
 //
@@ -77,8 +77,9 @@ public class MyAIController extends CarController{
 //                Math.round(getX()), Math.round(getY()),
 //                firstPt.x, firstPt.y
 //        ).start();
-        ArrayList<Coordinate> destinations = new ArrayList<>();
-        destinations.add(firstPt);
+        ArrayList<Coordinate> destinations = mapRecorder.coordinatesToExplore();
+        if (destinations.isEmpty()) return false;
+//        destinations.add(firstPt);
         ArrayList<Node> path = new AStar(mapRecorder, new Coordinate(Math.round(getX()), Math.round(getY())),
                 destinations).start();
 
