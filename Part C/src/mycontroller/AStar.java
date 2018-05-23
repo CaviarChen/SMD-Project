@@ -12,9 +12,8 @@ public class AStar {
     private MapTile[][] mapTiles;
     private int width;
     private int height;
-    private Node start;
     private Node end;
-    private ArrayList<Node> starts = new ArrayList<>();
+    private ArrayList<Node> starts;
 
     private PriorityQueue<Node> openList = new PriorityQueue<>(); // priority queue (ascending)
     private ArrayList<Node> closeList = new ArrayList<>();
@@ -22,6 +21,7 @@ public class AStar {
     //    public AStar(MapRecorder mapRecorder, int x1, int y1, int x2, int y2) {
 //    public AStar(MapRecorder mapRecorder, Coord source, Coord destination) {
     public AStar(MapRecorder mapRecorder, Coordinate source, ArrayList<Coordinate> destinations) {
+
         width = mapRecorder.getWidth();
         height = mapRecorder.getHeight();
         mapStatus = mapRecorder.mapStatus;
@@ -30,9 +30,14 @@ public class AStar {
         end = new Node(source.x, source.y);
 //        start = new Node(destination.x, destination.y);
 
-        for (Coordinate coord : destinations) {
-            starts.add(new Node(coord.x, coord.y));
+        // clean
+        openList.clear();
+        closeList.clear();
+
+        for (Coordinate coord: destinations) {
+            openList.add(new Node(coord.x, coord.y));
         }
+
 
     }
 
@@ -127,19 +132,17 @@ public class AStar {
     }
 
     public ArrayList<Node> start() {
-        List<ArrayList<Node>> allLists = new ArrayList<>();
+        // start search
 
-        for (Node node : starts) {
-            allLists.add(startNode(node));
+        moveNodes();
+        // path from start to end
+        ArrayList<Node> path = new ArrayList<>();
+        // add to path
+        while (end != null) {
+            path.add(end);
+            end = end.parent;
         }
-//        Collections.sort(allLists, new Comparator<ArrayList<Node>>() {
-//            @Override
-//            public int compare(ArrayList<Node> a1, ArrayList<Node> a2) {
-//                return a1.size() - a2.size();
-//            }
-//        });
-        allLists.sort(Comparator.comparingInt(ArrayList::size));
-        return allLists.get(0);
+        return path;
     }
 
     public ArrayList<Node> startNode(Node node) {
