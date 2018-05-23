@@ -9,6 +9,7 @@ import world.WorldSpatial;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Objects;
 
 
@@ -45,6 +46,7 @@ public class MyAIController extends CarController{
 //        }
 
         mapRecorder = new MapRecorder(getMap());
+        mapRecorder.addCarView(Math.round(getX()), Math.round(getY()), getView());
 
 //        AStar aStar = new AStar(mapRecorder, 2, 2, 21, 12);
 //	    ArrayList<Node> path = aStar.start();
@@ -192,9 +194,7 @@ public class MyAIController extends CarController{
             int targetX = Math.round(targetPositions.get(0).x);
             int targetY = Math.round(targetPositions.get(0).y);
 
-            Simulation.flagX = targetX;
-            Simulation.flagY = targetY;
-            Simulation.flagText = (targetPositions.size() <= 1) ? "V" : "X";
+            Simulation.flagList = targetPositions;
 
 //            if (Math.abs(targetX - getX())<=0.1 && Math.abs(targetY - getY())<=0.1) {
 //                targetPositions.remove(0);
@@ -352,7 +352,6 @@ public class MyAIController extends CarController{
             return x+","+y;
         }
 
-
         /**
          * Defined in order to use it as keys in a hashmap
          */
@@ -370,6 +369,7 @@ public class MyAIController extends CarController{
         public int hashCode(){
             return Objects.hash(x,y);
         }
+
     }
 
 
