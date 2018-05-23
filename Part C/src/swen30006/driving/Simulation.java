@@ -1,6 +1,9 @@
 package swen30006.driving;
 
 import java.lang.Math;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 import java.io.FileReader;
 import java.io.IOException;
@@ -22,6 +25,8 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 
+import mycontroller.MyAIController;
+import utilities.Coordinate;
 import world.World;
 
 /**
@@ -46,8 +51,9 @@ public class Simulation extends ApplicationAdapter implements InputProcessor {
 	private BitmapFont font;
 
 	// TODO: Debug code for flags 1/2
-	public static int flagX = 10, flagY = 10;
-	public static String flagText = "X";
+//	public static int flagX = 10, flagY = 10;
+//	public static String flagText = "X";
+	public static ArrayList<MyAIController.Position> flagList;
 	
 	private static float TIME_STEP = 1/45f;
 	
@@ -140,8 +146,10 @@ public class Simulation extends ApplicationAdapter implements InputProcessor {
 
 		// TODO: Debug code for flags 2/2
 		font.setColor(Color.CYAN);
-		font.draw(batch, flagText, (flagX + 0.001f) * Gdx.graphics.getWidth() / world.MAP_WIDTH,
-                (flagY + 1f + 0.001f) * Gdx.graphics.getHeight() / world.MAP_HEIGHT);
+		if (flagList != null && !flagList.isEmpty())
+		    for (int i = 0; i < flagList.size(); i++)
+                font.draw(batch, (flagList.size() - i) + "", (flagList.get(i).x + 0.001f) * Gdx.graphics.getWidth() / world.MAP_WIDTH,
+                        (flagList.get(i).y + 1f + 0.001f) * Gdx.graphics.getHeight() / world.MAP_HEIGHT);
 
 		//If we win or lose!
 		if(gameEnded){
