@@ -34,6 +34,7 @@ public class RepairStrategy implements Strategy {
     }
 
     public boolean needTakeover(MyAIController myAIController) {
+
         return ((myAIController.getHealth() < 50) && myAIController.mapRecorder.healthCoords.size()>0);
     }
 }

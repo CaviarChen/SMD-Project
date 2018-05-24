@@ -13,6 +13,9 @@ public class MapRecorder {
         UNREACHABLE, SEARCHED, UNSEARCHED
     }
 
+    public static final int LAVA_FOUND     = 0b001;
+    public static final int NEXT_KEY_FOUND = 0b010;
+
     TileStatus[][] mapStatus;
     MapTile[][] mapTiles;
     Coordinate[] keysCoord;
@@ -88,9 +91,15 @@ public class MapRecorder {
     }
 
 
-    public boolean addCarView(int x, int y, HashMap<Coordinate,MapTile> view) {
+    /**
+     * Add a view of the car to the map.
+     * Return a status that indicates special tiles found.
+     * Return 0 or a sum of flags responding to type of tiles found
+     * Including LAVA_FOUND and NEXT_KEY_FOUND
+     */
+    public int addCarView(int x, int y, HashMap<Coordinate,MapTile> view, int currentKey) {
 
-        boolean lavaFound = false;
+        int tilesFoundFlag = 0;
 
         for (Map.Entry<Coordinate, MapTile> entry: view.entrySet()) {
             int tileX = entry.getKey().x;
@@ -100,14 +109,14 @@ public class MapRecorder {
                 if (mapStatus[tileX][tileY] == TileStatus.UNSEARCHED) {
                     mapStatus[tileX][tileY] = TileStatus.SEARCHED;
                     mapTiles[tileX][tileY] = entry.getValue();
-//                    System.out.println("---" + mapTiles[tileX][tileY]);
                     if (mapTiles[tileX][tileY] instanceof LavaTrap)  {
-                        lavaFound = true;
+                        tilesFoundFlag &= LAVA_FOUND;
                         LavaTrap trap = (LavaTrap) mapTiles[tileX][tileY];
                         if (trap.getKey() > 0) {
-//                            System.out.println("Size:" + keysCoord.length + "Key:" + trap.getKey());
-                            if (Arrays.asList(keysCoord).get(trap.getKey()-1) == null) {
-                                keysCoord[trap.getKey()-1] = new Coordinate(tileX, tileY);
+                            if (trap.getKey() == currentKey - 1)
+                                tilesFoundFlag &= NEXT_KEY_FOUND;
+                            if (Arrays.asList(keysCoord).get(trap.getKey() - 1) == null) {
+                                keysCoord[trap.getKey() - 1] = new Coordinate(tileX, tileY);
                             }
                         }
                     } else if (mapTiles[tileX][tileY] instanceof HealthTrap) {
@@ -118,7 +127,7 @@ public class MapRecorder {
         }
         print();
 
-        return lavaFound;
+        return tilesFoundFlag;
     }
 
     private void findReachableDFS(int x, int y) {

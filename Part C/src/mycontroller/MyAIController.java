@@ -9,7 +9,7 @@ import world.WorldSpatial;
 import java.util.ArrayList;
 
 
-public class MyAIController extends CarController{
+public class MyAIController extends CarController {
 
     private static final float BRAKING_FORCE = 2f;
     private static final float ACCELERATION = 2f;
@@ -36,15 +36,12 @@ public class MyAIController extends CarController{
     ArrayList<Position> route = new ArrayList<>();
 
 
-
-
-
 	public MyAIController(Car car) {
 
         super(car);
 
         mapRecorder = new MapRecorder(getMap(), getKey());
-        mapRecorder.addCarView(Math.round(getX()), Math.round(getY()), getView());
+        mapRecorder.addCarView(Math.round(getX()), Math.round(getY()), getView(), getKey());
 
         pathPlanner = new Pipeline<>();
         pathPlanner.appendStep(new AStar());
@@ -77,20 +74,16 @@ public class MyAIController extends CarController{
         int currentX = Math.round(getX());
         int currentY = Math.round(getY());
 
-        if (currentX!=lastX || currentY!=lastY) {
-            boolean lavaFound = mapRecorder.addCarView(Math.round(getX()), Math.round(getY()), getView());
-            if (lavaFound && route.size()!=0) {
-
-                // reroute
-                calculateRoute();
-            }
+        if (strategyManager.update(this))
+            calculateTargets(); // Strategy changed
+        else if (currentX!=lastX || currentY!=lastY) {
+            int foundFlags = mapRecorder.addCarView(Math.round(getX()), Math.round(getY()), getView(), getKey());
+            if ((foundFlags & MapRecorder.NEXT_KEY_FOUND) != 0)
+                calculateTargets(); // Recalculate targets
+            else if ((foundFlags & MapRecorder.LAVA_FOUND) != 0 && route.size()!=0)
+                calculateRoute(); // Reroute
         }
 
-
-        if (strategyManager.update(this)) {
-            // strategy changed
-            calculateTargets();
-        }
 
 
         System.out.print("X: ");
