@@ -1,7 +1,6 @@
 package mycontroller;
 
 import controller.CarController;
-import javafx.geometry.Pos;
 import swen30006.driving.Simulation;
 import utilities.Coordinate;
 import world.Car;
@@ -9,7 +8,6 @@ import world.WorldSpatial;
 
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 
 public class MyAIController extends CarController{
@@ -30,22 +28,20 @@ public class MyAIController extends CarController{
     private int lastX = -1;
     private int lastY = -1;
 
-//    String[] test_pos = new String[]{"3,3", "7,3", "7,11"};  // easy-map
-//    String[] test_pos = new String[]{"26,2", "21,12", "2,12", "2,2", "26,2", "21,12", "2,12", "2,2"}; // test-key-map
-//    String[] test_pos = new String[]{"23,3", "23,17"}; // narrow-road
 
 
     MapRecorder mapRecorder;
-    ArrayList<Position> targetPositions = new ArrayList<>();
+
+    ArrayList<Position> targets = new ArrayList<>();
+    ArrayList<Position> route = new ArrayList<>();
+
+
+
 
 
 	public MyAIController(Car car) {
 
         super(car);
-
-//	    for(String s: test_pos) {
-//	        targetPositions.add(new Coordinate(s));
-//        }
 
         mapRecorder = new MapRecorder(getMap(), getKey());
         mapRecorder.addCarView(Math.round(getX()), Math.round(getY()), getView());
@@ -55,37 +51,9 @@ public class MyAIController extends CarController{
         pathPlanner.appendStep(new AvoidWall());
         pathPlanner.appendStep(new SimplifyPath());
 
-//        AStar aStar = new AStar(mapRecorder, 2, 2, 21, 12);
-//	    ArrayList<Node> path = aStar.start();
-//	    for (Node n:path) {
-//            targetPositions.add(avoidWall(n.coord.x, n.coord.y));
-//        }
-
-        // Use the simple random path to navigate the car to explore
-        // the map
-//        loadNextDestinationPoint();
 	}
 
-    /**
-     * Load next destination point.
-     * Return True if a point is found. False otherwise.
-     */
-	private boolean loadNextDestinationPoint() {
-//        Coordinate firstPt = mapRecorder.getNearestExplorationPoint(getX(), getY());
-//        if (firstPt == null) return false;
-//        Simulation.flagX = firstPt.x;
-//        Simulation.flagY = firstPt.y;
-//
-//        if (mapRecorder.mapStatus[firstPt.x][firstPt.y] == MapRecorder.TileStatus.UNREACHABLE) {
-//            Simulation.flagText = "V";
-//        } else {
-//            Simulation.flagText = "X";
-//        }
-
-//        ArrayList<Node> path = new AStar(mapRecorder,
-//                Math.round(getX()), Math.round(getY()),
-//                firstPt.x, firstPt.y
-//        ).start();
+    private void calculateTargets() {
         ArrayList<Coordinate> destinations = mapRecorder.coordinatesToExplore();
         if (getKey() > 1 && mapRecorder.keysCoord[getKey() - 2] != null) { // If next key pos is known
             destinations.add(mapRecorder.keysCoord[getKey() - 2]);
@@ -100,46 +68,25 @@ public class MyAIController extends CarController{
         } else if (getKey() == 1) {
             destinations = mapRecorder.finishCoords;
         }
-        if (destinations.isEmpty()) return false;
 
-        ArrayList<Position> input = new ArrayList<>();
 
-        // the first one is the source
-        input.add(new Position(getX(), getY()));
-
-        // adding destinations
+        targets.clear();
         for (Coordinate coord: destinations) {
-            input.add(new Position(coord.x, coord.y));
+            targets.add(new Position(coord.x, coord.y));
         }
 
-
-        targetPositions = pathPlanner.execute(input, mapRecorder);
-
-
-        return true;
+        // targets changed, recalculate the route
+        calculateRoute();
     }
 
-
-    private void reRoute() {
-
-	    int lastid = targetPositions.size() - 1;
-
-//        ArrayList<Node> path = new AStar(mapRecorder,
-//                Math.round(getX()), Math.round(getY()),
-//                Math.round(targetPositions.get(lastid).x), Math.round(targetPositions.get(lastid).y)
-//        ).start();
-        ArrayList<Position> input = new ArrayList<>();
-
-        // the first one is the source
-        input.add(new Position(getX(), getY()));
-
-        // adding destinations
-        input.add(targetPositions.get(lastid));
-
-
-        targetPositions = pathPlanner.execute(input, mapRecorder);
+	private void calculateRoute() {
+	    // the last one should be the current position
+        targets.add(new Position(getX(), getY()));
+        route = pathPlanner.execute(targets, mapRecorder);
+        targets.remove(targets.size() - 1);
     }
-
+    
+    
 	@Override
 	public void update(float delta) {
 
@@ -148,8 +95,10 @@ public class MyAIController extends CarController{
 
         if (currentX!=lastX || currentY!=lastY) {
             boolean lavaFound = mapRecorder.addCarView(Math.round(getX()), Math.round(getY()), getView());
-            if (lavaFound && targetPositions.size()!=0) {
-                reRoute();
+            if (lavaFound && route.size()!=0) {
+
+                // reroute
+                calculateRoute();
             }
         }
 
@@ -159,26 +108,26 @@ public class MyAIController extends CarController{
         System.out.print("Y: ");
         System.out.println(getY());
 
-        if (!targetPositions.isEmpty() || loadNextDestinationPoint()) {
+        if (route.isEmpty()) {
+            calculateTargets();
+        }
 
-            int targetX = Math.round(targetPositions.get(0).x);
-            int targetY = Math.round(targetPositions.get(0).y);
+        if (!route.isEmpty()) {
 
-            Simulation.flagList = targetPositions;
+            int targetX = Math.round(route.get(0).x);
+            int targetY = Math.round(route.get(0).y);
 
-//            if (Math.abs(targetX - getX())<=0.1 && Math.abs(targetY - getY())<=0.1) {
-//                targetPositions.remove(0);
-//                return;
-//            }
+            Simulation.flagList = route;
+
 
             if (currentX==targetX && currentY==targetY) {
-                targetPositions.remove(0);
+                route.remove(0);
                 return;
             }
 
 
-            float targetAngle = getTargetAngle(targetPositions.get(0));
-            float dist = getTargetDistance(targetPositions.get(0));
+            float targetAngle = getTargetAngle(route.get(0));
+            float dist = getTargetDistance(route.get(0));
             System.out.println(dist);
             System.out.println(targetAngle);
             System.out.println(getAngle());
@@ -272,8 +221,7 @@ public class MyAIController extends CarController{
     //         -1 if otherAngle is to the left of sourceAngle
 
     // now return difference
-    float compareAngles(float sourceAngle, float otherAngle)
-    {
+    float compareAngles(float sourceAngle, float otherAngle) {
         // sourceAngle and otherAngle should be in the range -180 to 180
         float difference = otherAngle - sourceAngle;
 

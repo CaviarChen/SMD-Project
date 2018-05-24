@@ -16,11 +16,13 @@ public class AStar implements Pipeline.Step<ArrayList<Position>, MapRecorder> {
         openList.clear();
         closeList.clear();
 
-        Node end = new Node(Math.round(input.get(0).x), Math.round(input.get(0).y));
 
-        for (int i=1; i<input.size(); i++) {
+
+        for (int i=0; i<input.size()-1; i++) {
             openList.add(new Node(Math.round(input.get(i).x), Math.round(input.get(i).y)));
         }
+
+        Node end = new Node(Math.round(input.get(input.size()-1).x), Math.round(input.get(input.size()-1).y));
 
         return start(mapRecorder, openList, closeList, end);
     }
