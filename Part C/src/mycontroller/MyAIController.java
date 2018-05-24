@@ -1,6 +1,7 @@
 package mycontroller;
 
 import controller.CarController;
+import javafx.geometry.Pos;
 import swen30006.driving.Simulation;
 import utilities.Coordinate;
 import world.Car;
@@ -50,6 +51,7 @@ public class MyAIController extends CarController{
         mapRecorder.addCarView(Math.round(getX()), Math.round(getY()), getView());
 
         pathPlanner = new Pipeline<>();
+        pathPlanner.appendStep(new AStar());
         pathPlanner.appendStep(new AvoidWall());
         pathPlanner.appendStep(new SimplifyPath());
 
@@ -99,34 +101,24 @@ public class MyAIController extends CarController{
             destinations = mapRecorder.finishCoords;
         }
         if (destinations.isEmpty()) return false;
-        ArrayList<Node> path = getShortestPath(new Coordinate(Math.round(getX()), Math.round(getY())),
-                destinations);
 
-        targetPositions.clear();
-        ArrayList<Position> tmp = new ArrayList<>();
+        ArrayList<Position> input = new ArrayList<>();
 
-        for (Node n: path) {
-            tmp.add(new Position(n.coord.x, n.coord.y));
+        // the first one is the source
+        input.add(new Position(getX(), getY()));
+
+        // adding destinations
+        for (Coordinate coord: destinations) {
+            input.add(new Position(coord.x, coord.y));
         }
 
-        targetPositions = pathPlanner.execute(tmp, mapRecorder);
+
+        targetPositions = pathPlanner.execute(input, mapRecorder);
+
 
         return true;
     }
 
-    private ArrayList<Node> getShortestPath(Coordinate source, ArrayList<Coordinate> destinations) {
-        return new AStar(mapRecorder, source, destinations).start();
-//        ArrayList<Node> path = new AStar(mapRecorder, source, destinations).start();
-//        if (getKey() > 1 && mapRecorder.keysCoord[getKey() - 2] != null) {
-//            ArrayList<Coordinate> middlePoints = new ArrayList<>();
-//            middlePoints.add(mapRecorder.keysCoord[getKey() - 2]);
-//            ArrayList<Node> alternativePath = new AStar(mapRecorder, source, middlePoints).start();
-//            alternativePath.addAll(new AStar(mapRecorder, middlePoints.get(0), destinations).start());
-//            if (alternativePath.size() - path.size() < MAX_EXTRA_LEN_ALT_PATH)
-//                path = alternativePath;
-//        }
-//        return path;
-    }
 
     private void reRoute() {
 
@@ -136,19 +128,16 @@ public class MyAIController extends CarController{
 //                Math.round(getX()), Math.round(getY()),
 //                Math.round(targetPositions.get(lastid).x), Math.round(targetPositions.get(lastid).y)
 //        ).start();
-        ArrayList<Coordinate> destinations = new ArrayList<>();
-        destinations.add(new Coordinate(Math.round(targetPositions.get(lastid).x), Math.round(targetPositions.get(lastid).y)));
-        ArrayList<Node> path = getShortestPath(new Coordinate(Math.round(getX()), Math.round(getY())),
-                destinations);
+        ArrayList<Position> input = new ArrayList<>();
 
-        targetPositions.clear();
-        ArrayList<Position> tmp = new ArrayList<>();
+        // the first one is the source
+        input.add(new Position(getX(), getY()));
 
-        for (Node n: path) {
-            tmp.add(new Position(n.coord.x, n.coord.y));
-        }
+        // adding destinations
+        input.add(targetPositions.get(lastid));
 
-        targetPositions = pathPlanner.execute(tmp, mapRecorder);
+
+        targetPositions = pathPlanner.execute(input, mapRecorder);
     }
 
 	@Override
