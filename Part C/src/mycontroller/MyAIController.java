@@ -61,29 +61,34 @@ public class MyAIController extends CarController {
     }
 
 	private void calculateRoute() {
-	    if (targets==null) return;
+	    if (targets == null) return;
 	    // the last one should be the current position
-        targets.add(new Position(getX(), getY()));
-        route = pathPlanner.execute(targets, mapRecorder);
-        targets.remove(targets.size() - 1);
+        System.out.println("targets = " + targets);
+        ArrayList<Position> input = new ArrayList<>(targets);
+        input.add(new Position(getX(), getY()));
+        route = pathPlanner.execute(input, mapRecorder);
     }
     
     
 	@Override
 	public void update(float delta) {
 
+        int foundFlags = 0;
+
+        if (strategyManager.update(this)) {
+            foundFlags = MapRecorder.NEXT_KEY_FOUND; // Strategy changed
+        }
+
         int currentX = Math.round(getX());
         int currentY = Math.round(getY());
-
-        if (strategyManager.update(this))
-            calculateTargets(); // Strategy changed
-        else if (currentX!=lastX || currentY!=lastY) {
-            int foundFlags = mapRecorder.addCarView(Math.round(getX()), Math.round(getY()), getView(), getKey());
-            if ((foundFlags & MapRecorder.NEXT_KEY_FOUND) != 0)
-                calculateTargets(); // Recalculate targets
-            else if ((foundFlags & MapRecorder.LAVA_FOUND) != 0 && route.size()!=0)
-                calculateRoute(); // Reroute
+        if (currentX!=lastX || currentY!=lastY) {
+            foundFlags = mapRecorder.addCarView(Math.round(getX()), Math.round(getY()), getView(), getKey());
         }
+        if ((foundFlags & MapRecorder.NEXT_KEY_FOUND) != 0)
+            calculateTargets(); // Recalculate targets
+        else if ((foundFlags & MapRecorder.LAVA_FOUND) != 0 && route.size() != 0)
+            calculateRoute(); // Reroute
+
 
 
 

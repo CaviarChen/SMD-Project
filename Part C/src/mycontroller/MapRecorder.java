@@ -110,11 +110,11 @@ public class MapRecorder {
                     mapStatus[tileX][tileY] = TileStatus.SEARCHED;
                     mapTiles[tileX][tileY] = entry.getValue();
                     if (mapTiles[tileX][tileY] instanceof LavaTrap)  {
-                        tilesFoundFlag &= LAVA_FOUND;
+                        tilesFoundFlag |= LAVA_FOUND;
                         LavaTrap trap = (LavaTrap) mapTiles[tileX][tileY];
                         if (trap.getKey() > 0) {
                             if (trap.getKey() == currentKey - 1)
-                                tilesFoundFlag &= NEXT_KEY_FOUND;
+                                tilesFoundFlag |= NEXT_KEY_FOUND;
                             if (Arrays.asList(keysCoord).get(trap.getKey() - 1) == null) {
                                 keysCoord[trap.getKey() - 1] = new Coordinate(tileX, tileY);
                             }
