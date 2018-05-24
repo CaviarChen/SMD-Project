@@ -1,44 +1,48 @@
 package mycontroller;
 
 import tiles.LavaTrap;
-import tiles.MapTile;
 import utilities.Coordinate;
+import java.util.ArrayList;
+import java.util.PriorityQueue;
 
-import java.util.*;
+public class AStar implements Pipeline.Step<ArrayList<Position>, MapRecorder> {
 
-public class AStar {
+    @Override
+    public ArrayList<Position> execute(ArrayList<Position> input, MapRecorder mapRecorder) {
 
-    private MapRecorder.TileStatus[][] mapStatus;
-    private MapTile[][] mapTiles;
-    private int width;
-    private int height;
-    private Node end;
-    private ArrayList<Node> starts;
+        PriorityQueue<Node> openList = new PriorityQueue<>();
+        ArrayList<Node> closeList = new ArrayList<>();
 
-    private PriorityQueue<Node> openList = new PriorityQueue<>(); // priority queue (ascending)
-    private ArrayList<Node> closeList = new ArrayList<>();
-
-    //    public AStar(MapRecorder mapRecorder, int x1, int y1, int x2, int y2) {
-//    public AStar(MapRecorder mapRecorder, Coord source, Coord destination) {
-    public AStar(MapRecorder mapRecorder, Coordinate source, ArrayList<Coordinate> destinations) {
-
-        width = mapRecorder.getWidth();
-        height = mapRecorder.getHeight();
-        mapStatus = mapRecorder.mapStatus;
-        mapTiles = mapRecorder.mapTiles;
-
-        end = new Node(source.x, source.y);
-//        start = new Node(destination.x, destination.y);
-
-        // clean
         openList.clear();
         closeList.clear();
 
-        for (Coordinate coord: destinations) {
-            openList.add(new Node(coord.x, coord.y));
+        Node end = new Node(Math.round(input.get(0).x), Math.round(input.get(0).y));
+
+        for (int i=1; i<input.size(); i++) {
+            openList.add(new Node(Math.round(input.get(i).x), Math.round(input.get(i).y)));
         }
 
+        return start(mapRecorder, openList, closeList, end);
+    }
 
+    public ArrayList<Position> start(MapRecorder mapRecorder, PriorityQueue<Node> openList, ArrayList<Node> closeList, Node end) {
+        // start search
+        while (!openList.isEmpty()) {
+//            if (isCoordInClose(closeList, end.coord)) break;
+            if (end.coord != null && isCoordInClose(closeList, end.coord.x, end.coord.y)) break;
+
+            Node current = openList.poll();
+            closeList.add(current);
+            if (current != null) addNeighborNodeInOpen(mapRecorder, openList, closeList, end, current);
+        }
+        // path
+        ArrayList<Position> path = new ArrayList<>();
+
+        while (end != null) {
+            path.add(new Position(end.coord.x, end.coord.y));
+            end = end.parent;
+        }
+        return path;
     }
 
     // Manhattan distance as heuristic distance
@@ -51,21 +55,21 @@ public class AStar {
         return end.equals(coord);
     }
 
-    private boolean canAddNodeToOpen(int x, int y) {
+    private boolean canAddNodeToOpen(MapRecorder mapRecorder, ArrayList<Node> closeList, int x, int y) {
         // check whether is in map
-        if (x < 0 || x >= width || y < 0 || y >= height) return false;
+        if (x < 0 || x >= mapRecorder.width || y < 0 || y >= mapRecorder.height) return false;
         // check whether is UNREACHABLE
-        if (mapStatus[x][y] == MapRecorder.TileStatus.UNREACHABLE) return false;
+        if (mapRecorder.mapStatus[x][y] == MapRecorder.TileStatus.UNREACHABLE) return false;
         // check node whether exists in closeList
-        return !isCoordInClose(x, y);
+        return !isCoordInClose(closeList, x, y);
     }
 
     // check whether coordinate
-    private boolean isCoordInClose(Coordinate coord) {
-        return coord != null && isCoordInClose(coord.x, coord.y);
-    }
+//    private boolean isCoordInClose(ArrayList<Node> closeList, Coordinate coord) {
+//        return coord != null && isCoordInClose(closeList, coord.x, coord.y);
+//    }
 
-    private boolean isCoordInClose(int x, int y) {
+    private boolean isCoordInClose(ArrayList<Node> closeList, int x, int y) {
         if (closeList.isEmpty()) return false;
         for (Node node : closeList) {
             if (node.coord.x == x && node.coord.y == y) return true;
@@ -73,7 +77,7 @@ public class AStar {
         return false;
     }
 
-    private Node findNodeInOpen(Coordinate coord) {
+    private Node findNodeInOpen(PriorityQueue<Node> openList, Coordinate coord) {
         if (coord == null || openList.isEmpty()) return null;
         for (Node node : openList) {
             if (node.coord.equals(coord)) return node;
@@ -82,23 +86,24 @@ public class AStar {
     }
 
     // add all neighbor nodes into openList
-    private void addNeighborNodeInOpen(Node current) {
+    private void addNeighborNodeInOpen(MapRecorder mapRecorder, PriorityQueue<Node> openList, ArrayList<Node> closeList, Node end, Node current) {
         int x = current.coord.x;
         int y = current.coord.y;
-        addNeighborNodeInOpen(current, x - 1, y);    // left
-        addNeighborNodeInOpen(current, x, y - 1);    // up
-        addNeighborNodeInOpen(current, x + 1, y);    // right
-        addNeighborNodeInOpen(current, x, y + 1);    // down
+        addNeighborNodeInOpen(mapRecorder, openList, closeList, end, current, x - 1, y);    // left
+        addNeighborNodeInOpen(mapRecorder, openList, closeList, end, current, x, y - 1);    // up
+        addNeighborNodeInOpen(mapRecorder, openList, closeList, end, current, x + 1, y);    // right
+        addNeighborNodeInOpen(mapRecorder, openList, closeList, end, current, x, y + 1);    // down
     }
 
     // add a neighbor node into openList
-    private void addNeighborNodeInOpen(Node current, int x, int y) {
-        if (canAddNodeToOpen(x, y)) {
+    private void addNeighborNodeInOpen(MapRecorder mapRecorder, PriorityQueue<Node> openList, ArrayList<Node> closeList,
+                                       Node end, Node current, int x, int y) {
+        if (canAddNodeToOpen(mapRecorder, closeList, x, y)) {
             Coordinate coord = new Coordinate(x, y);
 
             int value = 1;
             // add weight for lava trap
-            if (mapTiles[x][y] instanceof LavaTrap) value += 4;
+            if (mapRecorder.mapTiles[x][y] instanceof LavaTrap) value += 4;
             // add weight for turning
             if (current.parent != null && current.parent.parent != null) {
                 int parentXDiff = current.parent.coord.x - current.parent.parent.coord.x;
@@ -110,7 +115,7 @@ public class AStar {
             }
 
             int G = current.G + value; // calculate G value for neighbor node
-            Node child = findNodeInOpen(coord);
+            Node child = findNodeInOpen(openList, coord);
             if (child == null) {
                 int H = calcH(end.coord, coord); // calculate H value
                 if (isEndNode(end.coord, coord)) {
@@ -128,48 +133,6 @@ public class AStar {
                 // re-adjust heap
                 openList.add(child);
             }
-        }
-    }
-
-    public ArrayList<Node> start() {
-        // start search
-
-        moveNodes();
-        // path from start to end
-        ArrayList<Node> path = new ArrayList<>();
-        // add to path
-        while (end != null) {
-            path.add(end);
-            end = end.parent;
-        }
-        return path;
-    }
-
-    public ArrayList<Node> startNode(Node node) {
-        // clean
-        openList.clear();
-        closeList.clear();
-        // start search
-        openList.add(node);
-        moveNodes();
-        // path from start to end
-        ArrayList<Node> path = new ArrayList<>();
-        // add to path
-        while (end != null) {
-            path.add(end);
-            end = end.parent;
-        }
-        return path;
-    }
-
-    // move the nodes
-    private void moveNodes() {
-        while (!openList.isEmpty()) {
-            if (isCoordInClose(end.coord)) break;
-
-            Node current = openList.poll();
-            closeList.add(current);
-            if (current != null) addNeighborNodeInOpen(current);
         }
     }
 
