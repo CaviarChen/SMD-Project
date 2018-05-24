@@ -46,6 +46,7 @@ public class MyAIController extends CarController {
         pathPlanner = new Pipeline<>();
         pathPlanner.appendStep(new AStar());
         pathPlanner.appendStep(new AvoidWall());
+        pathPlanner.appendStep(new RemoveRedundantPath());
         pathPlanner.appendStep(new SimplifyPath());
 
         strategyManager = new StrategyManager();
@@ -153,7 +154,7 @@ public class MyAIController extends CarController {
                 }
             }
 
-            float endingSpeed = 0f;
+            float endingSpeed = 0.5f;
 
             System.out.print("dist: ");
             System.out.println(dist);
