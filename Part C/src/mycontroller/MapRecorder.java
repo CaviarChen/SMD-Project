@@ -3,6 +3,7 @@ package mycontroller;
 import tiles.LavaTrap;
 import tiles.MapTile;
 import utilities.Coordinate;
+import world.World;
 
 import java.util.*;
 
@@ -15,19 +16,11 @@ public class MapRecorder {
     MapTile[][] mapTiles;
     Coordinate[] keysCoord;
     ArrayList<Coordinate> finishCoords = new ArrayList<>();
-    int width = 0, height = 0;
+    int width = World.MAP_WIDTH, height = World.MAP_HEIGHT;
 
 
     public MapRecorder(HashMap<Coordinate, MapTile> mapHashMap, int keySize) {
-
-        // find out height and width
-        for (Coordinate coord: mapHashMap.keySet()) {
-            width = Math.max(coord.x, width);
-            height = Math.max(coord.y, height);
-        }
-        width += 1;
-        height += 1;
-
+        
         mapStatus = new TileStatus[width][height];
         mapTiles = new MapTile[width][height];
         keysCoord = new Coordinate[keySize-1];
