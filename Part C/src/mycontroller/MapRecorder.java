@@ -1,5 +1,6 @@
 package mycontroller;
 
+import tiles.HealthTrap;
 import tiles.LavaTrap;
 import tiles.MapTile;
 import utilities.Coordinate;
@@ -16,6 +17,7 @@ public class MapRecorder {
     MapTile[][] mapTiles;
     Coordinate[] keysCoord;
     ArrayList<Coordinate> finishCoords = new ArrayList<>();
+    ArrayList<Coordinate> healthCoords = new ArrayList<>();
     int width = World.MAP_WIDTH, height = World.MAP_HEIGHT;
 
 
@@ -108,6 +110,8 @@ public class MapRecorder {
                                 keysCoord[trap.getKey()-1] = new Coordinate(tileX, tileY);
                             }
                         }
+                    } else if (mapTiles[tileX][tileY] instanceof HealthTrap) {
+                        healthCoords.add(new Coordinate(tileX, tileY));
                     }
                 }
             }

@@ -2,7 +2,6 @@ package mycontroller;
 
 import controller.CarController;
 import swen30006.driving.Simulation;
-import utilities.Coordinate;
 import world.Car;
 import world.WorldSpatial;
 
@@ -64,6 +63,7 @@ public class MyAIController extends CarController{
     }
 
 	private void calculateRoute() {
+	    if (targets==null) return;
 	    // the last one should be the current position
         targets.add(new Position(getX(), getY()));
         route = pathPlanner.execute(targets, mapRecorder);

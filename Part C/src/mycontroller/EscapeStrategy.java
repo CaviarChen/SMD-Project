@@ -12,7 +12,7 @@ public class EscapeStrategy implements Strategy {
         ArrayList<Position> output = new ArrayList<>();
 
         for(Coordinate coord: myAIController.mapRecorder.finishCoords) {
-            output.add(new Position(coord.x, coord.y));
+            output.add(new Position(coord));
         }
 
         return output;

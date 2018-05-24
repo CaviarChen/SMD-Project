@@ -1,5 +1,7 @@
 package mycontroller;
 
+import utilities.Coordinate;
+
 import java.util.Objects;
 
 public class Position {
@@ -10,6 +12,11 @@ public class Position {
     public Position(float x, float y){
         this.x = x;
         this.y = y;
+    }
+
+    public Position(Coordinate coord) {
+        this.x = coord.x;
+        this.y = coord.y;
     }
 
     public String toString(){

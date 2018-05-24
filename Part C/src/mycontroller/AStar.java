@@ -41,7 +41,7 @@ public class AStar implements Pipeline.Step<ArrayList<Position>, MapRecorder> {
         ArrayList<Position> path = new ArrayList<>();
 
         while (end != null) {
-            path.add(new Position(end.coord.x, end.coord.y));
+            path.add(new Position(end.coord));
             end = end.parent;
         }
         return path;

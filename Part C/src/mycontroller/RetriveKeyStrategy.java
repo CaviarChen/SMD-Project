@@ -19,14 +19,14 @@ public class RetriveKeyStrategy implements Strategy {
 
         if (!allKeyFound) {
             for(Coordinate coord: myAIController.mapRecorder.coordinatesToExplore()) {
-                output.add(new Position(coord.x, coord.y));
+                output.add(new Position(coord));
             }
         }
 
         // If next key pos is known
         if (keyCount > 1 && myAIController.mapRecorder.keysCoord[keyCount - 2] != null) {
             Coordinate coord = myAIController.mapRecorder.keysCoord[keyCount - 2];
-            output.add(new Position(coord.x, coord.y));
+            output.add(new Position(coord));
         }
 
         return output;
