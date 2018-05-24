@@ -16,14 +16,14 @@ public class MyAIController extends CarController{
     private static final float BRAKING_FORCE = 2f;
     private static final float ACCELERATION = 2f;
     private static final float FRICTION_FORCE = 0.5f;
-    private static final int[][] DIRECTS = new int[][]{{1,0},{-1,0},{0,1},{0,-1},{1,1},{-1,1},{1,-1},{-1,-1}};
-    private static final float PRECISION_LEVEL = 0.001f;
 
     /** Angle threshold to detect U-turns */
     private static final float U_TURN_THRESHOLD = 120.0f;
 
     /** Threshold for maximum addition of length for alternative path that includes the next key needed to collect **/
     private static final int MAX_EXTRA_LEN_ALT_PATH = 10;
+
+    private Pipeline<ArrayList<Position>, MapRecorder> pathPlanner;
 
 
     private int lastX = -1;
@@ -48,6 +48,10 @@ public class MyAIController extends CarController{
 
         mapRecorder = new MapRecorder(getMap(), getKey());
         mapRecorder.addCarView(Math.round(getX()), Math.round(getY()), getView());
+
+        pathPlanner = new Pipeline<>();
+        pathPlanner.appendStep(new AvoidWall());
+        pathPlanner.appendStep(new SimplifyPath());
 
 //        AStar aStar = new AStar(mapRecorder, 2, 2, 21, 12);
 //	    ArrayList<Node> path = aStar.start();
@@ -99,14 +103,14 @@ public class MyAIController extends CarController{
                 destinations);
 
         targetPositions.clear();
+        ArrayList<Position> tmp = new ArrayList<>();
 
         for (Node n: path) {
-            targetPositions.add(avoidWall(n.coord.x, n.coord.y));
+            tmp.add(new Position(n.coord.x, n.coord.y));
         }
 
-        System.out.println(targetPositions.size());
-        removeUselessPos(targetPositions);
-        System.out.println(targetPositions.size());
+        targetPositions = pathPlanner.execute(tmp, mapRecorder);
+
         return true;
     }
 
@@ -138,63 +142,13 @@ public class MyAIController extends CarController{
                 destinations);
 
         targetPositions.clear();
+        ArrayList<Position> tmp = new ArrayList<>();
 
         for (Node n: path) {
-            targetPositions.add(avoidWall(n.coord.x, n.coord.y));
+            tmp.add(new Position(n.coord.x, n.coord.y));
         }
 
-        System.out.println(targetPositions.size());
-        removeUselessPos(targetPositions);
-        System.out.println(targetPositions.size());
-
-    }
-
-	private boolean floatEquals(float a, float b) {
-	    return Math.abs(a-b) < PRECISION_LEVEL;
-    }
-
-
-	private Position avoidWall(int x, int y) {
-
-	    int offsetX = 0;
-	    int offsetY = 0;
-
-	    MapRecorder.TileStatus[][] mapStatus = mapRecorder.getTileStatus();
-
-	    for(int[] dir: DIRECTS) {
-	        int newX = x + dir[0];
-            int newY = y + dir[1];
-
-            if(mapRecorder.inRange(newX, newY)) {
-                if (mapStatus[newX][newY] == MapRecorder.TileStatus.UNREACHABLE) {
-                    if (offsetX==0) offsetX = dir[0];
-                    if (offsetY==0) offsetY = dir[1];
-                }
-            }
-        }
-
-        return new Position(x - 0.3f*offsetX, y - 0.3f*offsetY);
-    }
-
-    private void removeUselessPos(ArrayList<Position> positions) {
-	    for (int i=0; i<positions.size()-2; i++) {
-	        if (positions.get(i)==null) continue;;
-
-	        for (int j=i+2; j<positions.size(); j++) {
-                Position pos1 = positions.get(i);
-                Position pos2 = positions.get(j);
-
-                if (floatEquals(pos1.x, pos2.x) || floatEquals(pos1.y, pos2.y)) {
-                    positions.set(j-1, null);
-                } else {
-                    break;
-                }
-            }
-        }
-
-        // clean up
-        positions.removeIf(Objects::isNull);
-
+        targetPositions = pathPlanner.execute(tmp, mapRecorder);
     }
 
 	@Override

@@ -26,6 +26,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 
 import mycontroller.MyAIController;
+import mycontroller.Position;
 import utilities.Coordinate;
 import world.World;
 
@@ -53,7 +54,7 @@ public class Simulation extends ApplicationAdapter implements InputProcessor {
 	// TODO: Debug code for flags 1/2
 //	public static int flagX = 10, flagY = 10;
 //	public static String flagText = "X";
-	public static ArrayList<MyAIController.Position> flagList;
+	public static ArrayList<Position> flagList;
 	
 	private static float TIME_STEP = 1/45f;
 	
