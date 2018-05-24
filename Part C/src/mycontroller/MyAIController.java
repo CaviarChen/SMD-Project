@@ -23,6 +23,7 @@ public class MyAIController extends CarController{
     private static final int MAX_EXTRA_LEN_ALT_PATH = 10;
 
     private Pipeline<ArrayList<Position>, MapRecorder> pathPlanner;
+    private StrategyManager strategyManager;
 
 
     private int lastX = -1;
@@ -51,29 +52,12 @@ public class MyAIController extends CarController{
         pathPlanner.appendStep(new AvoidWall());
         pathPlanner.appendStep(new SimplifyPath());
 
+        strategyManager = new StrategyManager();
+
 	}
 
     private void calculateTargets() {
-        ArrayList<Coordinate> destinations = mapRecorder.coordinatesToExplore();
-        if (getKey() > 1 && mapRecorder.keysCoord[getKey() - 2] != null) { // If next key pos is known
-            destinations.add(mapRecorder.keysCoord[getKey() - 2]);
-            boolean allKeyFound = true;
-            for (int i = getKey() - 2; i >= 0; i--)
-                allKeyFound &= mapRecorder.keysCoord[i] != null;
-            if (allKeyFound) {
-                destinations.clear();
-                for (int i = getKey() - 2; i >= 0; i--)
-                    destinations.add(mapRecorder.keysCoord[i]);
-            }
-        } else if (getKey() == 1) {
-            destinations = mapRecorder.finishCoords;
-        }
-
-
-        targets.clear();
-        for (Coordinate coord: destinations) {
-            targets.add(new Position(coord.x, coord.y));
-        }
+        targets = strategyManager.getTargets(this);
 
         // targets changed, recalculate the route
         calculateRoute();
@@ -100,6 +84,12 @@ public class MyAIController extends CarController{
                 // reroute
                 calculateRoute();
             }
+        }
+
+
+        if (strategyManager.update(this)) {
+            // strategy changed
+            calculateTargets();
         }
 
 
