@@ -83,8 +83,10 @@ public class Car extends Sprite{
 			setX(World.getCarStart().x);
 			setY(World.getCarStart().y);
 		}
-		CAR_WIDTH = (int) sprite.getWidth();
-		CAR_HEIGHT = (int) sprite.getHeight();
+		CAR_WIDTH = (int) Math.min(sprite.getWidth(),sprite.getHeight());
+		CAR_HEIGHT = CAR_WIDTH;
+
+
 
 		this.currentOrientation = WorldSpatial.Direction.EAST;
 	}
