@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class AvoidWall implements Pipeline.Step<RoutingData, MyAIController> {
 
     private static final int[][] DIRECTS = new int[][]{{1,0},{-1,0},{0,1},{0,-1}, {1,1},{-1,1},{1,-1},{-1,-1}};
-    //
+
 
     @Override
     public RoutingData execute(RoutingData routingData, MyAIController myAIController) {

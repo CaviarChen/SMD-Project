@@ -2,6 +2,7 @@ package mycontroller;
 
 import controller.CarController;
 import swen30006.driving.Simulation;
+import utilities.Coordinate;
 import world.Car;
 import world.WorldSpatial;
 
@@ -79,6 +80,9 @@ public class MyAIController extends CarController {
         int currentY = Math.round(getY());
         if (currentX!=lastX || currentY!=lastY) {
             foundFlags |= mapRecorder.addCarView(Math.round(getX()), Math.round(getY()), getView(), getKey());
+            lastX = currentX;
+            lastY = currentY;
+
         }
         if ((foundFlags & MapRecorder.NEXT_KEY_FOUND) != 0)
             calculateTargets(); // Recalculate targets
@@ -109,6 +113,13 @@ public class MyAIController extends CarController {
                 strategyManager.carMoved();
 //                if (getSpeed()<=1.5) {
                 routingData.path.remove(0);
+
+                Coordinate currentCoord = new Coordinate(currentX, currentY);
+                routingData.targets.remove(currentCoord);
+                if (routingData.targetPairs.containsKey(currentCoord)) {
+                    routingData.targetPairs.clear();
+                }
+
 //                } else {
 //                    applyBrake();
 //                }
