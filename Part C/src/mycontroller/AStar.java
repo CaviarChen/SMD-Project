@@ -137,7 +137,7 @@ public class AStar implements Pipeline.Step<ArrayList<Position>, MapRecorder> {
 
             int value = 1;
             // add weight for lava trap
-            if (mapRecorder.mapTiles[x][y] instanceof LavaTrap) value += 4;
+            if (mapRecorder.mapTiles[x][y] instanceof LavaTrap) value += 25;
             // add weight for turning
             if (current.parent != null && current.parent.parent != null) {
                 int parentXDiff = current.parent.coord.x - current.parent.parent.coord.x;
@@ -145,7 +145,7 @@ public class AStar implements Pipeline.Step<ArrayList<Position>, MapRecorder> {
                 int xDiff = current.coord.x - current.parent.coord.x;
                 int yDiff = current.coord.y - current.parent.coord.y;
 
-                if (parentXDiff != xDiff || parentYDiff != yDiff) value += 2;
+                if (parentXDiff != xDiff || parentYDiff != yDiff) value += 10;
             }
 
             int G = current.G + value; // calculate G value for neighbor node

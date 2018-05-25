@@ -36,5 +36,9 @@ public class StrategyManager {
         return false;
     }
 
+    public void carMoved() {
+        repairStrategy.carMoved();
+    }
+
 
 }

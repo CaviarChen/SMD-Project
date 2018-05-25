@@ -32,9 +32,9 @@ public class SimplifyPath implements Pipeline.Step<ArrayList<Position>, MapRecor
 
                 boolean flag = true;
 
-                // if pos1 or pos3 is LavaTrap, then allow to go through LavaTrap
+                // if pos1 and pos3 is LavaTrap, then allow to go through LavaTrap
                 boolean noLavaTrap = true;
-                if (mapRecorder.mapTiles[Math.round(pos1.x)][Math.round(pos1.y)] instanceof LavaTrap ||
+                if (mapRecorder.mapTiles[Math.round(pos1.x)][Math.round(pos1.y)] instanceof LavaTrap &&
                         mapRecorder.mapTiles[Math.round(pos3.x)][Math.round(pos3.y)] instanceof LavaTrap)
                     noLavaTrap = false;
 

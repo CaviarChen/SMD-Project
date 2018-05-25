@@ -9,7 +9,11 @@ public class RepairStrategy implements Strategy {
 
     private static final int FINISH_THRESHOLD = 96;
     private static final double DISTANCE_FACTOR = 0.5;
-    private static final double TAKE_OVER_THRESHOLD = 50;
+    private static final double TAKE_OVER_THRESHOLD = 100;
+
+    public static double count = 1;
+
+    private int resetCount = 0;
 
     @Override
     public ArrayList<Position> getTargets(MyAIController myAIController) {
@@ -33,14 +37,26 @@ public class RepairStrategy implements Strategy {
 
     @Override
     public boolean isFinished(MyAIController myAIController) {
-        return (myAIController.getHealth() >= FINISH_THRESHOLD);
+        if (myAIController.getHealth() >= FINISH_THRESHOLD) {
+            resetCount = 8;
+            return true;
+        }
+        return false;
+
     }
 
     public boolean needTakeover(MyAIController myAIController) {
+
         // Never take over if just got out from the health trap
+        if (resetCount>0) {
+            return false;
+        }
+
 
         // Never take over if no health trap is found
         if (myAIController.mapRecorder.healthCoords.isEmpty()) return false;
+
+        if (myAIController.getHealth()>90) return false;
 
         ArrayList<Position> destination = new ArrayList<>();
         for (Coordinate i: myAIController.mapRecorder.healthCoords) {
@@ -53,9 +69,29 @@ public class RepairStrategy implements Strategy {
                 destination
         );
 
-        System.out.println("TAKE OVER EVALUATION VALUE = " + (myAIController.getHealth() + node.G * DISTANCE_FACTOR));
 
-        return myAIController.getHealth() + node.G * DISTANCE_FACTOR <= TAKE_OVER_THRESHOLD;
+
+        double value =  ((myAIController.getHealth()/100 + 1) * node.G * DISTANCE_FACTOR);
+
+        count += 1;
+        if (count==10) {
+            count = 0;
+        }
+
+        System.out.println("TAKE OVER EVALUATION VALUE = " + value);
+
+        if (value <= TAKE_OVER_THRESHOLD) {
+            return true;
+        }
+        return false;
+
+//        return myAIController.getHealth() + node.G * DISTANCE_FACTOR <= TAKE_OVER_THRESHOLD;
+    }
+
+    public void carMoved() {
+        if (resetCount>0) {
+            resetCount--;
+        }
     }
 
 }

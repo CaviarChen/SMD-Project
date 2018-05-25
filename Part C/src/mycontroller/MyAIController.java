@@ -110,6 +110,7 @@ public class MyAIController extends CarController {
 
 
             if (currentX==targetX && currentY==targetY) {
+                strategyManager.carMoved();
 //                if (getSpeed()<=1.5) {
                 route.remove(0);
 //                } else {
