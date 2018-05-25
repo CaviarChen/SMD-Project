@@ -82,7 +82,7 @@ public class MyAIController extends CarController {
         int currentX = Math.round(getX());
         int currentY = Math.round(getY());
         if (currentX!=lastX || currentY!=lastY) {
-            foundFlags = mapRecorder.addCarView(Math.round(getX()), Math.round(getY()), getView(), getKey());
+            foundFlags |= mapRecorder.addCarView(Math.round(getX()), Math.round(getY()), getView(), getKey());
         }
         if ((foundFlags & MapRecorder.NEXT_KEY_FOUND) != 0)
             calculateTargets(); // Recalculate targets
@@ -110,7 +110,12 @@ public class MyAIController extends CarController {
 
 
             if (currentX==targetX && currentY==targetY) {
+//                if (getSpeed()<=1.5) {
                 route.remove(0);
+//                } else {
+//                    applyBrake();
+//                }
+
                 return;
             }
 
