@@ -1,6 +1,7 @@
 package mycontroller;
 
 import controller.CarController;
+import javafx.geometry.Pos;
 import swen30006.driving.Simulation;
 import utilities.Coordinate;
 import world.Car;
@@ -26,6 +27,7 @@ public class MyAIController extends CarController {
 
     private int lastX = -1;
     private int lastY = -1;
+
 
 
 
@@ -63,7 +65,10 @@ public class MyAIController extends CarController {
 	    if (routingData.targets == null) return;
 	    // the last one should be the current position
 
+
         routingData = pathPlanner.execute(routingData, this);
+
+
     }
 
 
@@ -127,8 +132,8 @@ public class MyAIController extends CarController {
                 return;
             }
 
-
-            float targetAngle = getTargetAngle(routingData.path.get(0));
+            Position currentPos = new Position(getX(), getY());
+            float targetAngle = getAngleBetweenPos(currentPos, routingData.path.get(0));
             float dist = getTargetDistance(routingData.path.get(0));
             System.out.println(dist);
             System.out.println(targetAngle);
@@ -172,14 +177,14 @@ public class MyAIController extends CarController {
                 }
             }
 
-            float endingSpeed = 0.5f;
+            float endingSpeed = getAllowedEndingSpeed(currentPos);
 
             System.out.print("dist: ");
             System.out.println(dist);
 
 
             float allowedSpeed = 0f;
-            if (Math.abs(cmp) < 60) {
+            if (Math.abs(cmp) < 40) {
                 allowedSpeed = computeAllowedVelocity(dist, endingSpeed);
             } else {
                 // big turn
@@ -235,6 +240,18 @@ public class MyAIController extends CarController {
         return difference;
     }
 
+    float getAllowedEndingSpeed(Position currentPos) {
+	    if (routingData.path.size()<2) {
+	        return 0.3f;
+        }
+
+        float angle1 = getAngleBetweenPos(currentPos, routingData.path.get(0));
+        float angle2 = getAngleBetweenPos(routingData.path.get(0), routingData.path.get(1));
+        if (Math.abs(angle1-angle2) < 45) {
+            return 2;
+        }
+        return 0.4f;
+    }
 
 
     private float getTargetDistance(Position target) {
@@ -245,10 +262,8 @@ public class MyAIController extends CarController {
     }
 
 
-    private float getTargetAngle(Position target) {
-	    float target_x = target.x;// + 0.5f;
-        float target_y = target.y;// + 0.5f;
-        float angle = (float) Math.toDegrees(Math.atan2(target_y - getY(), target_x - getX()));
+    private float getAngleBetweenPos(Position pos1, Position pos2) {
+        float angle = (float) Math.toDegrees(Math.atan2(pos2.y - pos1.y, pos2.x - pos1.x));
 
         if(angle < 0){
             angle += 360;
