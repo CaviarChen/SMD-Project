@@ -253,6 +253,9 @@ public class MyAIController extends CarController {
         return 0.4f;
     }
 
+    public RoutingData getRoutingData() {
+        return routingData;
+    }
 
     private float getTargetDistance(Position target) {
         float target_x = target.x;// + 0.5f;

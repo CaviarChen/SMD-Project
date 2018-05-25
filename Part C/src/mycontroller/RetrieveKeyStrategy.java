@@ -1,12 +1,15 @@
 package mycontroller;
 
 import tiles.LavaTrap;
+import tiles.MapTile;
 import utilities.Coordinate;
 import world.World;
 
 import java.util.ArrayList;
 
 public class RetrieveKeyStrategy implements Strategy {
+
+    private static final int[][] DIRECTIONS = new int[][]{{1,0},{-1,0},{0,1},{0,-1}};
 
     @Override
     public RoutingData getTargets(MyAIController myAIController) {
@@ -25,78 +28,71 @@ public class RetrieveKeyStrategy implements Strategy {
 
         // If next key pos is known
         if (keyCount > 1 && myAIController.mapRecorder.keysCoord[keyCount - 2] != null) {
-            Coordinate keyCoordinate = myAIController.mapRecorder.keysCoord[keyCount - 2];
-            // Check if we can rush across the key
-            int xl = keyCoordinate.x, xr = xl,
-                yt = keyCoordinate.y, yb = yt;
-            boolean xRush = true, yRush = true;
-            // Check X direction
-            while (xl >= 0) {
-                if (myAIController.mapRecorder.mapStatus[xl][keyCoordinate.y] == MapRecorder.TileStatus.UNREACHABLE) {
-                    xRush = false;
-                    break;
-                } else if (myAIController.mapRecorder.mapTiles[xl][keyCoordinate.y] instanceof LavaTrap) {
-                    xl--;
-                } else {
-                    break;
-                }
-            }
-            while (xr < World.MAP_WIDTH) {
-                if (myAIController.mapRecorder.mapStatus[xr][keyCoordinate.y] == MapRecorder.TileStatus.UNREACHABLE) {
-                    xRush = false;
-                    break;
-                } else if (myAIController.mapRecorder.mapTiles[xr][keyCoordinate.y] instanceof LavaTrap) {
-                    xr++;
-                } else {
-                    break;
-                }
-            }
-            while (yt >= 0) {
-                if (myAIController.mapRecorder.mapStatus[keyCoordinate.x][yt] == MapRecorder.TileStatus.UNREACHABLE) {
-                    yRush = false;
-                    break;
-                } else if (myAIController.mapRecorder.mapTiles[keyCoordinate.x][yt] instanceof LavaTrap) {
-                    yt++;
-                } else {
-                    break;
-                }
-            }
-            while (yb < World.MAP_HEIGHT) {
-                if (myAIController.mapRecorder.mapStatus[keyCoordinate.x][yb] == MapRecorder.TileStatus.UNREACHABLE) {
-                    yRush = false;
-                    break;
-                } else if (myAIController.mapRecorder.mapTiles[keyCoordinate.x][yb] instanceof LavaTrap) {
-                    yb--;
-                } else {
-                    break;
-                }
-            }
-
-            if (xRush) {
-                Coordinate first = new Coordinate(xl, keyCoordinate.y),
-                        second = new Coordinate(xr, keyCoordinate.y);
-                output.targetPairs.put(first, second);
-                output.targetPairs.put(second, first);
-                output.targets.add(first);
-                output.targets.add(second);
-            }
-            if (yRush) {
-                Coordinate first = new Coordinate(keyCoordinate.x, yt),
-                        second = new Coordinate(keyCoordinate.x, yb);
-                output.targetPairs.put(first, second);
-                output.targetPairs.put(second, first);
-                output.targets.add(first);
-                output.targets.add(second);
-            }
-            if (!xRush && !yRush)
-                output.targets.add(keyCoordinate);
+            getKeyRouting(output, myAIController.mapRecorder, keyCount - 2);
         }
 
         return output;
     }
 
+    private void getKeyRouting(RoutingData routingData, MapRecorder mapRecorder, int keyID) {
+
+            Coordinate keyCoord = mapRecorder.keysCoord[keyID];
+            Coordinate[] rushCoord = new Coordinate[DIRECTIONS.length];
+
+            for(int i=0; i<DIRECTIONS.length; i++) {
+                int x = keyCoord.x;
+                int y = keyCoord.y;
+                int selectedX = -1;
+                int selectedY = -1;
+                int awayFromLava = 0;
+                // make sure it is in the map
+                while (mapRecorder.inRange(x,y)) {
+                    x += DIRECTIONS[i][0];
+                    y += DIRECTIONS[i][1];
+
+                    if (mapRecorder.mapStatus[x][y] == MapRecorder.TileStatus.UNREACHABLE) break;
+                    if (!(mapRecorder.mapTiles[x][y] instanceof LavaTrap)) {
+                        // find a road
+                        selectedX = x;
+                        selectedY = y;
+                        awayFromLava += 1;
+                        if (awayFromLava==2) break;
+
+                    } else {
+                        if (awayFromLava>0) break;
+                    }
+                }
+
+                if (selectedX!=-1) {
+                    // has a rush point
+                    rushCoord[i] = new Coordinate(selectedX, selectedY);
+                }
+            }
+
+        boolean hasRushPoint = false;
+        for (int i=0; i+1<DIRECTIONS.length; i+=2) {
+            if (rushCoord[i]!=null && rushCoord[i+1]!=null) {
+                hasRushPoint = true;
+                Coordinate first = rushCoord[i], second = rushCoord[i+1];
+                routingData.targetPairs.put(first, second);
+                routingData.targetPairs.put(second, first);
+                routingData.targets.add(first);
+                routingData.targets.add(second);
+
+            }
+        }
+
+        if (!hasRushPoint) {
+            // use the normal way
+            routingData.targets.add(keyCoord);
+        }
+
+
+
+    }
+
     @Override
     public boolean isFinished(MyAIController myAIController) {
-        return (myAIController.getKey() == 1);
+        return (myAIController.getKey() == 1 && myAIController.getRoutingData().path.size() == 0);
     }
 }
