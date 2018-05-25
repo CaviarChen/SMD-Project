@@ -42,6 +42,7 @@ public class MyAIController extends CarController {
 
         pathPlanner = new Pipeline<>();
         pathPlanner.appendStep(new AStar());
+        pathPlanner.appendStep(new AddDestinationPair());
         pathPlanner.appendStep(new AvoidWall());
         pathPlanner.appendStep(new RemoveRedundantPath());
         pathPlanner.appendStep(new SimplifyPath());
