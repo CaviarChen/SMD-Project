@@ -173,17 +173,26 @@ public class MapRecorder {
 
         while (!coordinatesPending.isEmpty()) {
             Coordinate i = coordinatesPending.iterator().next();
+            Coordinate nonFireCoordinate = null, fireCoordinate = null, exploreCoordinate;
             for (int j = 4; j >= 0; j--) {
                 if (i.x + j < width && i.y + j < height &&
                         mapStatus[i.x + j][i.y + j] != TileStatus.UNREACHABLE) {
-                    queue.add(new Coordinate(i.x + j, i.y + j));
-                    for (int x = i.x + j - 4; x < i.x + j + 5; x++)
-                        for (int y = i.y + j - 4; y < i.y + j + 5; y++) {
-                            coordinatesPending.remove(new Coordinate(x, y));
-                        }
-                    break;
+                    Coordinate c = new Coordinate(i.x + j, i.y + j);
+                    if (mapTiles[i.x + j][i.y + j] instanceof LavaTrap && fireCoordinate == null)
+                        fireCoordinate = c;
+                    else {
+                        nonFireCoordinate = c;
+                        break;
+                    }
                 }
             }
+            exploreCoordinate = nonFireCoordinate != null ? nonFireCoordinate : fireCoordinate;
+            if (exploreCoordinate == null) continue;
+            queue.add(exploreCoordinate);
+            for (int x = exploreCoordinate.x - 4; x < exploreCoordinate.x + 5; x++)
+                for (int y = exploreCoordinate.y - 4; y < exploreCoordinate.y + 5; y++) {
+                    coordinatesPending.remove(new Coordinate(x, y));
+                }
         }
 
         return queue;
