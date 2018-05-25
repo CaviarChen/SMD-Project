@@ -57,21 +57,20 @@ public class RepairStrategy implements Strategy {
 
     public boolean needTakeover(MyAIController myAIController) {
 
-        if (!carMoved) return false;
-        carMoved = false;
-
-        // Never take over if no health trap is found
-        if (myAIController.mapRecorder.healthCoords.isEmpty()) return false;
-
         int currentX = Math.round(myAIController.getX()),
                 currentY = Math.round(myAIController.getY());
-
         // Stay at health trap if pass by and need to recover
         if (myAIController.getHealth() < 90 &&
                 myAIController.mapRecorder.mapTiles[currentX][currentY] instanceof HealthTrap) {
             System.out.println("PASS BY RECOVERY ----");
             return true;
         }
+
+        if (!carMoved) return false;
+        carMoved = false;
+
+        // Never take over if no health trap is found
+        if (myAIController.mapRecorder.healthCoords.isEmpty()) return false;
 
         // Never take over if just got out from the health trap
         if (resetCount > 0) {
