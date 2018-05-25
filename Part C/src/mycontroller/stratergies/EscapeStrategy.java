@@ -1,8 +1,8 @@
-package mycontroller;
+package mycontroller.stratergies;
 
-import utilities.Coordinate;
+import mycontroller.MyAIController;
+import mycontroller.RoutingData;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 
 public class EscapeStrategy implements Strategy {

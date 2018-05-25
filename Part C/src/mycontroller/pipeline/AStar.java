@@ -1,6 +1,9 @@
-package mycontroller;
+package mycontroller.pipeline;
 
-import sun.plugin.dom.core.CoreConstants;
+import mycontroller.MapRecorder;
+import mycontroller.MyAIController;
+import mycontroller.Position;
+import mycontroller.RoutingData;
 import tiles.LavaTrap;
 import utilities.Coordinate;
 
@@ -10,7 +13,7 @@ import java.util.PriorityQueue;
 
 public class AStar implements Pipeline.Step<RoutingData, MyAIController> {
 
-    class Node implements Comparable<Node> {
+    public class Node implements Comparable<Node> {
         public Coordinate coord; // coordinate
         public Node parent; // parent
         public int G; // G: correct value, from start to current node

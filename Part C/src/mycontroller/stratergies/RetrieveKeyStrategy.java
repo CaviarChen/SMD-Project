@@ -1,11 +1,10 @@
-package mycontroller;
+package mycontroller.stratergies;
 
+import mycontroller.MapRecorder;
+import mycontroller.MyAIController;
+import mycontroller.RoutingData;
 import tiles.LavaTrap;
-import tiles.MapTile;
 import utilities.Coordinate;
-import world.World;
-
-import java.util.ArrayList;
 
 public class RetrieveKeyStrategy implements Strategy {
 

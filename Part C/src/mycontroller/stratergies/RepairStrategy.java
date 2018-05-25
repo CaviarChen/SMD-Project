@@ -1,5 +1,8 @@
-package mycontroller;
+package mycontroller.stratergies;
 
+import mycontroller.pipeline.AStar;
+import mycontroller.MyAIController;
+import mycontroller.RoutingData;
 import tiles.HealthTrap;
 import utilities.Coordinate;
 

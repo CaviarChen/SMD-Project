@@ -1,5 +1,8 @@
-package mycontroller;
+package mycontroller.pipeline;
 
+import mycontroller.MyAIController;
+import mycontroller.Position;
+import mycontroller.RoutingData;
 import tiles.LavaTrap;
 import tiles.MapTile;
 

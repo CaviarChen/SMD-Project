@@ -16,12 +16,12 @@ public class MapRecorder {
     public static final int LAVA_FOUND     = 0b001;
     public static final int NEXT_KEY_FOUND = 0b010;
 
-    TileStatus[][] mapStatus;
-    MapTile[][] mapTiles;
-    Coordinate[] keysCoord;
-    HashSet<Coordinate> finishCoords = new HashSet<>();
-    HashSet<Coordinate> healthCoords = new HashSet<>();
-    int width = World.MAP_WIDTH, height = World.MAP_HEIGHT;
+    public TileStatus[][] mapStatus;
+    public MapTile[][] mapTiles;
+    public Coordinate[] keysCoord;
+    public HashSet<Coordinate> finishCoords = new HashSet<>();
+    public HashSet<Coordinate> healthCoords = new HashSet<>();
+    public int width = World.MAP_WIDTH, height = World.MAP_HEIGHT;
 
 
     public MapRecorder(HashMap<Coordinate, MapTile> mapHashMap, int keySize) {

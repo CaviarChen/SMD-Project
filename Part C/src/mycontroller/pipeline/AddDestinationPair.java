@@ -1,6 +1,9 @@
-package mycontroller;
+package mycontroller.pipeline;
 
 
+import mycontroller.MyAIController;
+import mycontroller.Position;
+import mycontroller.RoutingData;
 import utilities.Coordinate;
 
 public class AddDestinationPair implements Pipeline.Step<RoutingData, MyAIController> {

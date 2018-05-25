@@ -1,4 +1,7 @@
-package mycontroller;
+package mycontroller.stratergies;
+
+import mycontroller.MyAIController;
+import mycontroller.RoutingData;
 
 public interface Strategy {
 

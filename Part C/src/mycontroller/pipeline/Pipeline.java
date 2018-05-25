@@ -1,4 +1,4 @@
-package mycontroller;
+package mycontroller.pipeline;
 
 import java.util.ArrayList;
 

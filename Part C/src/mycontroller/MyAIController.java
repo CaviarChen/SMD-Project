@@ -1,7 +1,8 @@
 package mycontroller;
 
 import controller.CarController;
-import javafx.geometry.Pos;
+import mycontroller.pipeline.*;
+import mycontroller.stratergies.StrategyManager;
 import swen30006.driving.Simulation;
 import utilities.Coordinate;
 import world.Car;
@@ -31,7 +32,7 @@ public class MyAIController extends CarController {
 
 
 
-    MapRecorder mapRecorder;
+    public MapRecorder mapRecorder;
 
     private RoutingData routingData;
 
