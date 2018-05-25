@@ -38,7 +38,7 @@ public class RepairStrategy implements Strategy {
     @Override
     public boolean isFinished(MyAIController myAIController) {
         if (myAIController.getHealth() >= FINISH_THRESHOLD) {
-            resetCount = 8;
+            resetCount = 7;
             return true;
         }
         return false;

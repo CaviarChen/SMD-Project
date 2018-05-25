@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class AvoidWall implements Pipeline.Step<ArrayList<Position>, MapRecorder> {
 
-    private static final int[][] DIRECTS = new int[][]{{1,0},{-1,0},{0,1},{0,-1}};
-    //{1,1},{-1,1},{1,-1},{-1,-1}
+    private static final int[][] DIRECTS = new int[][]{{1,0},{-1,0},{0,1},{0,-1}, {1,1},{-1,1},{1,-1},{-1,-1}};
+    //
 
     @Override
     public ArrayList<Position> execute(ArrayList<Position> input, MapRecorder mapRecorder) {
@@ -33,11 +33,15 @@ public class AvoidWall implements Pipeline.Step<ArrayList<Position>, MapRecorder
 
             if(mapRecorder.inRange(newX, newY)) {
                 if (mapStatus[newX][newY] == MapRecorder.TileStatus.UNREACHABLE) {
-                    if (offsetX==0) offsetX = dir[0];
-                    if (offsetY==0) offsetY = dir[1];
+                    offsetX += dir[0];
+                    offsetY += dir[1];
                 }
             }
         }
+        if (offsetX<0) offsetX = -1;
+        if (offsetX>0) offsetX = 1;
+        if (offsetY<0) offsetY = -1;
+        if (offsetY>0) offsetY = 1;
 
         return new Position(x - 0.3f*offsetX, y - 0.3f*offsetY);
     }
