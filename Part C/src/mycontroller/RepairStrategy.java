@@ -12,6 +12,8 @@ public class RepairStrategy implements Strategy {
     private static final double TAKE_OVER_THRESHOLD = 100;
     private static final int LEAVE_HEALTH_TRAP = 7;
 
+    private boolean carMoved = false;
+
     private static final TreeMap<Integer, Double> SPEED_LIMIT = new TreeMap<>(Comparator.reverseOrder());
 
     static {
@@ -55,6 +57,9 @@ public class RepairStrategy implements Strategy {
 
     public boolean needTakeover(MyAIController myAIController) {
 
+        if (!carMoved) return false;
+        carMoved = false;
+
         // Never take over if no health trap is found
         if (myAIController.mapRecorder.healthCoords.isEmpty()) return false;
 
@@ -74,6 +79,7 @@ public class RepairStrategy implements Strategy {
         }
 
         if (myAIController.getHealth() > 80) return false;
+
 
         AStar.Node node = new AStar().start(myAIController.mapRecorder,
                 new Coordinate(currentX, currentY),
@@ -118,6 +124,7 @@ public class RepairStrategy implements Strategy {
         if (resetCount>0) {
             resetCount--;
         }
+        carMoved = true;
     }
 
 }
