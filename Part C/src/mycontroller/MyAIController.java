@@ -248,7 +248,7 @@ public class MyAIController extends CarController {
         float angle1 = getAngleBetweenPos(currentPos, routingData.path.get(0));
         float angle2 = getAngleBetweenPos(routingData.path.get(0), routingData.path.get(1));
         if (Math.abs(angle1-angle2) < 45) {
-            return 2;
+            return 1.4f;
         }
         return 0.4f;
     }

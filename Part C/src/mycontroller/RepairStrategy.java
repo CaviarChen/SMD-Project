@@ -73,23 +73,43 @@ public class RepairStrategy implements Strategy {
             return false;
         }
 
-        if (myAIController.getHealth() > 90) return false;
+        if (myAIController.getHealth() > 80) return false;
 
         AStar.Node node = new AStar().start(myAIController.mapRecorder,
                 new Coordinate(currentX, currentY),
                 myAIController.mapRecorder.healthCoords
         );
 
+        int pathSize = myAIController.getRoutingData().path.size();
+
+        if (pathSize > 0) {
+            HashSet<Coordinate> carDestination = new HashSet<>();
+            carDestination.add(myAIController.getRoutingData().path.get(pathSize - 1).toCoordinate());
+
+            AStar.Node nodeDest = new AStar().start(myAIController.mapRecorder,
+                    new Coordinate(currentX, currentY),
+                    carDestination
+                    );
+
+            System.out.print("ORIGINAL DEST " + nodeDest.G);
+            System.out.print(" v. " + node.G + " = TAKE OVER");
+            System.out.println(" @ = " + myAIController.getHealth());
+
+            return node.G < nodeDest.G;
+        }
 //        double value =  ((myAIController.getHealth()/100 + 1) * node.G * DISTANCE_FACTOR);
 
-        System.out.println("TAKE OVER HEALTH VALUE = " + myAIController.getHealth());
-        System.out.println("TAKE OVER DISTANCE VALUE = " + node.G);
 
-        for (Map.Entry<Integer, Double> i: SPEED_LIMIT.entrySet()) {
-            if (myAIController.getHealth() > i.getKey())
-                return node.G < i.getValue();
-        }
-        return true;
+        System.out.print(node.G + " = TAKE OVER");
+        System.out.println("@ = " + myAIController.getHealth());
+        return false;
+
+
+//        for (Map.Entry<Integer, Double> i: SPEED_LIMIT.entrySet()) {
+//            if (myAIController.getHealth() > i.getKey())
+//                return node.G < i.getValue();
+//        }
+//        return true;
 //        return value <= TAKE_OVER_THRESHOLD;
 //        return myAIController.getHealth() + node.G * DISTANCE_FACTOR <= TAKE_OVER_THRESHOLD;
     }

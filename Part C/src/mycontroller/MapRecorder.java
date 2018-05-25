@@ -53,6 +53,10 @@ public class MapRecorder {
             }
         }
 
+        for (Coordinate coord: finishCoords) {
+            mapStatus[coord.x][coord.y] = TileStatus.SEARCHED;
+        }
+
 //        print();
     }
 
