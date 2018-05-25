@@ -96,11 +96,11 @@ public class MyAIController extends CarController {
 
 
 
-
-        System.out.print("X: ");
-        System.out.println(getX());
-        System.out.print("Y: ");
-        System.out.println(getY());
+//
+//        System.out.print("X: ");
+//        System.out.println(getX());
+//        System.out.print("Y: ");
+//        System.out.println(getY());
 
         if (routingData==null || routingData.path.isEmpty()) {
             calculateTargets();
@@ -135,9 +135,9 @@ public class MyAIController extends CarController {
             Position currentPos = new Position(getX(), getY());
             float targetAngle = getAngleBetweenPos(currentPos, routingData.path.get(0));
             float dist = getTargetDistance(routingData.path.get(0));
-            System.out.println(dist);
-            System.out.println(targetAngle);
-            System.out.println(getAngle());
+//            System.out.println(dist);
+//            System.out.println(targetAngle);
+//            System.out.println(getAngle());
 
             // ------
             float cmp = compareAngles(getAngle(), targetAngle);
@@ -179,8 +179,8 @@ public class MyAIController extends CarController {
 
             float endingSpeed = getAllowedEndingSpeed(currentPos);
 
-            System.out.print("dist: ");
-            System.out.println(dist);
+//            System.out.print("dist: ");
+//            System.out.println(dist);
 
 
             float allowedSpeed = 0f;
@@ -192,8 +192,8 @@ public class MyAIController extends CarController {
             }
 
 
-            System.out.print("speed: ");
-            System.out.println(allowedSpeed);
+//            System.out.print("speed: ");
+//            System.out.println(allowedSpeed);
 
             if (getSpeed()<allowedSpeed) {
                 applyForwardAcceleration();

@@ -53,7 +53,7 @@ public class MapRecorder {
             }
         }
 
-        print();
+//        print();
     }
 
     private void print() {
@@ -125,7 +125,7 @@ public class MapRecorder {
                 }
             }
         }
-        print();
+//        print();
 
         return tilesFoundFlag;
     }
