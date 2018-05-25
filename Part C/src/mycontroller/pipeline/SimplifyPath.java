@@ -21,7 +21,7 @@ public class SimplifyPath implements Pipeline.Step<RoutingData, MyAIController>{
                 Position pos2 = routingData.path.get(j-1);
                 Position pos3 = routingData.path.get(j);
 
-                if (pos2==null || pos3==null) break;
+                if (pos2==null || pos3==null) continue;
 
                 int minX = Math.round(Math.min(pos1.x, pos3.x));
                 int maxX = Math.round(Math.max(pos1.x, pos3.x));
