@@ -1,12 +1,14 @@
 package mycontroller;
 
 
+import utilities.Coordinate;
+
 public class AddDestinationPair implements Pipeline.Step<RoutingData, MyAIController> {
 
     @Override
     public RoutingData execute(RoutingData routingData, MyAIController myAIController) {
 
-        Position actualTarget = routingData.path.get(routingData.path.size()-1);
+        Coordinate actualTarget = routingData.path.get(routingData.path.size()-1).toCoordinate();
 
         if (routingData.targetPairs.containsKey(actualTarget)) {
             routingData.path.add(new Position(routingData.targetPairs.get(actualTarget)));

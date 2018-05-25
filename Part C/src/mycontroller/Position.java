@@ -41,4 +41,6 @@ public class Position {
         return Objects.hash(x,y);
     }
 
+    public Coordinate toCoordinate() { return new Coordinate(Math.round(x), Math.round(y)); }
+
 }
