@@ -12,7 +12,7 @@ public class StrategyManager {
     public StrategyManager() {
         strategyStack = new Stack<>();
         strategyStack.push(new EscapeStrategy());
-        strategyStack.push(new RetriveKeyStrategy());
+        strategyStack.push(new RetrieveKeyStrategy());
 
         repairStrategy = new RepairStrategy();
     }

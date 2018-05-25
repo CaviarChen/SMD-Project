@@ -4,7 +4,7 @@ import utilities.Coordinate;
 
 import java.util.ArrayList;
 
-public class RetriveKeyStrategy implements Strategy {
+public class RetrieveKeyStrategy implements Strategy {
 
     @Override
     public ArrayList<Position> getTargets(MyAIController myAIController) {
