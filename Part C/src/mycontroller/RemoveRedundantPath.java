@@ -1,25 +1,24 @@
 package mycontroller;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
-public class RemoveRedundantPath implements Pipeline.Step<ArrayList<Position>, MapRecorder> {
+public class RemoveRedundantPath implements Pipeline.Step<RoutingData, MyAIController> {
 
     private static final float PRECISION_LEVEL = 0.001f;
 
 
     @Override
-    public ArrayList<Position> execute(ArrayList<Position> input, MapRecorder mapRecorder) {
+    public RoutingData execute(RoutingData routingData, MyAIController myAIController) {
 
-        for (int i=0; i<input.size()-2; i++) {
-            if (input.get(i)==null) continue;;
+        for (int i=0; i<routingData.path.size()-2; i++) {
+            if (routingData.path.get(i)==null) continue;
 
-            for (int j=i+2; j<input.size(); j++) {
-                Position pos1 = input.get(i);
-                Position pos2 = input.get(j);
+            for (int j=i+2; j<routingData.path.size(); j++) {
+                Position pos1 = routingData.path.get(i);
+                Position pos2 = routingData.path.get(j);
 
                 if (floatEquals(pos1.x, pos2.x) || floatEquals(pos1.y, pos2.y)) {
-                    input.set(j-1, null);
+                    routingData.path.set(j-1, null);
                 } else {
                     break;
                 }
@@ -27,9 +26,9 @@ public class RemoveRedundantPath implements Pipeline.Step<ArrayList<Position>, M
         }
 
         // clean up
-        input.removeIf(Objects::isNull);
+        routingData.path.removeIf(Objects::isNull);
 
-        return input;
+        return routingData;
     }
 
 

@@ -3,21 +3,20 @@ package mycontroller;
 import tiles.LavaTrap;
 import tiles.MapTile;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
-public class SimplifyPath implements Pipeline.Step<ArrayList<Position>, MapRecorder>{
+public class SimplifyPath implements Pipeline.Step<RoutingData, MyAIController>{
 
     @Override
-    public ArrayList<Position> execute(ArrayList<Position> input, MapRecorder mapRecorder) {
+    public RoutingData execute(RoutingData routingData, MyAIController myAIController) {
 
-        for (int i=0; i<input.size()-2; i++) {
-            if (input.get(i)==null) continue;
+        for (int i = 0; i< routingData.path.size()-2; i++) {
+            if (routingData.path.get(i)==null) continue;
 
-            for (int j=i+2; j<input.size(); j++) {
-                Position pos1 = input.get(i);
-                Position pos2 = input.get(j-1);
-                Position pos3 = input.get(j);
+            for (int j = i+2; j< routingData.path.size(); j++) {
+                Position pos1 = routingData.path.get(i);
+                Position pos2 = routingData.path.get(j-1);
+                Position pos3 = routingData.path.get(j);
 
                 if (pos2==null || pos3==null) break;
 
@@ -34,13 +33,13 @@ public class SimplifyPath implements Pipeline.Step<ArrayList<Position>, MapRecor
 
                 // if pos1 and pos3 is LavaTrap, then allow to go through LavaTrap
                 boolean noLavaTrap = true;
-                if (mapRecorder.mapTiles[Math.round(pos1.x)][Math.round(pos1.y)] instanceof LavaTrap &&
-                        mapRecorder.mapTiles[Math.round(pos3.x)][Math.round(pos3.y)] instanceof LavaTrap)
+                if (myAIController.mapRecorder.mapTiles[Math.round(pos1.x)][Math.round(pos1.y)] instanceof LavaTrap &&
+                        myAIController.mapRecorder.mapTiles[Math.round(pos3.x)][Math.round(pos3.y)] instanceof LavaTrap)
                     noLavaTrap = false;
 
                 for (int x=minX; x<=maxX; x++) {
                     for (int y=minY; y<=maxY; y++) {
-                        MapTile current = mapRecorder.mapTiles[x][y];
+                        MapTile current = myAIController.mapRecorder.mapTiles[x][y];
 
                         // break the loop if there is Wall or LavaTrap in the rectangle
                         if (current.isType(MapTile.Type.WALL) || (current instanceof LavaTrap && noLavaTrap)) {
@@ -54,7 +53,7 @@ public class SimplifyPath implements Pipeline.Step<ArrayList<Position>, MapRecor
 
                 if (flag) {
                     // clean, remove pos2
-                    input.set(j-1, null);
+                    routingData.path.set(j-1, null);
                 }
 
 
@@ -62,8 +61,8 @@ public class SimplifyPath implements Pipeline.Step<ArrayList<Position>, MapRecor
         }
 
         // clean up
-        input.removeIf(Objects::isNull);
+        routingData.path.removeIf(Objects::isNull);
 
-        return input;
+        return routingData;
     }
 }

@@ -6,8 +6,6 @@ import world.Car;
 import world.WorldSpatial;
 
 
-import java.util.ArrayList;
-
 
 public class MyAIController extends CarController {
 
@@ -21,7 +19,7 @@ public class MyAIController extends CarController {
     /** Threshold for maximum addition of length for alternative path that includes the next key needed to collect **/
     private static final int MAX_EXTRA_LEN_ALT_PATH = 10;
 
-    private Pipeline<ArrayList<Position>, MapRecorder> pathPlanner;
+    private Pipeline<RoutingData, MyAIController> pathPlanner;
     private StrategyManager strategyManager;
 
 
@@ -32,8 +30,7 @@ public class MyAIController extends CarController {
 
     MapRecorder mapRecorder;
 
-    ArrayList<Position> targets = new ArrayList<>();
-    ArrayList<Position> route = new ArrayList<>();
+    private RoutingData routingData;
 
 
 	public MyAIController(Car car) {
@@ -54,22 +51,20 @@ public class MyAIController extends CarController {
 	}
 
     private void calculateTargets() {
-        targets = strategyManager.getTargets(this);
+        routingData = strategyManager.getTargets(this);
 
         // targets changed, recalculate the route
         calculateRoute();
     }
 
 	private void calculateRoute() {
-	    if (targets == null) return;
+	    if (routingData.targets == null) return;
 	    // the last one should be the current position
-        System.out.println("targets = " + targets);
-        ArrayList<Position> input = new ArrayList<>(targets);
-        input.add(new Position(getX(), getY()));
-        route = pathPlanner.execute(input, mapRecorder);
+
+        routingData = pathPlanner.execute(routingData, this);
     }
-    
-    
+
+
 	@Override
 	public void update(float delta) {
 
@@ -86,7 +81,7 @@ public class MyAIController extends CarController {
         }
         if ((foundFlags & MapRecorder.NEXT_KEY_FOUND) != 0)
             calculateTargets(); // Recalculate targets
-        else if ((foundFlags & MapRecorder.LAVA_FOUND) != 0 && route.size() != 0)
+        else if ((foundFlags & MapRecorder.LAVA_FOUND) != 0 && routingData.path.size() != 0)
             calculateRoute(); // Reroute
 
 
@@ -97,22 +92,22 @@ public class MyAIController extends CarController {
         System.out.print("Y: ");
         System.out.println(getY());
 
-        if (route.isEmpty()) {
+        if (routingData==null || routingData.path.isEmpty()) {
             calculateTargets();
         }
 
-        if (!route.isEmpty()) {
+        if (!routingData.path.isEmpty()) {
 
-            int targetX = Math.round(route.get(0).x);
-            int targetY = Math.round(route.get(0).y);
+            int targetX = Math.round(routingData.path.get(0).x);
+            int targetY = Math.round(routingData.path.get(0).y);
 
-            Simulation.flagList = route;
+            Simulation.flagList = routingData.path;
 
 
             if (currentX==targetX && currentY==targetY) {
                 strategyManager.carMoved();
 //                if (getSpeed()<=1.5) {
-                route.remove(0);
+                routingData.path.remove(0);
 //                } else {
 //                    applyBrake();
 //                }
@@ -121,8 +116,8 @@ public class MyAIController extends CarController {
             }
 
 
-            float targetAngle = getTargetAngle(route.get(0));
-            float dist = getTargetDistance(route.get(0));
+            float targetAngle = getTargetAngle(routingData.path.get(0));
+            float dist = getTargetDistance(routingData.path.get(0));
             System.out.println(dist);
             System.out.println(targetAngle);
             System.out.println(getAngle());

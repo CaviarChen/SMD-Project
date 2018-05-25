@@ -7,9 +7,9 @@ import java.util.ArrayList;
 public class RetrieveKeyStrategy implements Strategy {
 
     @Override
-    public ArrayList<Position> getTargets(MyAIController myAIController) {
+    public RoutingData getTargets(MyAIController myAIController) {
 
-        ArrayList<Position> output = new ArrayList<>();
+        RoutingData output = new RoutingData();
 
         int keyCount = myAIController.getKey();
 
@@ -19,14 +19,14 @@ public class RetrieveKeyStrategy implements Strategy {
 
         if (!allKeyFound) {
             for(Coordinate coord: myAIController.mapRecorder.coordinatesToExplore()) {
-                output.add(new Position(coord));
+                output.targets.add(coord);
             }
         }
 
         // If next key pos is known
         if (keyCount > 1 && myAIController.mapRecorder.keysCoord[keyCount - 2] != null) {
             Coordinate coord = myAIController.mapRecorder.keysCoord[keyCount - 2];
-            output.add(new Position(coord));
+            output.targets.add(coord);
         }
 
         return output;

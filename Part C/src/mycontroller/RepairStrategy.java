@@ -4,6 +4,7 @@ import tiles.HealthTrap;
 import utilities.Coordinate;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class RepairStrategy implements Strategy {
 
@@ -16,21 +17,20 @@ public class RepairStrategy implements Strategy {
     private int resetCount = 0;
 
     @Override
-    public ArrayList<Position> getTargets(MyAIController myAIController) {
+    public RoutingData getTargets(MyAIController myAIController) {
 
         int currentX = Math.round(myAIController.getX());
         int currentY = Math.round(myAIController.getY());
 
+        RoutingData output = new RoutingData();
+
         // already on HealthTrap
         if (myAIController.mapRecorder.mapTiles[currentX][currentY] instanceof HealthTrap) {
-            return null;
+            output.targets = null;
+            return output;
         }
 
-        ArrayList<Position> output = new ArrayList<>();
-
-        for (Coordinate coord : myAIController.mapRecorder.healthCoords) {
-            output.add(new Position(coord));
-        }
+        output.targets = new HashSet<>(myAIController.mapRecorder.healthCoords);
 
         return output;
     }
@@ -58,15 +58,10 @@ public class RepairStrategy implements Strategy {
 
         if (myAIController.getHealth()>90) return false;
 
-        ArrayList<Position> destination = new ArrayList<>();
-        for (Coordinate i: myAIController.mapRecorder.healthCoords) {
-            destination.add(new Position(i));
-        }
-
 
         AStar.Node node = new AStar().start(myAIController.mapRecorder,
-                new Position(myAIController.getX(), myAIController.getY()),
-                destination
+                new Coordinate(Math.round(myAIController.getX()), Math.round(myAIController.getY())),
+                myAIController.mapRecorder.healthCoords
         );
 
 

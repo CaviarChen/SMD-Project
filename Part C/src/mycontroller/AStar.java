@@ -1,12 +1,14 @@
 package mycontroller;
 
+import sun.plugin.dom.core.CoreConstants;
 import tiles.LavaTrap;
 import utilities.Coordinate;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.PriorityQueue;
 
-public class AStar implements Pipeline.Step<ArrayList<Position>, MapRecorder> {
+public class AStar implements Pipeline.Step<RoutingData, MyAIController> {
 
     class Node implements Comparable<Node> {
         public Coordinate coord; // coordinate
@@ -36,12 +38,11 @@ public class AStar implements Pipeline.Step<ArrayList<Position>, MapRecorder> {
     }
 
     @Override
-    public ArrayList<Position> execute(ArrayList<Position> input, MapRecorder mapRecorder) {
+    public RoutingData execute(RoutingData routingData, MyAIController myAIController) {
 
-        Position destination = input.get(input.size() - 1);
-        input.remove(input.size() - 1);
+        Coordinate source = new Coordinate(Math.round(myAIController.getX()), Math.round(myAIController.getY()));
 
-        Node end = start(mapRecorder, destination, input);
+        Node end = start(myAIController.mapRecorder, source, routingData.targets);
 
         // path
         ArrayList<Position> path = new ArrayList<>();
@@ -50,11 +51,13 @@ public class AStar implements Pipeline.Step<ArrayList<Position>, MapRecorder> {
             path.add(new Position(end.coord));
             end = end.parent;
         }
-        return path;
+
+        routingData.path = path;
+        return routingData;
 
     }
 
-    public Node start(MapRecorder mapRecorder, Position source, ArrayList<Position> destination) {
+    public Node start(MapRecorder mapRecorder, Coordinate source, HashSet<Coordinate> destination) {
 
         PriorityQueue<Node> openList = new PriorityQueue<>();
         ArrayList<Node> closeList = new ArrayList<>();
@@ -62,8 +65,8 @@ public class AStar implements Pipeline.Step<ArrayList<Position>, MapRecorder> {
         Node end = new Node(Math.round(source.x), Math.round(source.y));
 
 
-        for (Position i: destination) {
-            openList.add(new Node(Math.round(i.x), Math.round(i.y)));
+        for (Coordinate i: destination) {
+            openList.add(new Node(i.x, i.y));
         }
 
         // start search

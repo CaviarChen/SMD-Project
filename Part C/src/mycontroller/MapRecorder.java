@@ -19,8 +19,8 @@ public class MapRecorder {
     TileStatus[][] mapStatus;
     MapTile[][] mapTiles;
     Coordinate[] keysCoord;
-    ArrayList<Coordinate> finishCoords = new ArrayList<>();
-    ArrayList<Coordinate> healthCoords = new ArrayList<>();
+    HashSet<Coordinate> finishCoords = new HashSet<>();
+    HashSet<Coordinate> healthCoords = new HashSet<>();
     int width = World.MAP_WIDTH, height = World.MAP_HEIGHT;
 
 

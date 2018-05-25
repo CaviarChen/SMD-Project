@@ -1,22 +1,26 @@
 package mycontroller;
 
+import sun.tools.jstat.RawOutputFormatter;
+
 import java.util.ArrayList;
 
-public class AvoidWall implements Pipeline.Step<ArrayList<Position>, MapRecorder> {
+public class AvoidWall implements Pipeline.Step<RoutingData, MyAIController> {
 
     private static final int[][] DIRECTS = new int[][]{{1,0},{-1,0},{0,1},{0,-1}, {1,1},{-1,1},{1,-1},{-1,-1}};
     //
 
     @Override
-    public ArrayList<Position> execute(ArrayList<Position> input, MapRecorder mapRecorder) {
+    public RoutingData execute(RoutingData routingData, MyAIController myAIController) {
 
-        ArrayList<Position> output = new ArrayList<>();
+        ArrayList<Position> outputPath = new ArrayList<>();
 
-        for (Position pos: input) {
-            output.add(positionAvoidWall(pos.x, pos.y, mapRecorder));
+        for (Position pos: routingData.path) {
+            outputPath.add(positionAvoidWall(pos.x, pos.y, myAIController.mapRecorder));
         }
 
-        return output;
+        routingData.path = outputPath;
+
+        return routingData;
     }
 
 

@@ -1,6 +1,5 @@
 package mycontroller;
 
-import java.util.ArrayList;
 import java.util.Stack;
 
 public class StrategyManager {
@@ -17,7 +16,7 @@ public class StrategyManager {
         repairStrategy = new RepairStrategy();
     }
 
-    public ArrayList<Position> getTargets(MyAIController myAIController) {
+    public RoutingData getTargets(MyAIController myAIController) {
         return strategyStack.peek().getTargets(myAIController);
     }
 

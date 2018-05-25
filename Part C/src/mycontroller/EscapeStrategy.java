@@ -3,17 +3,15 @@ package mycontroller;
 import utilities.Coordinate;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class EscapeStrategy implements Strategy {
 
     @Override
-    public ArrayList<Position> getTargets(MyAIController myAIController) {
+    public RoutingData getTargets(MyAIController myAIController) {
 
-        ArrayList<Position> output = new ArrayList<>();
-
-        for(Coordinate coord: myAIController.mapRecorder.finishCoords) {
-            output.add(new Position(coord));
-        }
+        RoutingData output = new RoutingData();
+        output.targets = new HashSet<>(myAIController.mapRecorder.finishCoords);
 
         return output;
     }
