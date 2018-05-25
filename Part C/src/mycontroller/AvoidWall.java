@@ -4,7 +4,8 @@ import java.util.ArrayList;
 
 public class AvoidWall implements Pipeline.Step<ArrayList<Position>, MapRecorder> {
 
-    private static final int[][] DIRECTS = new int[][]{{1,0},{-1,0},{0,1},{0,-1},{1,1},{-1,1},{1,-1},{-1,-1}};
+    private static final int[][] DIRECTS = new int[][]{{1,0},{-1,0},{0,1},{0,-1}};
+    //{1,1},{-1,1},{1,-1},{-1,-1}
 
     @Override
     public ArrayList<Position> execute(ArrayList<Position> input, MapRecorder mapRecorder) {
