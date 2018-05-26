@@ -16,7 +16,8 @@ public interface Strategy {
     RoutingData getTargets(MyAIController myAIController);
 
     /**
-     * check if the current strategy is finished (and will be pop out from the strategy stack)
+     * check if the current strategy is finished (and will be pop out
+     * from the strategy stack)
      * @param myAIController the main controller
      * @return boolean value
      */

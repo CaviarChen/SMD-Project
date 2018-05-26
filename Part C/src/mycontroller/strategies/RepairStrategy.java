@@ -8,49 +8,85 @@ import utilities.Coordinate;
 
 import java.util.*;
 
+/**
+ * Repair strategy navigate the car back the nearest
+ * known health trap and stay there if it thinks there
+ * is a need to do so.
+ */
 public class RepairStrategy implements Strategy {
 
+    /** When the car's health reach this value, it leaves the health trap. */
     private static final int FINISH_THRESHOLD = 96;
-    private static final double DISTANCE_FACTOR = 0.5;
-    private static final double TAKE_OVER_THRESHOLD = 100;
+
+    /**
+     * Prevent the car go back to a health trap when it just left from it
+     * for this number of cells.
+     */
     private static final int LEAVE_HEALTH_TRAP = 7;
 
+    /** If the car has moved a cell since last calculation. */
     private boolean carMoved = false;
 
-    private static final TreeMap<Integer, Double> SPEED_LIMIT = new TreeMap<>(Comparator.reverseOrder());
-
-    static {
-        SPEED_LIMIT.put(95, Double.NEGATIVE_INFINITY);
-        SPEED_LIMIT.put(85, 100.0);
-        SPEED_LIMIT.put(55, 500.0);
-        SPEED_LIMIT.put(30, 700.0);
-        SPEED_LIMIT.put(0, Double.POSITIVE_INFINITY);
-    }
-
+    /**
+     * Number of steps the car has to travel that prevents it from
+     * coming back to a health trap.
+     */
     private int resetCount = 0;
 
+    /**
+     * Stop the car if it is on a health trap and its health is
+     * below this value.
+     */
+    private static final int PASS_BY_RECOVER_THRESHOLD = 90;
+
+    /**
+     * Never navigate the car to a health trap if its health level
+     * is above this value.
+     */
+    private static final int TRAVEL_TO_RECOVER_THRESHOLD = 80;
+
+    /**
+     * get the targets decided by the strategy
+     * @param myAIController the main controller
+     * @return relative routing data
+     */
     @Override
     public RoutingData getTargets(MyAIController myAIController) {
 
+        // Current coordinate of the car
         int currentX = Math.round(myAIController.getX());
         int currentY = Math.round(myAIController.getY());
 
-        RoutingData output = new RoutingData();
+        RoutingData routingData = new RoutingData();
 
-        // already on HealthTrap
-        if (myAIController.mapRecorder.mapTiles[currentX][currentY] instanceof HealthTrap) {
-            output.targets = null;
-            return output;
+        // Don't move the car if it is already on a health trap
+        // until the strategy is finished
+        if (myAIController.mapRecorder.mapTiles[currentX][currentY]
+                instanceof HealthTrap) {
+            routingData.targets = null;
+            return routingData;
         }
 
-        output.targets = new HashSet<>(myAIController.mapRecorder.healthCoords);
+        // Navigate the car to a health trap.
+        routingData.targets =
+                new HashSet<>(myAIController.mapRecorder.healthCoords);
 
-        return output;
+        return routingData;
     }
 
+    /**
+     * check if the current strategy is finished (and will be pop out
+     * from the strategy stack)
+     * @param myAIController the main controller
+     * @return true if the strategy has finished its task
+     */
     @Override
     public boolean isFinished(MyAIController myAIController) {
+        // This strategy is only finished when the car
+        // has reached a certain health level
         if (myAIController.getHealth() >= FINISH_THRESHOLD) {
+            // Set the "resetCount" to prevent the car from
+            // returning to the health trap immediately.
             resetCount = LEAVE_HEALTH_TRAP;
             return true;
         }
@@ -58,74 +94,87 @@ public class RepairStrategy implements Strategy {
 
     }
 
-    public boolean needTakeover(MyAIController myAIController) {
+    /**
+     * Decide if the car need to visit a health trap immediately.
+     * This allows the Repair Strategy to activate and become the
+     * current activate strategy.
+     *
+     * @param myAIController the current "My AI Controller"
+     * @return true if the car need to visit a health trap.
+     */
+    public boolean needTakeOver(MyAIController myAIController) {
 
+        // Coordinate of the car
         int currentX = Math.round(myAIController.getX()),
                 currentY = Math.round(myAIController.getY());
-        // Stay at health trap if pass by and need to recover
-        if (myAIController.getHealth() < 90 &&
-                myAIController.mapRecorder.mapTiles[currentX][currentY] instanceof HealthTrap) {
-            System.out.println("PASS BY RECOVERY ----");
+
+        // Stay on a health trap if the car is on one and it needs to recover
+        if (myAIController.getHealth() < PASS_BY_RECOVER_THRESHOLD &&
+                myAIController.mapRecorder.mapTiles[currentX][currentY]
+                        instanceof HealthTrap) {
             return true;
         }
 
+        // Do calculations only when the car has moved a cell
+        // since last calculation
         if (!carMoved) return false;
         carMoved = false;
 
         // Never take over if no health trap is found
-        if (myAIController.mapRecorder.healthCoords.isEmpty()) return false;
+        if (myAIController.mapRecorder.healthCoords.isEmpty())
+            return false;
 
-        // Never take over if just got out from the health trap
+        // Never take over if the car just left a health trap
         if (resetCount > 0) {
             return false;
         }
 
-        if (myAIController.getHealth() > 80) return false;
+        // Do not go to a health trap if it has high health level
+        if (myAIController.getHealth() > TRAVEL_TO_RECOVER_THRESHOLD)
+            return false;
 
 
-        AStar.Node node = new AStar().start(myAIController.mapRecorder,
-                new Coordinate(currentX, currentY),
-                myAIController.mapRecorder.healthCoords
-        );
-
+        // Inspect if the car now is travelling to somewhere
         int pathSize = myAIController.getRoutingData().path.size();
 
         if (pathSize > 0) {
-            HashSet<Coordinate> carDestination = new HashSet<>();
-            carDestination.add(myAIController.getRoutingData().path.get(pathSize - 1).toCoordinate());
-
-            AStar.Node nodeDest = new AStar().start(myAIController.mapRecorder,
+            // Calculate the estimated cost to the nearest health trap
+            AStar.Node node = new AStar().start(myAIController.mapRecorder,
                     new Coordinate(currentX, currentY),
-                    carDestination
+                    myAIController.mapRecorder.healthCoords
+            );
+
+            // Calculate the estimated cost to the current intended destination
+
+            HashSet<Coordinate> carDestination = new HashSet<>();
+            carDestination.add(myAIController.getRoutingData().path
+                    .get(pathSize - 1).toCoordinate());
+
+            AStar.Node nodeDest =
+                    new AStar().start(myAIController.mapRecorder,
+                        new Coordinate(currentX, currentY),
+                        carDestination
                     );
 
-            System.out.print("ORIGINAL DEST " + nodeDest.G);
-            System.out.print(" v. " + node.G + " = TAKE OVER");
-            System.out.println(" @ = " + myAIController.getHealth());
-
+            // Get the car to a health trap if it costs less to a health trap.
             return node.G < nodeDest.G;
         }
-//        double value =  ((myAIController.getHealth()/100 + 1) * node.G * DISTANCE_FACTOR);
 
-
-        System.out.print(node.G + " = TAKE OVER");
-        System.out.println("@ = " + myAIController.getHealth());
+        // Don't get the car to a health trap otherwise.
         return false;
-
-
-//        for (Map.Entry<Integer, Double> i: SPEED_LIMIT.entrySet()) {
-//            if (myAIController.getHealth() > i.getKey())
-//                return node.G < i.getValue();
-//        }
-//        return true;
-//        return value <= TAKE_OVER_THRESHOLD;
-//        return myAIController.getHealth() + node.G * DISTANCE_FACTOR <= TAKE_OVER_THRESHOLD;
     }
 
+    /**
+     * Inform the repair strategy if the car has travelled a cell
+     */
     public void carMoved() {
-        if (resetCount>0) {
+        // Decrease the step count by 1 if the car is in
+        // the prevent-back-to-health-trap state.
+        if (resetCount > 0) {
             resetCount--;
         }
+
+        // Record the moving notification
         carMoved = true;
     }
 
