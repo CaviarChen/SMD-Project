@@ -8,8 +8,18 @@ import tiles.MapTile;
 
 import java.util.Objects;
 
+/**
+ * Pipeline for simplifying the path by allowing the car go diagonal
+ */
 public class SimplifyPath implements Pipeline.Step<RoutingData, MyAIController>{
 
+
+    /**
+     * Execute this pipeline step, simplify the path by allowing the car go diagonal
+     * @param routingData routingData
+     * @param myAIController the main controller
+     * @return updated routingData
+     */
     @Override
     public RoutingData execute(RoutingData routingData, MyAIController myAIController) {
 
@@ -17,12 +27,15 @@ public class SimplifyPath implements Pipeline.Step<RoutingData, MyAIController>{
             if (routingData.path.get(i)==null) continue;
 
             for (int j = i+2; j< routingData.path.size(); j++) {
+
+                // select 3 points
                 Position pos1 = routingData.path.get(i);
                 Position pos2 = routingData.path.get(j-1);
                 Position pos3 = routingData.path.get(j);
 
                 if (pos2==null || pos3==null) continue;
 
+                // based on the pos1 and pos3, make a rectangle, if the condition met then the pos2 can be removed
                 int minX = Math.round(Math.min(pos1.x, pos3.x));
                 int maxX = Math.round(Math.max(pos1.x, pos3.x));
                 int minY = Math.round(Math.min(pos1.y, pos3.y));

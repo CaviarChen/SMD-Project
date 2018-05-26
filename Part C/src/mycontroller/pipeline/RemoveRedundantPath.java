@@ -6,11 +6,21 @@ import mycontroller.RoutingData;
 
 import java.util.Objects;
 
+/**
+ * Pipeline for removing redundant nodes in the path
+ */
 public class RemoveRedundantPath implements Pipeline.Step<RoutingData, MyAIController> {
 
+    // precision for comparing float number
     private static final float PRECISION_LEVEL = 0.001f;
 
 
+    /**
+     * Execute this pipeline step, remove the extra nodes that are colinear
+     * @param routingData routingData
+     * @param myAIController the main controller
+     * @return updated routingData
+     */
     @Override
     public RoutingData execute(RoutingData routingData, MyAIController myAIController) {
 
@@ -21,6 +31,7 @@ public class RemoveRedundantPath implements Pipeline.Step<RoutingData, MyAIContr
                 Position pos1 = routingData.path.get(i);
                 Position pos2 = routingData.path.get(j);
 
+                // if any two node shares the same x or y axis, then remove nodes in between
                 if (floatEquals(pos1.x, pos2.x) || floatEquals(pos1.y, pos2.y)) {
                     routingData.path.set(j-1, null);
                 } else {
