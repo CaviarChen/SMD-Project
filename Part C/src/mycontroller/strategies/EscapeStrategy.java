@@ -1,4 +1,4 @@
-package mycontroller.stratergies;
+package mycontroller.strategies;
 
 import mycontroller.MyAIController;
 import mycontroller.RoutingData;

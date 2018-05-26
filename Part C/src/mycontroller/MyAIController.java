@@ -2,7 +2,7 @@ package mycontroller;
 
 import controller.CarController;
 import mycontroller.pipeline.*;
-import mycontroller.stratergies.StrategyManager;
+import mycontroller.strategies.StrategyManager;
 import swen30006.driving.Simulation;
 import utilities.Coordinate;
 import world.Car;

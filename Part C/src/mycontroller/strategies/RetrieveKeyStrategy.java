@@ -1,4 +1,4 @@
-package mycontroller.stratergies;
+package mycontroller.strategies;
 
 import mycontroller.MapRecorder;
 import mycontroller.MyAIController;

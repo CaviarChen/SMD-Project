@@ -1,4 +1,4 @@
-package mycontroller.stratergies;
+package mycontroller.strategies;
 
 import mycontroller.pipeline.AStar;
 import mycontroller.MyAIController;
