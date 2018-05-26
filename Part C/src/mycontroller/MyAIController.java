@@ -170,7 +170,7 @@ public class MyAIController extends CarController {
             if (routingData.targetPairs.containsKey(currentCoord)) {
                 routingData.targetPairs.clear();
             }
-            return;
+            if (routingData.path.size()==0) return;
         }
 
         Position currentPos = new Position(getX(), getY());
@@ -201,7 +201,7 @@ public class MyAIController extends CarController {
             allowedSpeed = computeAllowedVelocity(dist, endingSpeed);
         } else {
             // big turn
-            allowedSpeed = 0.3f;
+            allowedSpeed = 0.2f;
         }
 
         if (getSpeed()<allowedSpeed) {

@@ -42,7 +42,8 @@ public class SimplifyPath implements Pipeline.Step<RoutingData, MyAIController>{
                 int maxY = Math.round(Math.max(pos1.y, pos3.y));
 
                 // skip if pos2 is not in the rectangle of pos1 and pos3
-                if (!(pos2.x <= maxX && pos2.x>=minX && pos2.y <= maxY && pos2.y>=minY)) continue;
+                int pos2X = Math.round(pos2.x), pos2Y = Math.round(pos2.y);
+                if (!(pos2X<= maxX && pos2X>=minX && pos2Y <= maxY && pos2Y>=minY)) continue;
 
 
                 boolean flag = true;
