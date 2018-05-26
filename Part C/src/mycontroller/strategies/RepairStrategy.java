@@ -22,7 +22,7 @@ public class RepairStrategy implements Strategy {
      * Prevent the car go back to a health trap when it just left from it
      * for this number of cells.
      */
-    private static final int LEAVE_HEALTH_TRAP = 7;
+    private static final int LEAVE_HEALTH_TRAP = 12;
 
     /** If the car has moved a cell since last calculation. */
     private boolean carMoved = false;
