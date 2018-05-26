@@ -179,7 +179,7 @@ public class AStar implements Pipeline.Step<RoutingData, MyAIController> {
         addNeighborNodeInOpen(mapRecorder, openList, closeList, end, current, x + 1, y);    // right
         addNeighborNodeInOpen(mapRecorder, openList, closeList, end, current, x, y + 1);    // down
     }
-    
+
     /**
      * add a neighbor node into openList
      * @param mapRecorder

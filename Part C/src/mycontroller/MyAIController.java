@@ -42,7 +42,7 @@ public class MyAIController extends CarController {
         super(car);
 
         mapRecorder = new MapRecorder(getMap(), getKey());
-        mapRecorder.addCarView(Math.round(getX()), Math.round(getY()), getView(), getKey());
+        mapRecorder.addCarView(getView(), getKey());
 
         pathPlanner = new Pipeline<>();
         pathPlanner.appendStep(new AStar());
@@ -85,7 +85,7 @@ public class MyAIController extends CarController {
         int currentX = Math.round(getX());
         int currentY = Math.round(getY());
         if (currentX!=lastX || currentY!=lastY) {
-            foundFlags |= mapRecorder.addCarView(Math.round(getX()), Math.round(getY()), getView(), getKey());
+            foundFlags |= mapRecorder.addCarView(getView(), getKey());
             lastX = currentX;
             lastY = currentY;
 

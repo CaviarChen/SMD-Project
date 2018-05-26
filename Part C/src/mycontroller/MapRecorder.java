@@ -8,7 +8,12 @@ import world.World;
 
 import java.util.*;
 
+/**
+ * Class that responsible for recording the map for MyAIController
+ */
 public class MapRecorder {
+
+    // status enum for tile
     public enum TileStatus {
         UNREACHABLE, SEARCHED, UNSEARCHED
     }
@@ -16,14 +21,23 @@ public class MapRecorder {
     public static final int LAVA_FOUND     = 0b001;
     public static final int NEXT_KEY_FOUND = 0b010;
 
+
     public TileStatus[][] mapStatus;
     public MapTile[][] mapTiles;
+
+    // Coordinate for special tile
     public Coordinate[] keysCoord;
     public HashSet<Coordinate> finishCoords = new HashSet<>();
     public HashSet<Coordinate> healthCoords = new HashSet<>();
+
     public int width = World.MAP_WIDTH, height = World.MAP_HEIGHT;
 
 
+    /**
+     * Constructor
+     * @param mapHashMap map get from CarController.getMap()
+     * @param keySize the number of key in this map
+     */
     public MapRecorder(HashMap<Coordinate, MapTile> mapHashMap, int keySize) {
         
         mapStatus = new TileStatus[width][height];
@@ -32,6 +46,7 @@ public class MapRecorder {
 
         Coordinate startCoord = null;
 
+        // add all tiles into mapTiles
         for (Map.Entry<Coordinate, MapTile> entry: mapHashMap.entrySet()) {
             int x = entry.getKey().x;
             int y = entry.getKey().y;
@@ -43,8 +58,10 @@ public class MapRecorder {
             }
         }
 
+        // use DFS to find out all reachable tiles in this map
         findReachableDFS(startCoord.x, startCoord.y);
 
+        // mark everything unreachable if not reached by DFS
         for (int i=0; i<width; i++) {
             for (int j=0; j<height; j++) {
                 if (mapStatus[i][j]==null) {
@@ -53,14 +70,17 @@ public class MapRecorder {
             }
         }
 
+        // mark finish tiles as searched
         for (Coordinate coord: finishCoords) {
             mapStatus[coord.x][coord.y] = TileStatus.SEARCHED;
         }
 
-//        print();
     }
 
-    private void print() {
+    /**
+     * print the map to stdout for debug
+     */
+    private void printMap() {
         System.out.println("------");
 
         for (int j=height-1; j>=0; j--) {
@@ -82,26 +102,15 @@ public class MapRecorder {
         System.out.println("------");
     }
 
-    public TileStatus[][] getTileStatus() {
-        return mapStatus;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
 
     /**
      * Add a view of the car to the map.
-     * Return a status that indicates special tiles found.
-     * Return 0 or a sum of flags responding to type of tiles found
+     * @param view from CarController.getView()
+     * @param currentKey current number of key
+     * @return a status that indicates special tiles found (0 or a sum of flags responding to type of tiles found).
      * Including LAVA_FOUND and NEXT_KEY_FOUND
      */
-    public int addCarView(int x, int y, HashMap<Coordinate,MapTile> view, int currentKey) {
+    public int addCarView(HashMap<Coordinate,MapTile> view, int currentKey) {
 
         int tilesFoundFlag = 0;
 
@@ -111,8 +120,11 @@ public class MapRecorder {
 
             if (inRange(tileX, tileY)) {
                 if (mapStatus[tileX][tileY] == TileStatus.UNSEARCHED) {
+                    // mark as searched
                     mapStatus[tileX][tileY] = TileStatus.SEARCHED;
                     mapTiles[tileX][tileY] = entry.getValue();
+
+
                     if (mapTiles[tileX][tileY] instanceof LavaTrap)  {
                         tilesFoundFlag |= LAVA_FOUND;
                         LavaTrap trap = (LavaTrap) mapTiles[tileX][tileY];
@@ -129,11 +141,15 @@ public class MapRecorder {
                 }
             }
         }
-//        print();
 
         return tilesFoundFlag;
     }
 
+    /**
+     * Use DFS to find out all reachable position
+     * @param x starting position
+     * @param y starting position
+     */
     private void findReachableDFS(int x, int y) {
         if (!inRange(x, y)) {
             return;
@@ -156,12 +172,17 @@ public class MapRecorder {
         findReachableDFS(x,y-1);
     }
 
+    /**
+     * @param x a position
+     * @param y a position
+     * @return true if the given position is in the map range
+     */
     public boolean inRange(int x, int y) {
         return !(x<0||x>=width||y<0||y>=height);
     }
 
     /**
-     * Return a list of coordinates that can uncover all cells when visited
+     * @return a list of coordinates that can uncover all cells when visited
      * Coordinates are returned in no order.
      */
     public ArrayList<Coordinate> coordinatesToExplore() {
@@ -201,23 +222,5 @@ public class MapRecorder {
 
         return queue;
     }
-
-    /**
-     * Get the point for map exploration nearest to the provided location
-     */
-    public Coordinate getNearestExplorationPoint(float x, float y) {
-        ArrayList<Coordinate> list = coordinatesToExplore();
-        Coordinate nearest = null;
-        double distance = Double.POSITIVE_INFINITY;
-        for (Coordinate i: list) {
-            double thisDistance = Math.sqrt((i.x - x) * (i.x - x) + (i.y - y) * (i.y - y));
-            if (thisDistance < distance) {
-                distance = thisDistance;
-                nearest = i;
-            }
-        }
-        return nearest;
-    }
-
 
 }

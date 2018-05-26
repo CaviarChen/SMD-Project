@@ -50,7 +50,7 @@ public class AvoidWall implements Pipeline.Step<RoutingData, MyAIController> {
         int offsetX = 0;
         int offsetY = 0;
 
-        MapRecorder.TileStatus[][] mapStatus = mapRecorder.getTileStatus();
+        MapRecorder.TileStatus[][] mapStatus = mapRecorder.mapStatus;
 
         for(int[] dir: DIRECTS) {
             int newX = Math.round(x) + dir[0];
