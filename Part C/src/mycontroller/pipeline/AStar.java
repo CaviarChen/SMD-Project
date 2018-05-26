@@ -17,18 +17,30 @@ import java.util.PriorityQueue;
 public class AStar implements Pipeline.Step<RoutingData, MyAIController> {
 
     /**
-     * node class for AStar
+     * Node class for AStar
      */
     public class Node implements Comparable<Node> {
-        public Coordinate coord; // coordinate
-        public Node parent; // parent
-        public int G; // G: correct value, from start to current node
-        public int H; // H: estimated value, from current node to end
+        public Coordinate coord;
+        public Node parent;
+        public int G;
+        public int H;
 
+        /**
+         * Constructor
+         * @param x x coordinate
+         * @param y y coordinate
+         */
         public Node(int x, int y) {
             this.coord = new Coordinate(x, y);
         }
 
+        /**
+         * Constructor
+         * @param coord coordinate of node
+         * @param parent parent node
+         * @param g actual cost from start to current node
+         * @param h heuristic cost from current node to end
+         */
         public Node(Coordinate coord, Node parent, int g, int h) {
             this.coord = coord;
             this.parent = parent;
@@ -36,6 +48,11 @@ public class AStar implements Pipeline.Step<RoutingData, MyAIController> {
             H = h;
         }
 
+        /**
+         * Compare function
+         * @param o node object
+         * @return int value for comparison
+         */
         @Override
         public int compareTo(Node o) {
             if (o == null) return -1;
@@ -60,7 +77,7 @@ public class AStar implements Pipeline.Step<RoutingData, MyAIController> {
         // pass everything to method start, then change the output format
         Node end = start(myAIController.mapRecorder, source, routingData.targets);
 
-        // path
+        // extract the path from nodes
         ArrayList<Position> path = new ArrayList<>();
 
         while (end != null) {
@@ -81,12 +98,12 @@ public class AStar implements Pipeline.Step<RoutingData, MyAIController> {
      * @return the node that link to other node until reaches the destination
      */
     public Node start(MapRecorder mapRecorder, Coordinate source, HashSet<Coordinate> destination) {
-
+        // openList for recording the visitable nodes
         PriorityQueue<Node> openList = new PriorityQueue<>();
+        // closeList for recording the visited nodes
         ArrayList<Node> closeList = new ArrayList<>();
 
         Node end = new Node(Math.round(source.x), Math.round(source.y));
-
 
         for (Coordinate i: destination) {
             openList.add(new Node(i.x, i.y));
@@ -105,26 +122,22 @@ public class AStar implements Pipeline.Step<RoutingData, MyAIController> {
     }
 
     /**
+     * Calculate the heuristics distance
      * @param end first coordinate
      * @param coord second coordinate
-     * @return Manhattan distance as heuristic distance
+     * @return Manhattan distance
      */
     private int calcH(Coordinate end, Coordinate coord) {
         return Math.abs(end.x - coord.x) + Math.abs(end.y - coord.y);
     }
 
-
     /**
-     * @param end first coordinate
-     * @param coord second coordinate
-     * @return whether is the end coordinate
-     */
-    private boolean isEndNode(Coordinate end, Coordinate coord) {
-        return end.equals(coord);
-    }
-
-    /**
-     * explore a coordinate
+     * Explore a coordinate
+     * @param mapRecorder mapRecorder providing map information
+     * @param closeList given close list
+     * @param x x coordinate
+     * @param y y coordinate
+     * @return true if the node can be added to open list
      */
     private boolean canAddNodeToOpen(MapRecorder mapRecorder, ArrayList<Node> closeList, int x, int y) {
         // check whether is in map
@@ -136,6 +149,7 @@ public class AStar implements Pipeline.Step<RoutingData, MyAIController> {
     }
 
     /**
+     * Check the coordinate is in close list
      * @param closeList given close list
      * @param x x coordinate
      * @param y y coordinate
@@ -150,6 +164,7 @@ public class AStar implements Pipeline.Step<RoutingData, MyAIController> {
     }
 
     /**
+     * Find the node is in open list
      * @param openList given open list
      * @param coord coordinate
      * @return return the node in open list given coordinate
@@ -162,14 +177,13 @@ public class AStar implements Pipeline.Step<RoutingData, MyAIController> {
         return null;
     }
 
-
     /**
-     * add all neighbor nodes into openList
-     * @param mapRecorder
-     * @param openList
-     * @param closeList
-     * @param end
-     * @param current
+     * Add all neighbor nodes into openList
+     * @param mapRecorder mapRecorder providing map information
+     * @param openList given open list
+     * @param closeList given close list
+     * @param end starting node
+     * @param current current node
      */
     private void addNeighborNodeInOpen(MapRecorder mapRecorder, PriorityQueue<Node> openList, ArrayList<Node> closeList, Node end, Node current) {
         int x = current.coord.x;
@@ -181,14 +195,14 @@ public class AStar implements Pipeline.Step<RoutingData, MyAIController> {
     }
 
     /**
-     * add a neighbor node into openList
-     * @param mapRecorder
-     * @param openList
-     * @param closeList
-     * @param end
-     * @param current
-     * @param x
-     * @param y
+     * Add a neighbor node into openList
+     * @param mapRecorder mapRecorder providing map information
+     * @param openList given open list
+     * @param closeList given close list
+     * @param end starting node
+     * @param current current node
+     * @param x x coordinate
+     * @param y y coordinate
      */
     private void addNeighborNodeInOpen(MapRecorder mapRecorder, PriorityQueue<Node> openList, ArrayList<Node> closeList,
                                        Node end, Node current, int x, int y) {
@@ -207,12 +221,13 @@ public class AStar implements Pipeline.Step<RoutingData, MyAIController> {
 
                 if (parentXDiff != xDiff || parentYDiff != yDiff) value += 10;
             }
-
-            int G = current.G + value; // calculate G value for neighbor node
+            // calculate G value for neighbor node
+            int G = current.G + value;
             Node child = findNodeInOpen(openList, coord);
             if (child == null) {
-                int H = calcH(end.coord, coord); // calculate H value
-                if (isEndNode(end.coord, coord)) {
+                // calculate H value
+                int H = calcH(end.coord, coord);
+                if (end.coord.equals(coord)) {
                     child = end;
                     child.parent = current;
                     child.G = G;
@@ -229,7 +244,4 @@ public class AStar implements Pipeline.Step<RoutingData, MyAIController> {
             }
         }
     }
-
 }
-
-
