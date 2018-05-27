@@ -1,3 +1,7 @@
+/**
+ * Group 44
+ */
+
 package mycontroller.strategies;
 
 import mycontroller.MapRecorder;
