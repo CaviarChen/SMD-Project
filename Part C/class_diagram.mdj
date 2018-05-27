@@ -9396,7 +9396,7 @@
 									},
 									"edgePosition": 1,
 									"underline": false,
-									"text": "creates",
+									"text": "has",
 									"horizontalAlignment": 2,
 									"verticalAlignment": 5,
 									"wordWrap": false
@@ -9590,9 +9590,9 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 535,
+									"left": 524,
 									"top": 827,
-									"width": 0,
+									"width": 22,
 									"height": 13,
 									"autoResize": false,
 									"alpha": -0.5235987755982988,
@@ -9602,6 +9602,7 @@
 									},
 									"edgePosition": 0,
 									"underline": false,
+									"text": "1..3",
 									"horizontalAlignment": 2,
 									"verticalAlignment": 5,
 									"wordWrap": false
@@ -9658,9 +9659,9 @@
 									"showShadow": true,
 									"containerChangeable": false,
 									"containerExtending": false,
-									"left": 541,
+									"left": 535,
 									"top": 831,
-									"width": 11,
+									"width": 22,
 									"height": 13,
 									"autoResize": false,
 									"alpha": -0.5880029112400171,
@@ -9670,7 +9671,7 @@
 									},
 									"edgePosition": 0,
 									"underline": false,
-									"text": "2",
+									"text": "1..3",
 									"horizontalAlignment": 2,
 									"verticalAlignment": 5,
 									"wordWrap": false
@@ -13147,7 +13148,7 @@
 									},
 									"edgePosition": 2,
 									"underline": false,
-									"text": "create",
+									"text": "creates",
 									"horizontalAlignment": 2,
 									"verticalAlignment": 5,
 									"wordWrap": false
@@ -14436,7 +14437,7 @@
 								"_parent": {
 									"$ref": "AAAAAAFjm2b8UN9RH0o="
 								},
-								"name": "create",
+								"name": "creates",
 								"reference": {
 									"$ref": "AAAAAAFjkLyGZ3i/sdg="
 								},
@@ -15729,7 +15730,7 @@
 									"_parent": {
 										"$ref": "AAAAAAFjkOT6x3IiRA8="
 									},
-									"name": "creates",
+									"name": "has",
 									"end1": {
 										"_type": "UMLAssociationEnd",
 										"_id": "AAAAAAFjmzh+nyBGOTA=",
@@ -15761,7 +15762,7 @@
 										"visibility": "public",
 										"navigable": true,
 										"aggregation": "none",
-										"multiplicity": "2",
+										"multiplicity": "1..3",
 										"isReadOnly": false,
 										"isOrdered": false,
 										"isUnique": false,
