@@ -12,12 +12,27 @@ import world.WorldSpatial;
 
 public class MyAIController extends CarController {
 
+
+
     /** Physics constants form Car */
     private static final float BRAKING_FORCE = 2f;
     private static final float FRICTION_FORCE = 0.5f;
 
     /** Angle threshold to detect U-turns */
     private static final float U_TURN_THRESHOLD = 120.0f;
+
+    /** Speed for different scenario*/
+    private static final float LV1_CONTROL_SPEED = 0.2f;
+    private static final float LV2_CONTROL_SPEED = 0.3f;
+    private static final float LV3_CONTROL_SPEED = 0.4f;
+    private static final float LV4_CONTROL_SPEED = 1.4f;
+
+
+    private static final int SMALL_TURN_THRESHOLD = 45;
+
+
+    private static final int MAX_ANGLE = 360;
+    private static final int RIGHT_ANGLE_DEGREE = 90;
 
 
     private Pipeline<RoutingData, MyAIController> pathPlanner;
@@ -157,8 +172,8 @@ public class MyAIController extends CarController {
         int targetX = Math.round(routingData.path.get(0).x);
         int targetY = Math.round(routingData.path.get(0).y);
 
-        // Debug only
-         Simulation.flagList = routingData.path;
+//         Debug only
+//         Simulation.flagList = routingData.path;
 
         if (currentX==targetX && currentY==targetY) {
             // car reaches a position in route
@@ -171,7 +186,7 @@ public class MyAIController extends CarController {
                 routingData.targetPairs.clear();
             }
             if (routingData.path.size()==0) {
-                if (getSpeed()>0.2f) applyBrake();
+                if (getSpeed()> LV1_CONTROL_SPEED) applyBrake();
                 return;
             }
         }
@@ -200,11 +215,11 @@ public class MyAIController extends CarController {
 
 
         float allowedSpeed;
-        if (Math.abs(cmp) < 40) {
+        if (Math.abs(cmp) < SMALL_TURN_THRESHOLD) {
             allowedSpeed = computeAllowedVelocity(dist, endingSpeed);
         } else {
             // big turn
-            allowedSpeed = 0.3f;
+            allowedSpeed = LV2_CONTROL_SPEED;
         }
 
         if (getSpeed()<allowedSpeed) {
@@ -228,10 +243,10 @@ public class MyAIController extends CarController {
             case SOUTH: orientationAngle = WorldSpatial.SOUTH_DEGREE; break;
             case NORTH: orientationAngle = WorldSpatial.NORTH_DEGREE; break;
         }
-        double xOffsetL = Math.cos(orientationAngle + 90),
-               yOffsetL = Math.sin(orientationAngle + 90),
-               xOffsetR = Math.cos(orientationAngle - 90),
-               yOffsetR = Math.sin(orientationAngle - 90);
+        double xOffsetL = Math.cos(orientationAngle + RIGHT_ANGLE_DEGREE),
+               yOffsetL = Math.sin(orientationAngle + RIGHT_ANGLE_DEGREE),
+               xOffsetR = Math.cos(orientationAngle - RIGHT_ANGLE_DEGREE),
+               yOffsetR = Math.sin(orientationAngle - RIGHT_ANGLE_DEGREE);
 
         MapRecorder.TileStatus leftTile = mapRecorder.mapStatus
                 [(int) Math.round(getX() + xOffsetL)]
@@ -241,9 +256,9 @@ public class MyAIController extends CarController {
                 [(int) Math.round(getY() + yOffsetR)];
 
         if (leftTile == MapRecorder.TileStatus.UNREACHABLE) {
-            cmp = -1.0f;
+            cmp = -1;
         } else if (rightTile == MapRecorder.TileStatus.UNREACHABLE) {
-            cmp = 1.0f;
+            cmp = 1;
         }
         return cmp;
     }
@@ -272,10 +287,8 @@ public class MyAIController extends CarController {
     private float compareAngles(float sourceAngle, float otherAngle) {
         float difference = otherAngle - sourceAngle;
 
-        if(difference < -180.0f)
-            difference += 360.0f;
-        if(difference > 180.0f)
-            difference -= 360.0f;
+        if(difference < -MAX_ANGLE/2) difference += MAX_ANGLE;
+        if(difference > MAX_ANGLE/2) difference -= MAX_ANGLE;
 
         return difference;
     }
@@ -286,15 +299,15 @@ public class MyAIController extends CarController {
      */
     private float getAllowedEndingSpeed(Position currentPos) {
 	    if (routingData.path.size()<2) {
-	        return 0.3f;
+	        return LV2_CONTROL_SPEED;
         }
 
         float angle1 = getAngleBetweenPos(currentPos, routingData.path.get(0));
         float angle2 = getAngleBetweenPos(routingData.path.get(0), routingData.path.get(1));
-        if (Math.abs(angle1-angle2) < 45) {
-            return 1.4f;
+        if (Math.abs(angle1-angle2) < SMALL_TURN_THRESHOLD) {
+            return LV4_CONTROL_SPEED;
         }
-        return 0.4f;
+        return LV3_CONTROL_SPEED;
     }
 
     /**
@@ -313,9 +326,8 @@ public class MyAIController extends CarController {
     private float getAngleBetweenPos(Position pos1, Position pos2) {
         float angle = (float) Math.toDegrees(Math.atan2(pos2.y - pos1.y, pos2.x - pos1.x));
 
-        if(angle < 0){
-            angle += 360;
-        }
+        if(angle < 0) angle += MAX_ANGLE;
+
         return angle;
     }
 
