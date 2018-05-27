@@ -12,7 +12,9 @@ import java.util.Stack;
  */
 public class StrategyManager {
 
-    /** Stack of strategies currently activated. */
+    /**
+     * Stack of strategies currently activated.
+     */
     private Stack<Strategy> strategyStack;
 
     /**
@@ -39,6 +41,7 @@ public class StrategyManager {
     /**
      * Get possible destinations from the current activated
      * strategy.
+     *
      * @param myAIController the running "My AI Controller"
      * @return Routing data with the list of destinations
      */
@@ -48,6 +51,7 @@ public class StrategyManager {
 
     /**
      * Switch strategy if necessary.
+     *
      * @param myAIController the running "My AI Controller"
      * @return true if current strategy is changed.
      */

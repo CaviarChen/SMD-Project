@@ -4,12 +4,13 @@ import java.util.ArrayList;
 
 /**
  * Class for Pipeline pattern
+ *
  * @param <T> input and output type
  * @param <D> data type
  */
 public class Pipeline<T, D> {
 
-    ArrayList<Step<T, D>> steps;
+    private ArrayList<Step<T, D>> steps;
 
     /**
      * Constructor
@@ -20,6 +21,7 @@ public class Pipeline<T, D> {
 
     /**
      * Add a step into the pipeline
+     *
      * @param step the step object
      */
     public void appendStep(Step<T, D> step) {
@@ -28,12 +30,13 @@ public class Pipeline<T, D> {
 
     /**
      * Execute the pipeline
+     *
      * @param input the input data
-     * @param data the extra data
+     * @param data  the extra data
      * @return the output data from the pipeline
      */
     public T execute(T input, D data) {
-        for(Step<T, D> step: steps) {
+        for (Step<T, D> step : steps) {
             input = step.execute(input, data);
         }
 
@@ -42,14 +45,16 @@ public class Pipeline<T, D> {
 
     /**
      * Interface for a step in the pipeline
+     *
      * @param <T> input and output type
      * @param <D> data type
      */
     public interface Step<T, D> {
         /**
          * Execute the step
+         *
          * @param input the input data
-         * @param data the extra data
+         * @param data  the extra data
          * @return the output data
          */
         T execute(T input, D data);

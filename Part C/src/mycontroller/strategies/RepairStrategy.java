@@ -1,12 +1,12 @@
 package mycontroller.strategies;
 
-import mycontroller.pipeline.AStar;
 import mycontroller.MyAIController;
 import mycontroller.RoutingData;
+import mycontroller.pipeline.AStar;
 import tiles.HealthTrap;
 import utilities.Coordinate;
 
-import java.util.*;
+import java.util.HashSet;
 
 /**
  * Repair strategy navigate the car back the nearest
@@ -15,7 +15,9 @@ import java.util.*;
  */
 public class RepairStrategy implements Strategy {
 
-    /** When the car's health reach this value, it leaves the health trap. */
+    /**
+     * When the car's health reach this value, it leaves the health trap.
+     */
     private static final int FINISH_THRESHOLD = 96;
 
     /**
@@ -24,7 +26,9 @@ public class RepairStrategy implements Strategy {
      */
     private static final int LEAVE_HEALTH_TRAP = 12;
 
-    /** If the car has moved a cell since last calculation. */
+    /**
+     * If the car has moved a cell since last calculation.
+     */
     private boolean carMoved = false;
 
     /**
@@ -47,6 +51,7 @@ public class RepairStrategy implements Strategy {
 
     /**
      * get the targets decided by the strategy
+     *
      * @param myAIController the main controller
      * @return relative routing data
      */
@@ -77,6 +82,7 @@ public class RepairStrategy implements Strategy {
     /**
      * check if the current strategy is finished (and will be pop out
      * from the strategy stack)
+     *
      * @param myAIController the main controller
      * @return true if the strategy has finished its task
      */
@@ -152,8 +158,8 @@ public class RepairStrategy implements Strategy {
 
             AStar.Node nodeDest =
                     new AStar().start(myAIController.mapRecorder,
-                        new Coordinate(currentX, currentY),
-                        carDestination
+                            new Coordinate(currentX, currentY),
+                            carDestination
                     );
 
             // Get the car to a health trap if it costs less to a health trap.

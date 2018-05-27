@@ -1,6 +1,7 @@
 package mycontroller;
 
 import utilities.Coordinate;
+
 import java.util.Objects;
 
 
@@ -13,16 +14,18 @@ public class Position {
 
     /**
      * Constructor
+     *
      * @param x x coordinate
      * @param y y coordinate
      */
-    public Position(float x, float y){
+    public Position(float x, float y) {
         this.x = x;
         this.y = y;
     }
 
     /**
      * Constructor
+     *
      * @param coord create from this Coordinate object
      */
     public Position(Coordinate coord) {
@@ -32,6 +35,7 @@ public class Position {
 
     /**
      * return int version of this position
+     *
      * @return the required Coordinate object
      */
     public Coordinate toCoordinate() {
@@ -39,26 +43,26 @@ public class Position {
     }
 
 
-    public String toString(){
-        return x+","+y;
+    public String toString() {
+        return x + "," + y;
     }
 
     /**
      * Defined in order to use it as keys in a hashmap
      */
-    public boolean equals(Object c){
-        if(c == this){
+    public boolean equals(Object c) {
+        if (c == this) {
             return true;
         }
-        if(!(c instanceof Position)){
+        if (!(c instanceof Position)) {
             return false;
         }
         Position pos = (Position) c;
         return (pos.x == this.x) && (pos.y == this.y);
     }
 
-    public int hashCode(){
-        return Objects.hash(x,y);
+    public int hashCode() {
+        return Objects.hash(x, y);
     }
 
 }

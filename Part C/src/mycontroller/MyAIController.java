@@ -3,33 +3,33 @@ package mycontroller;
 import controller.CarController;
 import mycontroller.pipeline.*;
 import mycontroller.strategies.StrategyManager;
-import swen30006.driving.Simulation;
 import utilities.Coordinate;
 import world.Car;
 import world.WorldSpatial;
 
 
-
 public class MyAIController extends CarController {
 
 
-
-    /** Physics constants form Car */
+    /**
+     * Physics constants form Car
+     */
     private static final float BRAKING_FORCE = 2f;
     private static final float FRICTION_FORCE = 0.5f;
 
-    /** Angle threshold to detect U-turns */
+    /**
+     * Angle threshold to detect U-turns
+     */
     private static final int U_TURN_THRESHOLD = 120;
     private static final int SMALL_TURN_THRESHOLD = 45;
 
-    /** Speed for different scenario*/
+    /**
+     * Speed for different scenario
+     */
     private static final float LV1_CONTROL_SPEED = 0.2f;
     private static final float LV2_CONTROL_SPEED = 0.3f;
     private static final float LV3_CONTROL_SPEED = 0.4f;
     private static final float LV4_CONTROL_SPEED = 1.4f;
-
-
-
 
 
     private static final int MAX_ANGLE = 360;
@@ -39,7 +39,9 @@ public class MyAIController extends CarController {
     private Pipeline<RoutingData, MyAIController> pathPlanner;
     private StrategyManager strategyManager;
 
-    /** record the last position of the car*/
+    /**
+     * record the last position of the car
+     */
     private int lastX = -1;
     private int lastY = -1;
 
@@ -50,9 +52,10 @@ public class MyAIController extends CarController {
 
     /**
      * Constructor
+     *
      * @param car car object
      */
-	public MyAIController(Car car) {
+    public MyAIController(Car car) {
 
         super(car);
 
@@ -71,7 +74,7 @@ public class MyAIController extends CarController {
         // init strategy Manager
         strategyManager = new StrategyManager();
 
-	}
+    }
 
     /**
      * @return the current routing data
@@ -93,9 +96,9 @@ public class MyAIController extends CarController {
     /**
      * plan the route for the car
      */
-	private void calculateRoute() {
-	    if (routingData.targets == null) return;
-	    // the last one should be the current position
+    private void calculateRoute() {
+        if (routingData.targets == null) return;
+        // the last one should be the current position
 
         routingData = pathPlanner.execute(routingData, this);
     }
@@ -103,10 +106,11 @@ public class MyAIController extends CarController {
 
     /**
      * update is triggered by the simulation every delta time
+     *
      * @param delta the time delta
      */
-	@Override
-	public void update(float delta) {
+    @Override
+    public void update(float delta) {
 
         boolean reCalculateTargetFlag = false;
         boolean reCalculateRouteFlag = false;
@@ -118,7 +122,7 @@ public class MyAIController extends CarController {
         int currentX = Math.round(getX());
         int currentY = Math.round(getY());
 
-        if (currentX!=lastX || currentY!=lastY) {
+        if (currentX != lastX || currentY != lastY) {
             // if position moved, add car view
             int foundFlags = mapRecorder.addCarView(getView(), getKey());
             lastX = currentX;
@@ -138,22 +142,22 @@ public class MyAIController extends CarController {
         }
 
         // no more route
-        if (routingData==null || routingData.path.isEmpty()) {
-           reCalculateTargetFlag = true;
+        if (routingData == null || routingData.path.isEmpty()) {
+            reCalculateTargetFlag = true;
         }
 
         if (reCalculateRouteFlag || reCalculateTargetFlag) {
             if (reCalculateTargetFlag) {
                 calculateTargets();
-            } else if(reCalculateRouteFlag) {
+            } else if (reCalculateRouteFlag) {
                 calculateRoute();
             }
         }
 
         // recheck the route
-        if (routingData==null || routingData.path.isEmpty()) {
+        if (routingData == null || routingData.path.isEmpty()) {
             // need to wait
-            if (getSpeed()>0) {
+            if (getSpeed() > 0) {
                 applyBrake();
             }
             return;
@@ -161,11 +165,12 @@ public class MyAIController extends CarController {
 
 
         driveCar(delta, currentX, currentY);
-	}
+    }
 
     /**
      * drive the car
-     * @param delta delta from update
+     *
+     * @param delta    delta from update
      * @param currentX current X position
      * @param currentY current Y position
      */
@@ -176,7 +181,7 @@ public class MyAIController extends CarController {
 //         Debug only
 //         Simulation.flagList = routingData.path;
 
-        if (currentX==targetX && currentY==targetY) {
+        if (currentX == targetX && currentY == targetY) {
             // car reaches a position in route
             routingData.path.remove(0);
 
@@ -186,8 +191,8 @@ public class MyAIController extends CarController {
             if (routingData.targetPairs.containsKey(currentCoord)) {
                 routingData.targetPairs.clear();
             }
-            if (routingData.path.size()==0) {
-                if (getSpeed()> LV1_CONTROL_SPEED) applyBrake();
+            if (routingData.path.size() == 0) {
+                if (getSpeed() > LV1_CONTROL_SPEED) applyBrake();
                 return;
             }
         }
@@ -198,12 +203,12 @@ public class MyAIController extends CarController {
 
         // direction control
         float cmp = compareAngles(getAngle(), targetAngle);
-        if (cmp!=0) {
+        if (cmp != 0) {
             if (Math.abs(cmp) > U_TURN_THRESHOLD) {
                 // Trying to u-turn, turn to the side further to the wall.
                 cmp = doUTurn(cmp);
             }
-            if (cmp<0) {
+            if (cmp < 0) {
                 turnRight(delta);
             } else {
                 turnLeft(delta);
@@ -223,15 +228,16 @@ public class MyAIController extends CarController {
             allowedSpeed = LV2_CONTROL_SPEED;
         }
 
-        if (getSpeed()<allowedSpeed) {
+        if (getSpeed() < allowedSpeed) {
             applyForwardAcceleration();
-        } else if (getSpeed()>allowedSpeed) {
+        } else if (getSpeed() > allowedSpeed) {
             applyBrake();
         }
     }
 
     /**
      * decide which way the car should turn in order to avoid hitting the wall
+     *
      * @param cmp
      * @return new cmp value
      */
@@ -239,15 +245,23 @@ public class MyAIController extends CarController {
         // Trying to u-turn, turn to the side further to the wall.
         int orientationAngle = (int) getAngle();
         switch (getOrientation()) {
-            case EAST: orientationAngle = WorldSpatial.EAST_DEGREE_MIN; break;
-            case WEST: orientationAngle = WorldSpatial.WEST_DEGREE; break;
-            case SOUTH: orientationAngle = WorldSpatial.SOUTH_DEGREE; break;
-            case NORTH: orientationAngle = WorldSpatial.NORTH_DEGREE; break;
+            case EAST:
+                orientationAngle = WorldSpatial.EAST_DEGREE_MIN;
+                break;
+            case WEST:
+                orientationAngle = WorldSpatial.WEST_DEGREE;
+                break;
+            case SOUTH:
+                orientationAngle = WorldSpatial.SOUTH_DEGREE;
+                break;
+            case NORTH:
+                orientationAngle = WorldSpatial.NORTH_DEGREE;
+                break;
         }
         double xOffsetL = Math.cos(orientationAngle + RIGHT_ANGLE_DEGREE),
-               yOffsetL = Math.sin(orientationAngle + RIGHT_ANGLE_DEGREE),
-               xOffsetR = Math.cos(orientationAngle - RIGHT_ANGLE_DEGREE),
-               yOffsetR = Math.sin(orientationAngle - RIGHT_ANGLE_DEGREE);
+                yOffsetL = Math.sin(orientationAngle + RIGHT_ANGLE_DEGREE),
+                xOffsetR = Math.cos(orientationAngle - RIGHT_ANGLE_DEGREE),
+                yOffsetR = Math.sin(orientationAngle - RIGHT_ANGLE_DEGREE);
 
         MapRecorder.TileStatus leftTile = mapRecorder.mapStatus
                 [(int) Math.round(getX() + xOffsetL)]
@@ -267,29 +281,30 @@ public class MyAIController extends CarController {
     /**
      * based on the ending speed and the distance, calculate the current max speed
      * Formula: v^2 - u^2 = 2as
+     *
      * @param s the distance
      * @param u the ending speed
      * @return
      */
-	private float computeAllowedVelocity(float s, float u) {
-	    // calculate the breaking acceleration
+    private float computeAllowedVelocity(float s, float u) {
+        // calculate the breaking acceleration
         // note that in this simulation, Physics is unlike the real world
         // the direction of the friction is opposite to the acceleration instead of velocity
-	    float a = BRAKING_FORCE-FRICTION_FORCE;
+        float a = BRAKING_FORCE - FRICTION_FORCE;
 
-	    return (float) Math.sqrt(2*a*s + u*u);
+        return (float) Math.sqrt(2 * a * s + u * u);
     }
 
     /**
      * @param sourceAngle
      * @param otherAngle
-     * @return the angle ([-180,+180]) difference between two given angle
+     * @return the angle ([-180, +180]) difference between two given angle
      */
     private float compareAngles(float sourceAngle, float otherAngle) {
         float difference = otherAngle - sourceAngle;
 
-        if(difference < -MAX_ANGLE/2) difference += MAX_ANGLE;
-        if(difference > MAX_ANGLE/2) difference -= MAX_ANGLE;
+        if (difference < -MAX_ANGLE / 2) difference += MAX_ANGLE;
+        if (difference > MAX_ANGLE / 2) difference -= MAX_ANGLE;
 
         return difference;
     }
@@ -299,13 +314,13 @@ public class MyAIController extends CarController {
      * @return the speed that the car allow to have when reaches the next target
      */
     private float getAllowedEndingSpeed(Position currentPos) {
-	    if (routingData.path.size()<2) {
-	        return LV2_CONTROL_SPEED;
+        if (routingData.path.size() < 2) {
+            return LV2_CONTROL_SPEED;
         }
 
         float angle1 = getAngleBetweenPos(currentPos, routingData.path.get(0));
         float angle2 = getAngleBetweenPos(routingData.path.get(0), routingData.path.get(1));
-        if (Math.abs(angle1-angle2) < SMALL_TURN_THRESHOLD) {
+        if (Math.abs(angle1 - angle2) < SMALL_TURN_THRESHOLD) {
             return LV4_CONTROL_SPEED;
         }
         return LV3_CONTROL_SPEED;
@@ -316,7 +331,7 @@ public class MyAIController extends CarController {
      * @return the distance between the current position and the target
      */
     private float getTargetDistance(Position target) {
-        return (float) Math.sqrt(Math.pow(target.x - getX(),2)+Math.pow(target.y - getY(),2));
+        return (float) Math.sqrt(Math.pow(target.x - getX(), 2) + Math.pow(target.y - getY(), 2));
     }
 
     /**
@@ -327,7 +342,7 @@ public class MyAIController extends CarController {
     private float getAngleBetweenPos(Position pos1, Position pos2) {
         float angle = (float) Math.toDegrees(Math.atan2(pos2.y - pos1.y, pos2.x - pos1.x));
 
-        if(angle < 0) angle += MAX_ANGLE;
+        if (angle < 0) angle += MAX_ANGLE;
 
         return angle;
     }

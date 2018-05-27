@@ -10,6 +10,7 @@ public interface Strategy {
 
     /**
      * get the targets decided by the strategy
+     *
      * @param myAIController the main controller
      * @return relative routing data
      */
@@ -18,6 +19,7 @@ public interface Strategy {
     /**
      * check if the current strategy is finished (and will be pop out
      * from the strategy stack)
+     *
      * @param myAIController the main controller
      * @return boolean value
      */

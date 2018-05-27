@@ -13,6 +13,7 @@ public class EscapeStrategy implements Strategy {
 
     /**
      * get the targets decided by the strategy
+     *
      * @param myAIController the main controller
      * @return relative routing data
      */
@@ -28,6 +29,7 @@ public class EscapeStrategy implements Strategy {
     /**
      * check if the current strategy is finished (and will be pop out
      * from the strategy stack)
+     *
      * @param myAIController the main controller
      * @return false, as the game will end itself when the car hits
      * the finish area (when all keys are collected), this strategy

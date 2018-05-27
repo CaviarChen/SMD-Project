@@ -6,7 +6,10 @@ import tiles.MapTile;
 import utilities.Coordinate;
 import world.World;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 
 /**
  * Class that responsible for recording the map for MyAIController
@@ -18,8 +21,8 @@ public class MapRecorder {
         UNREACHABLE, SEARCHED, UNSEARCHED
     }
 
-    public static final int LAVA_FOUND     = 0b001;
-    public static final int NEXT_KEY_FOUND = 0b010;
+    public static final int LAVA_FOUND = 1;
+    public static final int NEXT_KEY_FOUND = 2;
 
     public static final int RADAR_RADIUS = 4;
 
@@ -32,7 +35,7 @@ public class MapRecorder {
     public HashSet<Coordinate> finishCoords = new HashSet<>();
     public HashSet<Coordinate> healthCoords = new HashSet<>();
 
-    public int width = World.MAP_WIDTH, height = World.MAP_HEIGHT;
+    private static final int WIDTH = World.MAP_WIDTH, HEIGHT = World.MAP_HEIGHT;
 
 
     /**
@@ -43,8 +46,8 @@ public class MapRecorder {
      */
     public MapRecorder(HashMap<Coordinate, MapTile> mapHashMap, int keySize) {
 
-        mapStatus = new TileStatus[width][height];
-        mapTiles = new MapTile[width][height];
+        mapStatus = new TileStatus[WIDTH][HEIGHT];
+        mapTiles = new MapTile[WIDTH][HEIGHT];
         keysCoord = new Coordinate[keySize - 1];
 
         Coordinate startCoord = null;
@@ -65,8 +68,8 @@ public class MapRecorder {
         findReachableDFS(startCoord.x, startCoord.y);
 
         // mark everything unreachable if not reached by DFS
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
+        for (int i = 0; i < WIDTH; i++) {
+            for (int j = 0; j < HEIGHT; j++) {
                 if (mapStatus[i][j] == null) {
                     mapStatus[i][j] = TileStatus.UNREACHABLE;
                 }
@@ -157,7 +160,7 @@ public class MapRecorder {
      * @return true if the given position is in the map range
      */
     public boolean inRange(int x, int y) {
-        return !(x < 0 || x >= width || y < 0 || y >= height);
+        return !(x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT);
     }
 
     /**
@@ -175,8 +178,8 @@ public class MapRecorder {
         HashSet<Coordinate> queue = new HashSet<>();
 
         // Add all unsearched cells
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
+        for (int i = 0; i < WIDTH; i++) {
+            for (int j = 0; j < HEIGHT; j++) {
                 if (mapStatus[i][j] == TileStatus.UNSEARCHED) {
                     coordinatesPending.add(new Coordinate(i, j));
                 }
