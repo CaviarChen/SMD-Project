@@ -19,7 +19,8 @@ public class MyAIController extends CarController {
     private static final float FRICTION_FORCE = 0.5f;
 
     /** Angle threshold to detect U-turns */
-    private static final float U_TURN_THRESHOLD = 120.0f;
+    private static final int U_TURN_THRESHOLD = 120;
+    private static final int SMALL_TURN_THRESHOLD = 45;
 
     /** Speed for different scenario*/
     private static final float LV1_CONTROL_SPEED = 0.2f;
@@ -28,7 +29,7 @@ public class MyAIController extends CarController {
     private static final float LV4_CONTROL_SPEED = 1.4f;
 
 
-    private static final int SMALL_TURN_THRESHOLD = 45;
+
 
 
     private static final int MAX_ANGLE = 360;
